@@ -29,4 +29,4 @@ Using an LLM-as-judge to score summary accuracy against a rubric.
 - Do the automated metrics correlate with human judgment?
 
 ## Related Examples
-- [Code Review Assistant](/examples/code-review-assistant)
+- [Code Review Assistant](/prompt-to-system/examples/code-review-assistant)

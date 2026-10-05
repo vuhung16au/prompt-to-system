@@ -19,14 +19,14 @@ const { title } = Astro.props;
   <body>
     <header>
       <div class="logo">
-        <strong><a href="/">Applied LLM Patterns</a></strong>
+        <strong><a href={import.meta.env.BASE_URL + "/"}>Applied LLM Patterns</a></strong>
       </div>
       <nav>
         <ul>
-          <li><a href="/learn">Learn</a></li>
-          <li><a href="/examples">Examples</a></li>
-          <li><a href="/domains">Domains</a></li>
-          <li><a href="/glossary">Glossary</a></li>
+          <li><a href={import.meta.env.BASE_URL + "/learn"}>Learn</a></li>
+          <li><a href={import.meta.env.BASE_URL + "/examples"}>Examples</a></li>
+          <li><a href={import.meta.env.BASE_URL + "/domains"}>Domains</a></li>
+          <li><a href={import.meta.env.BASE_URL + "/glossary"}>Glossary</a></li>
           <li><a href="https://github.com/example/repo">GitHub</a></li>
         </ul>
         <Search />

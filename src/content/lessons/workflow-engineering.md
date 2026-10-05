@@ -29,4 +29,4 @@ Step 1: Extract key facts. Step 2: Write an outline based on facts. Step 3: Expa
 - Is the final output higher quality than a zero-shot attempt?
 
 ## Related Examples
-- [Content Format Transformer](/examples/content-format-transformer)
+- [Content Format Transformer](/prompt-to-system/examples/content-format-transformer)

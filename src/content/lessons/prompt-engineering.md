@@ -32,4 +32,4 @@ Instead of "Write a summary", use:
 - Does the output match the specified constraints (e.g., length, format)?
 
 ## Related Examples
-- [Structured SEO Article Outliner](/examples/structured-seo-outliner)
+- [Structured SEO Article Outliner](/prompt-to-system/examples/structured-seo-outliner)

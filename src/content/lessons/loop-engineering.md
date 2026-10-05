@@ -30,4 +30,4 @@ An agent that writes code, runs tests, and fixes errors until all tests pass or 
 - Does the loop terminate gracefully upon success or failure?
 
 ## Related Examples
-- [Root-cause Debugging Playbook](/examples/root-cause-debugging)
+- [Root-cause Debugging Playbook](/prompt-to-system/examples/root-cause-debugging)

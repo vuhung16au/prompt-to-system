@@ -30,4 +30,4 @@ Context engineering answers: What should the model know and see?
 - Does the model hallucinate, or stick to the provided facts?
 
 ## Related Examples
-- [Data Analysis Summary Pattern](/examples/data-analysis-summary)
+- [Data Analysis Summary Pattern](/prompt-to-system/examples/data-analysis-summary)

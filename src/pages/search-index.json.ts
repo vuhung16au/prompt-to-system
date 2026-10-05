@@ -9,14 +9,14 @@ export async function GET() {
       id: item.id,
       title: item.data.title,
       summary: item.data.summary,
-      url: `/examples/${item.id}`,
+      url: import.meta.env.BASE_URL + `/examples/${item.id}`,
       type: 'example'
     })),
     ...lessons.map((item) => ({
       id: item.id,
       title: item.data.title,
       summary: item.data.summary,
-      url: `/learn/${item.id}`,
+      url: import.meta.env.BASE_URL + `/learn/${item.id}`,
       type: 'lesson'
     }))
   ];

@@ -28,4 +28,4 @@ Providing a sandboxed Python execution environment for an analysis agent.
 - Are security and cost limits respected?
 
 ## Related Examples
-- [Root-cause Debugging Playbook](/examples/root-cause-debugging)
+- [Root-cause Debugging Playbook](/prompt-to-system/examples/root-cause-debugging)
