@@ -4,8 +4,8 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://username.github.io',
-  base: '/applied-llm-patterns',
+  site: 'https://vuhung16au.github.io',
+  base: '/prompt-to-system',
   output: 'static',
   integrations: [sitemap()]
 });
