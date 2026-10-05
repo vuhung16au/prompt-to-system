@@ -1,0 +1,105 @@
+---
+---
+<div class="search-widget">
+  <input type="search" id="site-search" placeholder="Search examples and lessons..." />
+  <ul id="search-results" class="search-results" style="display: none;"></ul>
+</div>
+
+<style>
+  .search-widget {
+    position: relative;
+    display: inline-block;
+    margin-left: 1rem;
+  }
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 300px;
+    background: white;
+    border: 1px solid #ccc;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-height: 400px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  .search-results li {
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+  }
+  .search-results li:last-child {
+    border-bottom: none;
+  }
+  .search-results li a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .search-results li a:hover {
+    background: #f9f9f9;
+  }
+  .search-results li .type {
+    font-size: 0.8em;
+    color: #666;
+    text-transform: uppercase;
+  }
+</style>
+
+<script>
+  let searchIndex: any[] | null = null;
+  const searchInput = document.getElementById('site-search') as HTMLInputElement;
+  const resultsContainer = document.getElementById('search-results');
+
+  async function fetchIndex() {
+    if (searchIndex) return;
+    try {
+      const res = await fetch('/search-index.json');
+      searchIndex = await res.json();
+    } catch (e) {
+      console.error('Failed to fetch search index', e);
+    }
+  }
+
+  searchInput?.addEventListener('focus', fetchIndex);
+  
+  searchInput?.addEventListener('input', (e) => {
+    const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+    if (!query || !resultsContainer) {
+      if (resultsContainer) resultsContainer.style.display = 'none';
+      return;
+    }
+    
+    if (!searchIndex) return;
+
+    const results = searchIndex.filter(item => 
+      item.title.toLowerCase().includes(query) || 
+      item.summary.toLowerCase().includes(query)
+    ).slice(0, 10);
+
+    if (results.length > 0) {
+      resultsContainer.innerHTML = results.map(item => `
+        <li>
+          <a href="${item.url}">
+            <div><strong>${item.title}</strong></div>
+            <div class="type">${item.type}</div>
+          </a>
+        </li>
+      `).join('');
+      resultsContainer.style.display = 'block';
+    } else {
+      resultsContainer.innerHTML = '<li>No results found</li>';
+      resultsContainer.style.display = 'block';
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (searchInput && resultsContainer) {
+      if (!searchInput.contains(e.target as Node) && !resultsContainer.contains(e.target as Node)) {
+        resultsContainer.style.display = 'none';
+      }
+    }
+  });
+</script>

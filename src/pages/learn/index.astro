@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const lessons = await getCollection('lessons');
+---
+<Layout title="Learn">
+  <h1>Learn</h1>
+  <p>Learn advanced concepts and engineering techniques for LLMs.</p>
+
+  <ul>
+    {lessons.map((lesson) => (
+      <li>
+        <a href={`/learn/${lesson.id}`}>{lesson.data.title}</a>
+        <p>{lesson.data.summary}</p>
+      </li>
+    ))}
+  </ul>
+</Layout>

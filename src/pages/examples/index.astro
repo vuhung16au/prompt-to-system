@@ -1,0 +1,106 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const examples = await getCollection('examples');
+
+const allKinds = [...new Set(examples.map(ex => ex.data.kind))].sort();
+const allLevels = [...new Set(examples.map(ex => ex.data.level))].sort();
+const allStatuses = [...new Set(examples.map(ex => ex.data.status))].sort();
+const allDomains = [...new Set(examples.flatMap(ex => ex.data.domains || []))].sort();
+---
+<Layout title="Examples">
+  <h1>Examples</h1>
+  <p>Find practical examples for working with LLMs.</p>
+
+  <form id="filter-form" style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+    <select name="kind">
+      <option value="">All Types</option>
+      {allKinds.map(kind => <option value={kind}>{kind}</option>)}
+    </select>
+    <select name="level">
+      <option value="">All Levels</option>
+      {allLevels.map(level => <option value={level}>{level}</option>)}
+    </select>
+    <select name="status">
+      <option value="">All Statuses</option>
+      {allStatuses.map(status => <option value={status}>{status}</option>)}
+    </select>
+    <select name="domain">
+      <option value="">All Domains</option>
+      {allDomains.map(domain => <option value={domain}>{domain}</option>)}
+    </select>
+    <button type="submit">Filter</button>
+  </form>
+
+  <ul id="examples-list">
+    {examples.map((example) => (
+      <li class="example-item" data-kind={example.data.kind} data-level={example.data.level} data-status={example.data.status} data-domains={JSON.stringify(example.data.domains || [])}>
+        <a href={`/examples/${example.id}`}>{example.data.title}</a>
+        <p>{example.data.summary}</p>
+      </li>
+    ))}
+  </ul>
+
+  <script>
+    const form = document.getElementById('filter-form') as HTMLFormElement;
+    const items = document.querySelectorAll('.example-item');
+
+    function applyFilters() {
+      if (!form) return;
+      const formData = new FormData(form);
+      const params = new URLSearchParams();
+      
+      const kind = formData.get('kind');
+      const level = formData.get('level');
+      const status = formData.get('status');
+      const domain = formData.get('domain');
+
+      if (kind) params.set('kind', kind as string);
+      if (level) params.set('level', level as string);
+      if (status) params.set('status', status as string);
+      if (domain) params.set('domain', domain as string);
+
+      const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+      window.history.replaceState({}, '', newUrl);
+
+      items.forEach((item) => {
+        const el = item as HTMLElement;
+        const itemKind = el.getAttribute('data-kind');
+        const itemLevel = el.getAttribute('data-level');
+        const itemStatus = el.getAttribute('data-status');
+        const itemDomains = JSON.parse(el.getAttribute('data-domains') || '[]');
+
+        const matchKind = !kind || itemKind === kind;
+        const matchLevel = !level || itemLevel === level;
+        const matchStatus = !status || itemStatus === status;
+        const matchDomain = !domain || itemDomains.includes(domain);
+
+        if (matchKind && matchLevel && matchStatus && matchDomain) {
+          el.style.display = '';
+        } else {
+          el.style.display = 'none';
+        }
+      });
+    }
+
+    if (form) {
+      const urlParams = new URLSearchParams(window.location.search);
+      for (const [key, value] of urlParams.entries()) {
+        const select = form.elements.namedItem(key) as HTMLSelectElement;
+        if (select) select.value = value;
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        applyFilters();
+      });
+      
+      form.addEventListener('change', () => {
+        applyFilters();
+      });
+
+      applyFilters();
+    }
+  </script>
+</Layout>
