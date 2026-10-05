@@ -1,7 +1,30 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const glossaryEntries = await getCollection('glossary');
+// Sort glossary entries alphabetically by title
+glossaryEntries.sort((a, b) => a.data.title.localeCompare(b.data.title));
 ---
+
 <Layout title="Glossary">
-  <h1>Glossary</h1>
-  <p>Definitions for important LLM terminology.</p>
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-6">Glossary</h1>
+    <p class="text-lg text-gray-600 mb-8">Definitions for important terms used throughout the book.</p>
+    
+    {glossaryEntries.length === 0 ? (
+      <p class="text-gray-500 italic">The glossary is currently empty. Terms will appear here once they are extracted from the content.</p>
+    ) : (
+      <dl class="space-y-6">
+        {glossaryEntries.map((entry) => (
+          <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-100">
+            <dt class="text-xl font-semibold text-blue-800 mb-2" id={entry.data.id || entry.id}>{entry.data.title}</dt>
+            <dd class="text-gray-700">
+              <p>{entry.data.summary}</p>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    )}
+  </div>
 </Layout>

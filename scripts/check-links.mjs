@@ -18,9 +18,9 @@ function checkLinks(dir) {
         while ((match = linkRegex.exec(content)) !== null) {
           const url = match[2];
           if (url.startsWith('/')) {
-            // Check if internal link exists as a markdown file or path
-            // Very naive check for phase 4 demonstration
-            let targetPath = path.join('src/content', url.replace('/learn', '/lessons').replace('/examples', '/examples').replace('/domains', '/domains') + '.md');
+            // Strip optional base path
+            const cleanUrl = url.replace(/^\/prompt-to-system/, '');
+            let targetPath = path.join('src/content', cleanUrl.replace(/^\/learn/, '/lessons').replace(/^\/examples/, '/examples').replace(/^\/domains/, '/domains') + '.md');
             if (!fs.existsSync(targetPath)) {
                 // If not found directly, it might be an index page or just not fully mapped in this simple script.
                 // We'll skip strict failure for now to avoid breaking the build, but log it.
