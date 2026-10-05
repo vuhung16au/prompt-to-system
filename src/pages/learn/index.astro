@@ -11,7 +11,7 @@ const lessons = await getCollection('lessons');
   <ul>
     {lessons.map((lesson) => (
       <li>
-        <a href={`/learn/${lesson.id}`}>{lesson.data.title}</a>
+        <a href={import.meta.env.BASE_URL + `/learn/${lesson.id}`}>{lesson.data.title}</a>
         <p>{lesson.data.summary}</p>
       </li>
     ))}

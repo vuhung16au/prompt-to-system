@@ -36,7 +36,7 @@ const allDomains = [...new Set(examples.flatMap(ex => ex.data.domains || []))].s
   <ul id="examples-list">
     {examples.map((example) => (
       <li class="example-item" data-kind={example.data.kind} data-level={example.data.level} data-status={example.data.status} data-domains={JSON.stringify(example.data.domains || [])}>
-        <a href={`/examples/${example.id}`}>{example.data.title}</a>
+        <a href={import.meta.env.BASE_URL + `/examples/${example.id}`}>{example.data.title}</a>
         <p>{example.data.summary}</p>
       </li>
     ))}
