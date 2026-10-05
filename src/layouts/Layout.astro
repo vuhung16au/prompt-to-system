@@ -13,41 +13,64 @@ const { title } = Astro.props;
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | Applied LLM Patterns</title>
   </head>
-  <body>
-    <header>
-      <div class="logo">
-        <strong><a href={import.meta.env.BASE_URL + "/"}>Applied LLM Patterns</a></strong>
+  <body class="min-h-screen flex flex-col selection:bg-bookpurple selection:text-bookwhite transition-colors duration-300">
+    <!-- Header styling: uses the deep purple with ivory text for a bold AI tech look -->
+    <header class="bg-bookpurple text-softivory shadow-lg sticky top-0 z-50">
+      <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <!-- A simple decorative AI node/sparkle icon placeholder -->
+          <svg class="w-6 h-6 text-bookred" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+          </svg>
+          <a href={import.meta.env.BASE_URL + "/"} class="text-xl font-bold tracking-tight hover:text-warmstone transition-colors">
+            Applied LLM Patterns
+          </a>
+        </div>
+        
+        <nav class="flex flex-col md:flex-row items-center gap-4 md:gap-6 text-sm font-medium">
+          <ul class="flex flex-wrap items-center gap-4 md:gap-6">
+            <li><a href={import.meta.env.BASE_URL + "/learn"} class="hover:text-bookred transition-colors">Learn</a></li>
+            <li><a href={import.meta.env.BASE_URL + "/examples"} class="hover:text-bookred transition-colors">Examples</a></li>
+            <li><a href={import.meta.env.BASE_URL + "/domains"} class="hover:text-bookred transition-colors">Domains</a></li>
+            <li><a href={import.meta.env.BASE_URL + "/glossary"} class="hover:text-bookred transition-colors">Glossary</a></li>
+            <li>
+              <a href="https://github.com/vuhung16au/prompt-to-system" class="flex items-center gap-1 hover:text-bookred transition-colors">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                GitHub
+              </a>
+            </li>
+          </ul>
+          <!-- Search component wrapper -->
+          <div class="bg-bookblack/20 rounded-md px-2 py-1 focus-within:ring-2 focus-within:ring-bookred">
+            <Search />
+          </div>
+        </nav>
       </div>
-      <nav>
-        <ul>
-          <li><a href={import.meta.env.BASE_URL + "/learn"}>Learn</a></li>
-          <li><a href={import.meta.env.BASE_URL + "/examples"}>Examples</a></li>
-          <li><a href={import.meta.env.BASE_URL + "/domains"}>Domains</a></li>
-          <li><a href={import.meta.env.BASE_URL + "/glossary"}>Glossary</a></li>
-          <li><a href="https://github.com/vuhung16au/prompt-to-system">GitHub</a></li>
-        </ul>
-        <Search />
-      </nav>
     </header>
-    <main>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow w-full max-w-4xl mx-auto px-4 py-8 md:py-12 prose prose-lg prose-headings:text-bookpurple dark:prose-headings:text-softivory prose-a:text-lawpurple hover:prose-a:text-bookred transition-colors dark:prose-invert">
       <slot />
     </main>
-    <footer>
-      <p>&copy; {new Date().getFullYear()} Applied LLM Patterns</p>
+
+    <!-- Footer Area -->
+    <footer class="bg-deepcharcoal text-warmstone mt-auto">
+      <div class="max-w-6xl mx-auto px-4 py-8 text-center text-sm border-t border-bookblack/10">
+        <p>&copy; {new Date().getFullYear()} Applied LLM Patterns. Powered by AI.</p>
+      </div>
     </footer>
 
+    <!-- Copy to clipboard script -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('pre').forEach(pre => {
-          // Check if wrapper already exists to prevent duplicate buttons in case of re-renders
           if (pre.parentNode && (pre.parentNode as HTMLElement).classList.contains('code-wrapper')) return;
 
           const wrapper = document.createElement('div');
-          wrapper.className = 'code-wrapper';
-          wrapper.style.position = 'relative';
+          wrapper.className = 'code-wrapper relative group';
           
           if (pre.parentNode) {
             pre.parentNode.insertBefore(wrapper, pre);
@@ -55,14 +78,9 @@ const { title } = Astro.props;
           }
 
           const btn = document.createElement('button');
-          btn.innerText = 'Copy';
-          btn.className = 'copy-btn';
-          btn.style.position = 'absolute';
-          btn.style.top = '0.5rem';
-          btn.style.right = '0.5rem';
-          btn.style.padding = '0.2rem 0.5rem';
-          btn.style.fontSize = '0.8rem';
-          btn.style.cursor = 'pointer';
+          btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>`;
+          btn.className = 'absolute top-2 right-2 p-2 bg-warmstone/20 hover:bg-bookpurple text-softivory rounded opacity-0 group-hover:opacity-100 transition-all duration-200';
+          btn.title = 'Copy code';
 
           wrapper.appendChild(btn);
 
@@ -70,9 +88,9 @@ const { title } = Astro.props;
             const code = pre.querySelector('code')?.innerText || pre.innerText;
             try {
               await navigator.clipboard.writeText(code);
-              btn.innerText = 'Copied!';
+              btn.innerHTML = `<svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>`;
               setTimeout(() => {
-                if (btn) btn.innerText = 'Copy';
+                btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>`;
               }, 2000);
             } catch (err) {
               console.error('Failed to copy', err);
