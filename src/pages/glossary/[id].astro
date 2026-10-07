@@ -1,0 +1,94 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import Container from '@/components/layout/Container.astro';
+import Layout from '../../layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const glossaryEntries = await getCollection('glossary');
+  return glossaryEntries.map(entry => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+// Get related terms
+const relatedTerms = entry.data.related_terms ? await Promise.all(
+  entry.data.related_terms.map(ref => getEntry(ref.collection, ref.id))
+) : [];
+
+// Get lessons that use this term
+const lessons = entry.data.lessons ? await Promise.all(
+  entry.data.lessons.map(ref => getEntry(ref.collection, ref.id))
+) : [];
+
+// Get examples that use this term
+const examples = entry.data.examples ? await Promise.all(
+  entry.data.examples.map(ref => getEntry(ref.collection, ref.id))
+) : [];
+
+// Get aliases
+const aliases = entry.data.aliases || [];
+---
+
+<Layout title={`${entry.data.title} | Glossary | Applied LLM Patterns`}>
+  <Container variant="reading">
+    <div class="py-12 md:py-20">
+      <header class="mb-12">
+        <a href="/glossary" class="text-accent-primary hover:underline mb-4 inline-block">&larr; Back to Glossary</a>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-text-heading mb-6 tracking-tight">{entry.data.title}</h1>
+        {aliases.length > 0 && (
+          <p class="text-sm text-text-muted mb-6">
+            <span class="font-bold">Also known as:</span> {aliases.join(', ')}
+          </p>
+        )}
+        <p class="text-xl text-text-body leading-relaxed bg-surface-muted p-6 rounded-xl border border-border-subtle">
+          {entry.data.summary}
+        </p>
+      </header>
+
+      <div class="prose prose-lg prose-invert max-w-none">
+        <Content />
+      </div>
+
+      {(relatedTerms.length > 0 || lessons.length > 0 || examples.length > 0) && (
+        <div class="mt-16 pt-8 border-t border-border-subtle grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {relatedTerms.length > 0 && (
+            <div>
+              <h2 class="text-2xl font-bold text-text-heading mb-4">Related Terms</h2>
+              <ul class="space-y-2 text-text-body">
+                {relatedTerms.map(term => (
+                  term && <li><a href={`/glossary/${term.id}`} class="text-accent-primary hover:underline">{term.data.title}</a></li>
+                ))}
+              </ul>
+            </div>
+          )}
+          
+          {lessons.length > 0 && (
+            <div>
+              <h2 class="text-2xl font-bold text-text-heading mb-4">Used in Lessons</h2>
+              <ul class="space-y-2 text-text-body">
+                {lessons.map(lesson => (
+                  lesson && <li><a href={`/learn/${lesson.id}`} class="text-accent-primary hover:underline">{lesson.data.title}</a></li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {examples.length > 0 && (
+            <div>
+              <h2 class="text-2xl font-bold text-text-heading mb-4">Used in Examples</h2>
+              <ul class="space-y-2 text-text-body">
+                {examples.map(example => (
+                  example && <li><a href={`/examples/${example.id}`} class="text-accent-primary hover:underline">{example.data.title}</a></li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  </Container>
+</Layout>

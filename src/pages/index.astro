@@ -16,12 +16,27 @@ const featuredExamples = examples.filter(e => e.data.featured).slice(0, 4);
 const displayExamples = featuredExamples.length > 0 ? featuredExamples : examples.slice(0, 4);
 
 const stages = [
-  { stage: 1, title: 'Prompt engineering', question: 'What should the model do?', outcome: 'Write testable prompts', effort: '1 hour', link: '/learn/prompt-engineering' },
-  { stage: 2, title: 'Context engineering', question: 'What should the model know?', outcome: 'Assemble grounded context', effort: '2 hours', link: '/learn/context-basics' },
-  { stage: 3, title: 'Workflow engineering', question: 'What steps produce the result?', outcome: 'Design multi-step workflows', effort: '2 hours', link: '/learn/workflow-engineering' },
-  { stage: 4, title: 'Harness engineering', question: 'What tools support the agent?', outcome: 'Give agents safe tools', effort: '3 hours', link: '/learn/harness-engineering' },
-  { stage: 5, title: 'Loop engineering', question: 'How does work converge?', outcome: 'Build bounded improvement loops', effort: '4 hours', link: '/learn/loop-engineering' }
+  { stage: 1, title: 'Prompt engineering', question: 'What should the model do?', outcome: 'Write testable prompts', link: '/learn/prompt-engineering' },
+  { stage: 2, title: 'Context engineering', question: 'What should the model know?', outcome: 'Assemble grounded context', link: '/learn/context-basics' },
+  { stage: 3, title: 'Workflow engineering', question: 'What steps produce the result?', outcome: 'Design multi-step workflows', link: '/learn/workflow-engineering' },
+  { stage: 4, title: 'Harness engineering', question: 'What tools support the agent?', outcome: 'Give agents safe tools', link: '/learn/harness-engineering' },
+  { stage: 5, title: 'Loop engineering', question: 'How does work converge?', outcome: 'Build bounded improvement loops', link: '/learn/loop-engineering' }
 ];
+
+stages.forEach(s => {
+  const stageLessons = lessons.filter(l => l.data.stage === s.stage);
+  const totalMins = stageLessons.reduce((acc, l) => acc + (l.data.duration_minutes || 0), 0);
+  if (totalMins > 0) {
+    const hours = Math.floor(totalMins / 60);
+    const mins = totalMins % 60;
+    let effortStr = '';
+    if (hours > 0) effortStr += `${hours}h `;
+    if (mins > 0) effortStr += `${mins}m`;
+    s.effort = effortStr.trim() + ' + practice';
+  } else {
+    s.effort = 'Self-paced practice';
+  }
+});
 ---
 
 <Layout title="Home" variant="wide">
@@ -160,7 +175,7 @@ const stages = [
       <div>
         <h2 class="text-xl font-bold text-text-heading mb-4">Evidence-based learning</h2>
         <p class="text-text-body text-sm leading-relaxed mb-4">
-          These patterns are drawn from first-party projects, case studies, and extensive teaching experience. Rather than abstract concepts, we focus on workflows that have been tested in production, research, and technical education.
+          These patterns are drawn from first-party projects, case studies, and extensive teaching experience. Rather than abstract concepts, we focus on workflows that have been rigorously evaluated in measured contexts, research, and technical education.
         </p>
         <a href="https://github.com/vuhung16au" target="_blank" class="text-sm font-medium text-accent-primary hover:underline flex items-center gap-1">
           View teaching & evidence repositories

@@ -52,7 +52,9 @@ const letters = Object.keys(grouped).sort();
               <dl class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {grouped[letter].map((entry) => (
                   <div class="bg-surface p-6 rounded-2xl border border-border-subtle shadow-sm flex flex-col" id={entry.id}>
-                    <dt class="text-lg font-bold text-text-heading mb-2">{entry.data.title}</dt>
+                    <dt class="text-lg font-bold text-text-heading mb-2">
+                      <a href={`/glossary/${entry.id}`} class="hover:text-accent-primary transition-colors">{entry.data.title}</a>
+                    </dt>
                     <dd class="text-sm text-text-body flex-grow">
                       {entry.data.summary}
                     </dd>

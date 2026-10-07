@@ -1,7 +1,7 @@
 import { defineCollection, z, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const artifactTypes = ['lesson', 'prompt', 'pattern', 'playbook', 'agent workflow', 'harness blueprint', 'loop blueprint', 'checklist', 'rubric', 'case study'] as const;
+const artifactTypes = ['lesson', 'prompt', 'pattern', 'playbook', 'agent workflow', 'harness blueprint', 'loop blueprint', 'checklist', 'rubric', 'case study', 'architecture decision record', 'implementation lab', 'benchmark report', 'evaluation dataset specification', 'threat model', 'incident postmortem', 'operational runbook', 'protocol blueprint'] as const;
 const levels = ['beginner', 'intermediate', 'advanced'] as const;
 const statuses = ['reviewed', 'draft'] as const;
 
@@ -46,7 +46,20 @@ const lessonsCollection = defineCollection({
     related_examples: z.array(reference('examples')).optional(),
     glossary_terms: z.array(reference('glossary')).optional(),
     status: z.enum(statuses).default('reviewed'),
-    sources: z.array(z.string()).optional()
+    sources: z.array(z.string()).optional(),
+    
+    // Advanced systems additions
+    track: z.string().optional(),
+    competencies: z.array(z.string()).optional(),
+    estimated_lab_minutes: z.number().optional(),
+    required_artifacts: z.array(z.string()).optional(),
+    system_scale: z.string().optional(),
+    risk_level: z.string().optional(),
+    vendor_scope: z.string().optional(),
+    verified_with: z.string().optional(),
+    source_urls: z.array(z.string()).optional(),
+    reviewers: z.array(z.string()).optional(),
+    review_status: z.string().optional()
   })
 });
 
@@ -80,7 +93,8 @@ const glossaryCollection = defineCollection({
     // Phase 4 additions
     aliases: z.array(z.string()).optional(),
     related_terms: z.array(reference('glossary')).optional(),
-    lessons: z.array(reference('lessons')).optional()
+    lessons: z.array(reference('lessons')).optional(),
+    examples: z.array(reference('examples')).optional()
   })
 });
 

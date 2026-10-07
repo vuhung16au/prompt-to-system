@@ -16,23 +16,28 @@ last_verified: 2026-10-05
 ---
 
 ## Purpose
+
 To assist developers in tracking down the underlying cause of a software bug or failure, moving beyond surface-level symptoms to find the true root cause.
 
 ## When to Use
+
 - You have an error message or stack trace but are unsure what caused it.
 - A system is behaving unexpectedly and you need a systematic approach to investigate.
 - You want to generate hypotheses for a complex bug.
 
 ## When NOT to Use
+
 - The issue is a simple syntax error that a compiler or linter already explains clearly.
 - You have no context, logs, or code to provide.
 
 ## Inputs
+
 - `error_message`: The exact error message or stack trace.
 - `relevant_code`: The code snippet where the error occurred (or is suspected to originate).
 - `system_context`: Information about the environment (e.g., Node.js v18, production environment).
 
 ## Prompt / Procedure
+
 ```text
 You are an expert Debugging Assistant. I need your help finding the root cause of an issue.
 
@@ -53,18 +58,22 @@ Please analyze the provided information and do the following:
 ```
 
 ## Expected Output
+
 A structured debugging guide containing an explanation of the error, ranked hypotheses, steps to verify, and potential fixes.
 
 ## Evaluation Rubric
+
 - **Accuracy:** Does the model correctly interpret the stack trace?
 - **Plausibility:** Are the generated hypotheses realistic given the context?
 - **Actionability:** Are the troubleshooting steps clear and easy to follow?
 
 ## Failure Modes & Risks
+
 - **Guessing:** The model might confidently suggest a fix that is completely unrelated if the provided context is too sparse.
 - **Outdated Knowledge:** The model might suggest fixes that apply to older versions of a library/framework.
 
 ## Provenance
+
 - **Author:** Vu Hung
 - **Date:** October 2026
 - **Source:** Original example created for the Applied LLM Patterns learning path.

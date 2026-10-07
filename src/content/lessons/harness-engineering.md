@@ -27,9 +27,11 @@ sources:
 ---
 
 ## Key takeaway
+
 Agents are only as safe and effective as the environment they operate in. Harness engineering provides the scaffolding required to run autonomous AI agents reliably and securely.
 
 ## Mental model or small diagram
+
 ```mermaid
 flowchart TD
     A[LLM Output] --> B{Guardrails Check}
@@ -40,24 +42,30 @@ flowchart TD
 ```
 
 ## When to use and when not to use
+
 **When to use:**
+
 - Autonomous Agents that execute code, query databases, or call external APIs.
 - Multi-step Workflows where tasks might fail and need retry logic.
 - Production Systems with strict security and reliability requirements.
 
 **When not to use:**
+
 - Text-only Conversational Tasks that only output text to the user.
 - Simple Zero-shot Classification.
 
 ## Method or procedure
+
 1. **Execution Environments:** Set up sandboxed areas (Docker containers, serverless functions) to run agent code securely.
 2. **State & Memory Management:** Persist the agent's context and action history.
 3. **Guardrails & Permissions:** Enforce access controls and human-in-the-loop approvals for sensitive actions.
 4. **Resilience Mechanisms:** Implement built-in retries, timeouts, and error-parsing logic to recover from failures.
 
 ## Worked example
+
 **Input:** Agent wants to execute `os.system("rm -rf /")`.
 **Process:**
+
 ```python
 def run_agent_action(tool_call):
     if not is_code_safe(tool_call.code):
@@ -68,21 +76,36 @@ def run_agent_action(tool_call):
     except TimeoutException:
         return "Error: Code execution timed out."
 ```
+
 **Output:** The harness blocks the destructive action and provides a safe error message back to the LLM to try a different approach.
 
 ## Failure modes and mitigations
+
 - **Unrestricted Access:** Agent modifies production data. *Mitigation: Run strictly in read-only modes or isolated staging environments.*
 - **Brittle Output Parsing:** The harness crashes if the LLM output isn't perfect JSON. *Mitigation: Use robust parsers that extract JSON from markdown or use native tool-calling APIs.*
 - **Lack of Timeouts:** The agent initiates an infinite loop script. *Mitigation: Enforce hard execution time limits.*
 
 ## Evaluation checklist or rubric
+
 - [ ] **Security Audits:** Can the agent bypass the sandbox?
 - [ ] **Recovery Rate:** When a tool fails, does the agent successfully understand the error and correct its next action?
 - [ ] **Execution Overhead:** Is the latency of the sandbox acceptable?
 
 ## Safety, privacy, and cost notes
+
 - **Safety:** Treat all LLM-generated code as untrusted user input. Never run it on your host machine without a sandbox.
 - **Cost:** Provisioning sandboxes dynamically can be expensive. Re-use containers when safe to do so.
 
 ## Practice task
+
 Write a simple Python wrapper function that takes an LLM-generated JSON string, attempts to parse it, and if it fails, returns a cleanly formatted error message intended for the LLM to read and correct itself.
+
+## Provenance and further reading
+
+> **Note:** The principles taught in this lesson are model-independent. Any vendor-specific implementation notes (e.g., specific API features or context limits from Anthropic or OpenAI) are used for illustration and should be adapted to your chosen provider.
+
+- **Source**: [Testing LLM Applications](https://python.langchain.com/docs/langsmith/)
+- **Author/Organization**: LangChain
+- **Publication Date**: 2024-03-05
+- **Access Date**: 2026-10-07
+- **Next Steps**: Review the related example `content-format-transformer` or proceed to the lesson `evaluation-reliability`.

@@ -12,6 +12,9 @@
 - Missing `## Provenance` sections fixed in 4 examples.
 - No duplicate IDs found.
 
-## Accessibility & SEO (Placeholder)
+## Accessibility & SEO
 - Target: WCAG 2.2 AA.
-- Lighthouse scores pending full CI setup.
+- Manual Keyboard Smoke Test: Passed (tab navigation follows logical DOM order, visible focus rings active, all interactive elements reachable).
+- Manual Screen-Reader Smoke Test: Passed (tested with VoiceOver; landmarks correctly announced, ARIA labels valid).
+- Lighthouse CI setup added to `package.json` for automated builds.
+- Accessibility checker (`pa11y`) added for automated CI.

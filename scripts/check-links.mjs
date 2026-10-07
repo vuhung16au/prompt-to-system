@@ -19,12 +19,35 @@ function checkLinks(dir) {
           const url = match[2];
           if (url.startsWith('/')) {
             // Strip optional base path
-            const cleanUrl = url.replace(/^\/prompt-to-system/, '');
-            let targetPath = path.join('src/content', cleanUrl.replace(/^\/learn/, '/lessons').replace(/^\/examples/, '/examples').replace(/^\/domains/, '/domains') + '.md');
+            const cleanUrl = url.replace(/^\/prompt-to-system/, '').split('#')[0]; // Ignore hash
+            if (cleanUrl === '' || cleanUrl === '/') continue; // Root is handled by pages/index.astro
+
+            let targetPath;
+            if (cleanUrl.startsWith('/learn/')) {
+               targetPath = path.join('src/content/lessons', cleanUrl.replace('/learn/', '') + '.md');
+            } else if (cleanUrl.startsWith('/examples/')) {
+               targetPath = path.join('src/content/examples', cleanUrl.replace('/examples/', '') + '.md');
+            } else if (cleanUrl.startsWith('/domains/')) {
+               targetPath = path.join('src/content/domains', cleanUrl.replace('/domains/', '') + '.md');
+            } else if (cleanUrl.startsWith('/glossary/')) {
+               targetPath = path.join('src/content/glossary', cleanUrl.replace('/glossary/', '') + '.md');
+            } else {
+               // Might be a page like /about or / or /learn
+               let pagePath = cleanUrl;
+               if (pagePath.endsWith('/')) pagePath = pagePath.slice(0, -1);
+               const p1 = path.join('src/pages', pagePath + '.astro');
+               const p2 = path.join('src/pages', pagePath, 'index.astro');
+               const p3 = path.join('public', cleanUrl); // Check public directory
+               if (!fs.existsSync(p1) && !fs.existsSync(p2) && !fs.existsSync(p3)) {
+                  console.error(`[ERROR] Broken internal link in ${fullPath}: ${url}`);
+                  hasErrors = true;
+               }
+               continue;
+            }
+
             if (!fs.existsSync(targetPath)) {
-                // If not found directly, it might be an index page or just not fully mapped in this simple script.
-                // We'll skip strict failure for now to avoid breaking the build, but log it.
-                console.warn(`[WARN] Possible broken internal link in ${fullPath}: ${url}`);
+                console.error(`[ERROR] Broken internal link in ${fullPath}: ${url} -> ${targetPath}`);
+                hasErrors = true;
             }
           }
         }

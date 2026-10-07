@@ -7,7 +7,9 @@ import Tag from '@/components/ui/Tag.astro';
 import MetadataList from '@/components/ui/MetadataList.astro';
 
 export async function getStaticPaths() {
-  const examples = await getCollection('examples');
+  const examples = await getCollection('examples', ({ data }) => {
+    return import.meta.env.PROD ? data.status !== 'draft' : true;
+  });
   return examples.map(entry => ({
     params: { id: entry.id },
     props: { entry },

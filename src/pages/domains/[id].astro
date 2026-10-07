@@ -20,8 +20,10 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 
 // Resolve referenced examples and lessons
-const featuredExamples = entry.data.featured_examples ? await getEntries(entry.data.featured_examples) : [];
-const featuredLessons = entry.data.featured_lessons ? await getEntries(entry.data.featured_lessons) : [];
+const featuredExamplesRaw = entry.data.featured_examples ? await getEntries(entry.data.featured_examples).catch(() => []) : [];
+const featuredLessonsRaw = entry.data.featured_lessons ? await getEntries(entry.data.featured_lessons).catch(() => []) : [];
+const featuredExamples = featuredExamplesRaw.filter(Boolean);
+const featuredLessons = featuredLessonsRaw.filter(Boolean);
 ---
 
 <Layout title={`${entry.data.title} | Domains`}>

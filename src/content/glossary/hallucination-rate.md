@@ -1,6 +1,6 @@
 ---
 id: hallucination-rate
-title: hallucination rate
-summary: Definition for hallucination rate.
+title: "Hallucination Rate"
+summary: "The frequency at which a model generates plausible but factually incorrect or ungrounded information."
 ---
-This is the glossary entry for **hallucination rate**.
+Measuring the hallucination rate is critical for deploying LLMs in production. Techniques to lower the hallucination rate include RAG, grounding prompts, temperature adjustments, and rigorous evaluation against a golden dataset.

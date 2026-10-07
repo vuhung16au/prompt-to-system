@@ -96,6 +96,58 @@ const crossCutting = sortedLessons.filter(l => l.data.stage === 6 || l.id.includ
           </div>
         </div>
       </div>
+
+      <div class="mt-20 pt-16 border-t border-border-strong">
+        <div class="max-w-3xl mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-text-heading mb-4 tracking-tight">Advanced Systems Path</h2>
+          <p class="text-lg text-text-body leading-relaxed">
+            A production-oriented curriculum for senior engineers. Learn to make architecture decisions, measure trade-offs, operate agents with measurable reliability, and recover from failures in distributed AI systems.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <Card class="p-6 md:p-8">
+            <h3 class="text-xl font-bold text-text-heading mb-3">Role-based Starting Points</h3>
+            <ul class="space-y-3 text-text-body">
+              <li class="flex items-start gap-2">
+                <span class="text-accent-primary font-bold">&rarr;</span>
+                <span><strong>Agent Engineer:</strong> Focus on orchestration, long-running execution, memory, and multi-agent coordination.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-accent-primary font-bold">&rarr;</span>
+                <span><strong>AI Platform Engineer:</strong> Focus on RAG architectures, tools, MCP gateways, latency, and cost engineering.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-accent-primary font-bold">&rarr;</span>
+                <span><strong>ML Engineer to Systems:</strong> Focus on context engineering, evaluation, models vs. tools, and synthetic data.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-accent-primary font-bold">&rarr;</span>
+                <span><strong>Security Engineer:</strong> Focus on threat modelling, capability security, sandboxes, and supply-chain security.</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-accent-primary font-bold">&rarr;</span>
+                <span><strong>Technical Lead:</strong> Focus on architecture reviews, SLOs, failure taxonomies, budgets, and escalation boundaries.</span>
+              </li>
+            </ul>
+          </Card>
+          
+          <Card class="p-6 md:p-8 bg-surface-muted border-accent-muted">
+            <h3 class="text-xl font-bold text-text-heading mb-3">Cornerstone Lessons</h3>
+            <div class="space-y-4 mt-4">
+              {sortedLessons.filter(l => l.data.level === 'advanced').map(lesson => (
+                <a href={import.meta.env.BASE_URL + `/learn/${lesson.id}`} class="block group p-4 bg-surface border border-border-subtle rounded-xl hover:border-accent-primary transition-colors">
+                  <h4 class="font-bold text-text-heading group-hover:text-accent-primary transition-colors mb-1">{lesson.data.title}</h4>
+                  <p class="text-sm text-text-body">{lesson.data.summary}</p>
+                </a>
+              ))}
+            </div>
+            {sortedLessons.filter(l => l.data.level === 'advanced').length === 0 && (
+              <p class="text-sm text-text-muted mt-4">Advanced content is currently being published.</p>
+            )}
+          </Card>
+        </div>
+      </div>
     </div>
   </Container>
 </Layout>

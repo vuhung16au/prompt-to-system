@@ -2,13 +2,13 @@
 id: sales
 title: Sales
 summary: Outreach, lead generation, and pitch optimization.
-group: 'Applied practice'
+group: 'Growing collections'
 order: 8
 outcomes:
   - 'Accelerated workflow'
   - 'Enhanced quality'
 featured_examples:
-  - 'example-1'
+  - 'content-format-transformer'
 featured_lessons:
   - 'prompt-engineering'
   - 'context-basics'
@@ -16,7 +16,7 @@ technologies:
   - 'LLM'
   - 'AI Agents'
 evidence_projects:
-  - 'project-1'
+  - 'https://github.com/vuhung/prompt-to-system'
 status: 'reviewed'
 last_verified: 2026-10-07
 ---

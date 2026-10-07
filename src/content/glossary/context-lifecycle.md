@@ -1,6 +1,6 @@
 ---
 id: context-lifecycle
-title: context lifecycle
-summary: Definition for context lifecycle.
+title: "Context Lifecycle"
+summary: "The process of managing the information loaded into a model's context window over a sequence of interactions."
 ---
-This is the glossary entry for **context lifecycle**.
+In multi-step agentic workflows or long conversations, context cannot grow indefinitely. The Context Lifecycle involves gathering necessary context, maintaining it while it's relevant, and selectively summarizing or evicting older context to stay within the token limit and prevent context collapse.

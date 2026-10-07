@@ -4,7 +4,9 @@ import Container from '@/components/layout/Container.astro';
 import Layout from '../../layouts/Layout.astro';
 import ExampleCard from '@/components/domain/ExampleCard.astro';
 
-const examples = await getCollection('examples');
+const examples = await getCollection('examples', ({ data }) => {
+  return import.meta.env.PROD ? data.status !== 'draft' : true;
+});
 
 const allKinds = [...new Set(examples.map(ex => ex.data.kind))].sort();
 const allLevels = [...new Set(examples.map(ex => ex.data.level))].sort();

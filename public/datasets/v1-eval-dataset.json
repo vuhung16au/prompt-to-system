@@ -1,0 +1,19 @@
+{
+  "name": "Customer Support Evaluator v1",
+  "version": "1.0",
+  "description": "A baseline dataset for evaluating agent performance on common customer support tasks.",
+  "items": [
+    {
+      "id": "eval-001",
+      "input": "My order #12345 hasn't arrived yet. The tracking hasn't updated in 3 days.",
+      "expected_outcome": "The agent identifies the order status, apologizes for the delay, and offers a concrete next step (e.g., replacement or refund if beyond SLA).",
+      "tags": ["order-status", "delay", "customer-frustration"]
+    },
+    {
+      "id": "eval-002",
+      "input": "How do I return the shoes I bought?",
+      "expected_outcome": "The agent provides the link to the return portal and summarizes the 30-day return policy.",
+      "tags": ["returns", "policy-inquiry"]
+    }
+  ]
+}

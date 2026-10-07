@@ -16,23 +16,28 @@ last_verified: 2026-10-05
 ---
 
 ## Purpose
+
 To accurately and consistently reformat unstructured or semi-structured text into a strict, machine-readable, or highly structured format.
 
 ## When to Use
+
 - Converting a list of notes into a CSV file for import into a database.
 - Transforming a Markdown table into JSON objects.
 - Reformatting a transcript into structured Q&A pairs.
 
 ## When NOT to Use
+
 - Complex data transformations that require business logic or mathematical calculations (write a script instead).
 - When the input data is highly irregular and cannot be consistently mapped to the target schema.
 
 ## Inputs
+
 - `source_content`: The text or data to be transformed.
 - `target_format`: The desired output format (e.g., JSON, CSV, Markdown table).
 - `schema_or_example` (optional): An example of the desired output structure or a specific schema definition.
 
 ## Prompt / Procedure
+
 ```text
 You are a precise Data Transformation Engine. Your task is to convert the following source content into the requested target format.
 
@@ -51,11 +56,13 @@ Rules:
 ```
 
 ## Expected Output
+
 Only the raw data in the requested target format, ready to be copied and pasted or parsed by a script.
 
 ## Example
 
 **Input (`source_content`):**
+
 ```text
 Meeting Notes - Oct 5, 2026
 Attendees: Alice, Bob, Charlie
@@ -65,8 +72,10 @@ Attendees: Alice, Bob, Charlie
 ```
 
 **Variables:**
+
 - `target_format`: JSON
 - `schema_or_example`:
+
 ```json
 [
   {
@@ -78,6 +87,7 @@ Attendees: Alice, Bob, Charlie
 ```
 
 **Output:**
+
 ```json
 [
   {
@@ -99,15 +109,18 @@ Attendees: Alice, Bob, Charlie
 ```
 
 ## Evaluation Rubric
+
 - **Syntax Validity:** Is the output valid JSON, CSV, etc.?
 - **Fidelity:** Was all data preserved without hallucination or omission?
 - **Compliance:** Did the model follow the instruction to output *only* the data without conversational filler?
 
 ## Failure Modes & Risks
+
 - **Conversational Filler:** The model might wrap the output in Markdown code blocks or say "Here is your JSON:" which breaks automated parsers.
 - **Hallucination:** The model might try to fill in missing fields with made-up data.
 
 ## Provenance
+
 - **Author:** Vu Hung
 - **Date:** October 2026
 - **Source:** Original example created for the Applied LLM Patterns learning path.

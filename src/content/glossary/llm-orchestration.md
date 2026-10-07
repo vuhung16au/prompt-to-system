@@ -1,6 +1,6 @@
 ---
 id: llm-orchestration
-title: LLM orchestration
-summary: Definition for LLM orchestration.
+title: "LLM Orchestration"
+summary: "The process of managing the execution flow, state, and tool integrations of an LLM application."
 ---
-This is the glossary entry for **LLM orchestration**.
+LLM orchestration involves managing prompt chains, coordinating multi-agent interactions, handling API rate limits, and maintaining conversational state. Frameworks like LangChain, LlamaIndex, or custom DAGs are often used for orchestration.

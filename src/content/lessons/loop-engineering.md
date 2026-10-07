@@ -26,9 +26,11 @@ sources:
 ---
 
 ## Key takeaway
+
 Autonomous loops must be designed with explicit termination conditions, robust state management, and clear escalation paths to prevent runaway execution and budget exhaustion.
 
 ## Mental model or small diagram
+
 ```mermaid
 stateDiagram-v2
     [*] --> Plan
@@ -40,23 +42,29 @@ stateDiagram-v2
 ```
 
 ## When to use and when not to use
+
 **When to use:**
+
 - Self-Correcting Workflows (e.g., agents writing and debugging code).
 - Open-Ended Research tasks requiring continuous information gathering.
 - Multi-Agent Orchestration.
 
 **When not to use:**
+
 - Linear, Predictable Tasks like simple data extraction. Use a DAG or pipeline instead.
 - Strict Budget Constraints where you cannot risk an agent looping unnecessarily.
 
 ## Method or procedure
+
 1. **Define Convergence:** Establish how the agent measures progress toward its goal.
 2. **Set Termination Rules:** Enforce max iterations, timeout limits, or budget caps.
 3. **Build Recovery Logic:** Detect when the agent repeats the exact same action and force a new approach or pause.
 4. **Context Pruning:** Implement summarization steps to compress previous iterations so the context window doesn't overflow.
 
 ## Worked example
+
 **Process:**
+
 ```python
 max_iterations = 5
 iteration = 0
@@ -80,16 +88,30 @@ while iteration < max_iterations and not passed:
 ```
 
 ## Failure modes and mitigations
+
 - **Infinite Loops (Hallucination Traps):** The agent tries the same incorrect solution endlessly. *Mitigation: Track action history and break if the similarity of consecutive actions is too high.*
 - **Context Collapse:** The loop runs so long the prompt history exceeds the LLM limit. *Mitigation: Summarize past iterations every N steps.*
 
 ## Evaluation checklist or rubric
+
 - [ ] **Graceful Termination:** Does the loop stop when max iterations are hit?
 - [ ] **Repetition Awareness:** Does the agent recognize and recover from repeated failures?
 - [ ] **Escalation Triggers:** Does the agent ask for human help when genuinely stuck?
 
 ## Safety, privacy, and cost notes
+
 - **Cost:** Loops are extremely dangerous for budgets. Always set a hard limit on API calls or token spend per session.
 
 ## Practice task
+
 Design a state machine for an agent whose goal is to scrape a website, extract pricing data, and format it. Define the states, the success condition, and at least two failure states that trigger an escalation to a human.
+
+## Provenance and further reading
+
+> **Note:** The principles taught in this lesson are model-independent. Any vendor-specific implementation notes (e.g., specific API features or context limits from Anthropic or OpenAI) are used for illustration and should be adapted to your chosen provider.
+
+- **Source**: [Agentic Design Patterns](https://www.deeplearning.ai/the-batch/how-agents-can-improve-llm-performance/)
+- **Author/Organization**: Andrew Ng
+- **Publication Date**: 2024-04-12
+- **Access Date**: 2026-10-07
+- **Next Steps**: Review the related example `content-format-transformer` or proceed to the lesson `harness-engineering`.

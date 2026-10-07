@@ -1,6 +1,6 @@
 ---
 id: guardrails
-title: guardrails
-summary: Definition for guardrails.
+title: "Guardrails"
+summary: "Mechanisms put in place to ensure an LLM's outputs are safe, ethical, and within desired boundaries."
 ---
-This is the glossary entry for **guardrails**.
+Guardrails can be implemented via system prompts, output parsing, or secondary validation models. They prevent the model from generating toxic content, leaking sensitive information, or executing unauthorized tool calls.
