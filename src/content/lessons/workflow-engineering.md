@@ -4,57 +4,76 @@ title: Workflow Engineering
 summary: Breaking down complex tasks into structured, reliable sequences of LLM calls and code.
 level: advanced
 last_verified: 2026-10-05
+order: 3
+stage: 3
+duration_minutes: 20
+outcomes:
+  - Design a multi-step LLM pipeline.
+  - Handle intermediate structured outputs.
+prerequisites:
+  - prompt-engineering
+  - context-engineering
+related_lessons:
+  - harness-engineering
+related_examples:
+  - content-format-transformer
+glossary_terms:
+  - prompt-chaining
+  - llm-orchestration
+  - dag
+status: reviewed
+sources:
+  - "Building LLM Applications"
 ---
 
-## Key Takeaway
+## Key takeaway
 Instead of relying on a single "mega-prompt" to solve a complex problem, break the task down into a structured sequence (a workflow or pipeline) where the output of one step becomes the input to the next.
 
-## Explanation
-Workflow engineering (also known as prompt chaining or LLM orchestration) is the practice of designing a directed graph of operations to accomplish a goal. It answers the question: *What discrete steps are required to produce a reliable result?*
+## Mental model or small diagram
+```mermaid
+flowchart TD
+    A[Step 1: Research] -->|JSON| B[Step 2: Outline]
+    B -->|Markdown| C[Step 3: Draft]
+    C -->|Text| D[Step 4: Review]
+```
 
-In a workflow, each step is highly specialized. A step might be an LLM call with a narrow prompt, a deterministic function (like querying a database), an API call (like searching the web), or even a pause for human-in-the-loop feedback. By scoping each LLM call to a single, focused task, you significantly increase reliability, reduce hallucination, and make the overall system easier to debug.
+## When to use and when not to use
+**When to use:**
+- Multi-step generation tasks (e.g., write a long-form article).
+- When the LLM needs to plan a query, retrieve data, and then synthesize results.
+- Tasks requiring high reliability where validation is needed at intermediate steps.
 
-## When to use it
-- **Multi-step generation tasks:** Such as writing a long-form article (research $\rightarrow$ outline $\rightarrow$ draft $\rightarrow$ edit).
-- **Tool use and RAG:** When the LLM needs to plan a query, retrieve data, and then synthesize the results.
-- **Tasks requiring high reliability:** Breaking a task down allows you to insert validation or retry logic at intermediate steps.
-- **Complex reasoning:** When the problem requires planning, reflection, or multiple distinct perspectives (e.g., multi-agent systems).
+**When not to use:**
+- Simple, single-shot requests where one prompt is sufficient.
+- Low-latency requirements, as chaining LLM calls increases response time.
 
-## When NOT to use it
-- **Simple, single-shot requests:** Basic summarization, translation, or sentiment analysis where one prompt is sufficient.
-- **Low-latency requirements:** Chaining multiple LLM calls increases the total response time significantly.
-- **Strict budget constraints:** Multiple calls mean more tokens processed and higher costs.
+## Method or procedure
+1. **Deconstruct the Task:** Identify the discrete logical steps required.
+2. **Define Intermediate Formats:** Ensure each step outputs structured data (like JSON) so the next step can parse it deterministically.
+3. **Build Prompts per Step:** Write focused, narrow prompts for each node in your workflow.
+4. **Orchestrate:** Use application code to call the LLM, parse the output, and pass it to the next step.
 
-## Small Example
-Instead of asking an LLM to "write a comprehensive report on quantum computing," a workflow approach looks like this:
+## Worked example
+**Input:** "Write a comprehensive report on quantum computing."
+**Process:**
+1. *Step 1 (Research):* "Search the web for breakthroughs and output a JSON array of facts."
+2. *Step 2 (Outline):* "Given these facts, create a hierarchical markdown outline."
+3. *Step 3 (Draft):* "Write section 1 of the outline using these facts."
+4. *Step 4 (Review):* "Review this draft for factual accuracy against the original facts."
+**Output:** A high-quality, fact-checked report.
 
-1. **Step 1: Research (Tool-Augmented LLM)**
-   - *Prompt:* "Search the web for the latest breakthroughs in quantum computing and extract the key facts."
-   - *Output:* JSON array of facts.
-2. **Step 2: Outlining (LLM)**
-   - *Prompt:* "Given these facts, create a hierarchical outline for a research report."
-   - *Output:* Markdown outline.
-3. **Step 3: Drafting (LLM, chunked)**
-   - *Prompt:* "Write section 1 of the outline using these facts." (Repeated for each section)
-   - *Output:* Draft text.
-4. **Step 4: Review (LLM / Human)**
-   - *Prompt:* "Review this draft for logical flow and factual accuracy against the original facts."
-   - *Output:* Final polished report.
+## Failure modes and mitigations
+- **Error Propagation:** Poor output in Step 1 amplifies in Step 2. *Mitigation: Add validation logic between steps to verify data integrity before continuing.*
+- **Context Loss:** Passing only the output strips away necessary context. *Mitigation: Pass both the previous step's output and the original core instructions to downstream steps.*
 
-## Common Failure Modes
-- **Error Propagation:** If Step 1 produces poor or hallucinated output, Steps 2, 3, and 4 will amplify the error (garbage in, garbage out).
-- **Context Loss:** Passing only the output of a previous step might strip away necessary context needed by downstream steps.
-- **Complexity Overhead:** Over-engineering a workflow can make the system brittle and hard to maintain.
+## Evaluation checklist or rubric
+- [ ] **Step-Level Accuracy:** What is the success rate of each individual node?
+- [ ] **End-to-End Quality:** Is the final output significantly better than a single-prompt approach?
+- [ ] **Data Flow:** Are intermediate payloads consistently formatted?
 
-## Best Practices
-- **Structured Outputs:** Enforce JSON outputs for intermediate steps to ensure data flows reliably from one node to the next.
-- **Independent Evaluation:** Test and evaluate the prompts for each step individually, not just the end-to-end system.
-- **Human-in-the-Loop (HITL):** For critical workflows, insert a human approval step before taking irreversible actions (like sending an email or publishing a post).
+## Safety, privacy, and cost notes
+- **Cost:** Multiple LLM calls mean significantly higher token usage. Evaluate if the quality gain justifies the cost.
+- **Latency:** Workflows are inherently slower. Use parallelization where possible (e.g., drafting independent sections simultaneously).
 
-## How to Evaluate
-- **End-to-End Quality:** Is the final output significantly higher quality or more reliable than a single-prompt (zero-shot) attempt?
-- **Step-Level Accuracy:** What is the success rate of each individual node in the workflow?
-- **Cost and Latency:** Does the improvement in quality justify the increased token cost and execution time?
-
-## Related Examples
-- [Content Format Transformer](/prompt-to-system/examples/content-format-transformer)
+## Practice task
+Design a 3-step workflow to summarize an hour-long transcript. Write the pseudocode or prompts to: 1. Chunk and summarize parts, 2. Synthesize the summaries into key themes, 3. Format the themes into an executive brief.

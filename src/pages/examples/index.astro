@@ -1,106 +1,182 @@
 ---
 import { getCollection } from 'astro:content';
+import Container from '@/components/layout/Container.astro';
 import Layout from '../../layouts/Layout.astro';
+import ExampleCard from '@/components/domain/ExampleCard.astro';
 
 const examples = await getCollection('examples');
 
 const allKinds = [...new Set(examples.map(ex => ex.data.kind))].sort();
 const allLevels = [...new Set(examples.map(ex => ex.data.level))].sort();
-const allStatuses = [...new Set(examples.map(ex => ex.data.status))].sort();
 const allDomains = [...new Set(examples.flatMap(ex => ex.data.domains || []))].sort();
+const allTags = [...new Set(examples.flatMap(ex => ex.data.tags || []))].sort();
 ---
-<Layout title="Examples">
-  <h1>Examples</h1>
-  <p>Find practical examples for working with LLMs.</p>
+<Layout title="Examples | Applied LLM Patterns">
+  <Container variant="wide">
+    <div class="py-12 md:py-20">
+      <div class="max-w-3xl mb-12">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-text-heading mb-6 tracking-tight">Practical Examples</h1>
+        <p class="text-lg text-text-body leading-relaxed">
+          Search and filter evaluated artifacts—prompts, agent workflows, testing harnesses, and checklists—ready to be adapted for your own systems.
+        </p>
+      </div>
 
-  <form id="filter-form" style="margin-bottom: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-    <select name="kind">
-      <option value="">All Types</option>
-      {allKinds.map(kind => <option value={kind}>{kind}</option>)}
-    </select>
-    <select name="level">
-      <option value="">All Levels</option>
-      {allLevels.map(level => <option value={level}>{level}</option>)}
-    </select>
-    <select name="status">
-      <option value="">All Statuses</option>
-      {allStatuses.map(status => <option value={status}>{status}</option>)}
-    </select>
-    <select name="domain">
-      <option value="">All Domains</option>
-      {allDomains.map(domain => <option value={domain}>{domain}</option>)}
-    </select>
-    <button type="submit">Filter</button>
-  </form>
+      <!-- Filters -->
+      <div class="bg-surface-muted border border-border-subtle rounded-2xl p-6 mb-12 shadow-sm">
+        <form id="filter-form" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="flex flex-col">
+            <label class="text-xs font-bold text-text-heading uppercase tracking-wider mb-2">Type</label>
+            <select name="kind" class="bg-surface border border-border-strong rounded-md px-3 py-2 text-sm text-text-body focus:ring-2 focus:ring-accent-primary focus:border-accent-primary outline-none">
+              <option value="">All Types</option>
+              {allKinds.map(kind => <option value={kind}>{kind}</option>)}
+            </select>
+          </div>
+          
+          <div class="flex flex-col">
+            <label class="text-xs font-bold text-text-heading uppercase tracking-wider mb-2">Level</label>
+            <select name="level" class="bg-surface border border-border-strong rounded-md px-3 py-2 text-sm text-text-body focus:ring-2 focus:ring-accent-primary focus:border-accent-primary outline-none">
+              <option value="">All Levels</option>
+              {allLevels.map(level => <option value={level}>{level}</option>)}
+            </select>
+          </div>
+          
+          <div class="flex flex-col">
+            <label class="text-xs font-bold text-text-heading uppercase tracking-wider mb-2">Domain</label>
+            <select name="domain" class="bg-surface border border-border-strong rounded-md px-3 py-2 text-sm text-text-body focus:ring-2 focus:ring-accent-primary focus:border-accent-primary outline-none">
+              <option value="">All Domains</option>
+              {allDomains.map(domain => <option value={domain}>{domain}</option>)}
+            </select>
+          </div>
 
-  <ul id="examples-list">
-    {examples.map((example) => (
-      <li class="example-item" data-kind={example.data.kind} data-level={example.data.level} data-status={example.data.status} data-domains={JSON.stringify(example.data.domains || [])}>
-        <a href={import.meta.env.BASE_URL + `/examples/${example.id}`}>{example.data.title}</a>
-        <p>{example.data.summary}</p>
-      </li>
-    ))}
-  </ul>
+          <div class="flex flex-col">
+            <label class="text-xs font-bold text-text-heading uppercase tracking-wider mb-2">Tag</label>
+            <select name="tag" class="bg-surface border border-border-strong rounded-md px-3 py-2 text-sm text-text-body focus:ring-2 focus:ring-accent-primary focus:border-accent-primary outline-none">
+              <option value="">All Tags</option>
+              {allTags.map(tag => <option value={tag}>{tag}</option>)}
+            </select>
+          </div>
+          
+          <!-- Hidden submit for enter-key accessibility -->
+          <button type="submit" class="hidden">Filter</button>
+        </form>
+      </div>
 
-  <script>
-    const form = document.getElementById('filter-form') as HTMLFormElement;
-    const items = document.querySelectorAll('.example-item');
-
-    function applyFilters() {
-      if (!form) return;
-      const formData = new FormData(form);
-      const params = new URLSearchParams();
+      <!-- Results Grid -->
+      <div id="results-count" class="text-sm font-medium text-text-muted mb-6">
+        Showing {examples.length} examples
+      </div>
       
-      const kind = formData.get('kind');
-      const level = formData.get('level');
-      const status = formData.get('status');
-      const domain = formData.get('domain');
-
-      if (kind) params.set('kind', kind as string);
-      if (level) params.set('level', level as string);
-      if (status) params.set('status', status as string);
-      if (domain) params.set('domain', domain as string);
-
-      const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
-      window.history.replaceState({}, '', newUrl);
-
-      items.forEach((item) => {
-        const el = item as HTMLElement;
-        const itemKind = el.getAttribute('data-kind');
-        const itemLevel = el.getAttribute('data-level');
-        const itemStatus = el.getAttribute('data-status');
-        const itemDomains = JSON.parse(el.getAttribute('data-domains') || '[]');
-
-        const matchKind = !kind || itemKind === kind;
-        const matchLevel = !level || itemLevel === level;
-        const matchStatus = !status || itemStatus === status;
-        const matchDomain = !domain || itemDomains.includes(domain);
-
-        if (matchKind && matchLevel && matchStatus && matchDomain) {
-          el.style.display = '';
-        } else {
-          el.style.display = 'none';
-        }
-      });
-    }
-
-    if (form) {
-      const urlParams = new URLSearchParams(window.location.search);
-      for (const [key, value] of urlParams.entries()) {
-        const select = form.elements.namedItem(key) as HTMLSelectElement;
-        if (select) select.value = value;
-      }
-
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        applyFilters();
-      });
+      <div id="examples-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {examples.map((example) => (
+          <div class="example-item h-full" 
+               data-kind={example.data.kind} 
+               data-level={example.data.level} 
+               data-domains={JSON.stringify(example.data.domains || [])}
+               data-tags={JSON.stringify(example.data.tags || [])}>
+            <ExampleCard 
+              title={example.data.title}
+              summary={example.data.summary}
+              href={import.meta.env.BASE_URL + `/examples/${example.id}`}
+              type={example.data.kind}
+              domains={example.data.domains}
+            />
+          </div>
+        ))}
+      </div>
       
-      form.addEventListener('change', () => {
-        applyFilters();
-      });
-
-      applyFilters();
-    }
-  </script>
+      <div id="no-results" class="hidden py-20 text-center border border-dashed border-border-strong rounded-2xl">
+        <svg class="w-12 h-12 text-border-strong mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <h3 class="text-lg font-bold text-text-heading mb-2">No examples match your filters</h3>
+        <button id="clear-filters" class="text-accent-primary font-medium hover:underline">Clear all filters</button>
+      </div>
+      
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const form = document.getElementById('filter-form') as HTMLFormElement;
+          const items = document.querySelectorAll('.example-item');
+          const resultsCount = document.getElementById('results-count');
+          const noResults = document.getElementById('no-results');
+          const clearFiltersBtn = document.getElementById('clear-filters');
+      
+          function applyFilters() {
+            if (!form) return;
+            const formData = new FormData(form);
+            const params = new URLSearchParams();
+            
+            const kind = formData.get('kind') as string;
+            const level = formData.get('level') as string;
+            const domain = formData.get('domain') as string;
+            const tag = formData.get('tag') as string;
+      
+            if (kind) params.set('kind', kind);
+            if (level) params.set('level', level);
+            if (domain) params.set('domain', domain);
+            if (tag) params.set('tag', tag);
+      
+            const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+            window.history.replaceState({}, '', newUrl);
+      
+            let visibleCount = 0;
+            items.forEach((item) => {
+              const el = item as HTMLElement;
+              const itemKind = el.getAttribute('data-kind');
+              const itemLevel = el.getAttribute('data-level');
+              const itemDomains = JSON.parse(el.getAttribute('data-domains') || '[]');
+              const itemTags = JSON.parse(el.getAttribute('data-tags') || '[]');
+      
+              const matchKind = !kind || itemKind === kind;
+              const matchLevel = !level || itemLevel === level;
+              const matchDomain = !domain || itemDomains.includes(domain);
+              const matchTag = !tag || itemTags.includes(tag);
+      
+              if (matchKind && matchLevel && matchDomain && matchTag) {
+                el.style.display = '';
+                visibleCount++;
+              } else {
+                el.style.display = 'none';
+              }
+            });
+            
+            if (resultsCount) {
+              resultsCount.textContent = `Showing ${visibleCount} example${visibleCount !== 1 ? 's' : ''}`;
+            }
+            
+            if (noResults) {
+              if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+              } else {
+                noResults.classList.add('hidden');
+              }
+            }
+          }
+      
+          if (form) {
+            const urlParams = new URLSearchParams(window.location.search);
+            for (const [key, value] of urlParams.entries()) {
+              const select = form.elements.namedItem(key) as HTMLSelectElement;
+              if (select) select.value = value;
+            }
+      
+            form.addEventListener('submit', (e) => {
+              e.preventDefault();
+              applyFilters();
+            });
+            
+            form.addEventListener('change', () => {
+              applyFilters();
+            });
+      
+            applyFilters();
+          }
+          
+          if (clearFiltersBtn && form) {
+            clearFiltersBtn.addEventListener('click', () => {
+              form.reset();
+              applyFilters();
+            });
+          }
+        });
+      </script>
+    </div>
+  </Container>
 </Layout>

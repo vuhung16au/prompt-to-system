@@ -1,0 +1,30 @@
+---
+export interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+export interface Props {
+  headings: Heading[];
+  class?: string;
+}
+const { headings, class: className = '' } = Astro.props;
+
+// Filter to h2 and h3 typically
+const filteredHeadings = headings.filter(h => h.depth <= 3);
+---
+{filteredHeadings.length > 0 && (
+  <nav class={`toc ${className}`} aria-label="Table of Contents">
+    <h3 class="text-sm font-bold text-text-heading mb-4 uppercase tracking-wider">On this page</h3>
+    <ul class="space-y-2 text-sm">
+      {filteredHeadings.map(heading => (
+        <li class={heading.depth === 3 ? "ml-4" : ""}>
+          <a href={`#${heading.slug}`} class="text-text-muted hover:text-accent-primary transition-colors block py-1">
+            {heading.text}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}

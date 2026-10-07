@@ -1,24 +1,181 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
+import Container from '@/components/layout/Container.astro';
+import Button from '@/components/ui/Button.astro';
+import Card from '@/components/ui/Card.astro';
+
+const lessons = await getCollection('lessons');
+const examples = await getCollection('examples');
+
+const featuredLessons = lessons.filter(l => l.data.featured).slice(0, 3);
+// Provide a fallback if featured isn't set
+const displayLessons = featuredLessons.length > 0 ? featuredLessons : lessons.slice(0, 3);
+
+const featuredExamples = examples.filter(e => e.data.featured).slice(0, 4);
+const displayExamples = featuredExamples.length > 0 ? featuredExamples : examples.slice(0, 4);
+
+const stages = [
+  { stage: 1, title: 'Prompt engineering', question: 'What should the model do?', outcome: 'Write testable prompts', effort: '1 hour', link: '/learn/prompt-engineering' },
+  { stage: 2, title: 'Context engineering', question: 'What should the model know?', outcome: 'Assemble grounded context', effort: '2 hours', link: '/learn/context-basics' },
+  { stage: 3, title: 'Workflow engineering', question: 'What steps produce the result?', outcome: 'Design multi-step workflows', effort: '2 hours', link: '/learn/workflow-engineering' },
+  { stage: 4, title: 'Harness engineering', question: 'What tools support the agent?', outcome: 'Give agents safe tools', effort: '3 hours', link: '/learn/harness-engineering' },
+  { stage: 5, title: 'Loop engineering', question: 'How does work converge?', outcome: 'Build bounded improvement loops', effort: '4 hours', link: '/learn/loop-engineering' }
+];
 ---
 
-<Layout title="Home">
-  <h1>Applied LLM Patterns</h1>
-  <p>Applied LLM Patterns is a concise educational website for intermediate and advanced LLM users.</p>
-  
-  <h2>Learning Path</h2>
-  <ul>
-    <li>Prompt engineering</li>
-    <li>Context engineering</li>
-    <li>Workflow engineering</li>
-    <li>Harness engineering</li>
-    <li>Loop engineering</li>
-  </ul>
+<Layout title="Home" variant="wide">
+  <Container variant="wide">
+    <!-- Hero Section -->
+    <div class="py-16 md:py-24 text-center max-w-3xl mx-auto">
+      <h1 class="text-4xl md:text-6xl font-extrabold text-text-heading mb-6 tracking-tight">From Prompts to <span class="text-accent-primary">Reliable Systems</span></h1>
+      <p class="text-xl md:text-2xl text-text-body mb-10 leading-relaxed">
+        Learn to turn one-off prompts into reliable, evaluated AI workflows through a progressive path and practical, domain-specific examples.
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <Button href={import.meta.env.BASE_URL + "/learn"} variant="primary" class="w-full sm:w-auto text-lg px-8 py-3">
+          Start the learning path
+        </Button>
+        <Button href={import.meta.env.BASE_URL + "/examples"} variant="outline" class="w-full sm:w-auto text-lg px-8 py-3">
+          Browse practical examples
+        </Button>
+      </div>
+    </div>
 
-  <h2>Get Started</h2>
-  <ul>
-    <li><a href={import.meta.env.BASE_URL + "/learn"}>Learn a concept</a></li>
-    <li><a href={import.meta.env.BASE_URL + "/examples"}>Find an example</a></li>
-    <li><a href={import.meta.env.BASE_URL + "/domains"}>Browse a domain</a></li>
-  </ul>
+    <!-- What you will be able to do -->
+    <div class="py-12 bg-surface-muted rounded-3xl px-6 md:px-12 mb-16 border border-border-subtle">
+      <h2 class="text-2xl font-bold text-text-heading mb-8 text-center">What you will learn to build</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-12 h-12 bg-accent-muted text-accent-primary rounded-xl mx-auto flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+          </div>
+          <h3 class="font-bold text-text-heading mb-2">Testable Instructions</h3>
+          <p class="text-sm text-text-muted">Write clear, repeatable prompts that avoid common failure modes.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-status-success/10 text-status-success rounded-xl mx-auto flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          </div>
+          <h3 class="font-bold text-text-heading mb-2">Reliable Workflows</h3>
+          <p class="text-sm text-text-muted">String LLM calls together to solve complex, multi-step tasks safely.</p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-status-warning/10 text-status-warning rounded-xl mx-auto flex items-center justify-center mb-4">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <h3 class="font-bold text-text-heading mb-2">Bounded Loops</h3>
+          <p class="text-sm text-text-muted">Control autonomous agents with budgets, limits, and human approval.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Five-Step Learning Path -->
+    <div class="py-12 mb-16">
+      <h2 class="text-3xl font-bold text-text-heading mb-10 text-center">The Five-Layer Path</h2>
+      <div class="max-w-4xl mx-auto space-y-6">
+        {stages.map((stage, i) => (
+          <a href={import.meta.env.BASE_URL + stage.link} class="block group">
+            <div class="flex items-center p-6 bg-surface border border-border-subtle rounded-2xl group-hover:border-accent-primary transition-all shadow-sm group-hover:shadow-md">
+              <div class="w-16 h-16 shrink-0 bg-accent-muted text-accent-primary rounded-xl flex items-center justify-center text-2xl font-black mr-6 border-2 border-surface shadow-sm">
+                {stage.stage}
+              </div>
+              <div class="flex-grow">
+                <h3 class="text-xl font-bold text-text-heading mb-1 group-hover:text-accent-primary transition-colors">{stage.title}</h3>
+                <p class="text-sm text-text-muted mb-2 font-medium">{stage.question}</p>
+                <div class="flex items-center gap-4 text-xs font-medium">
+                  <span class="text-status-success bg-status-success/10 px-2 py-1 rounded">Outcome: {stage.outcome}</span>
+                  <span class="text-text-muted">{stage.effort}</span>
+                </div>
+              </div>
+              <div class="hidden sm:flex shrink-0 ml-4 text-border-strong group-hover:text-accent-primary transition-colors">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Entry Points -->
+    <div class="py-12 border-t border-border-subtle mb-16">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <Card href={import.meta.env.BASE_URL + "/learn"} class="text-center">
+          <h3 class="font-bold text-lg mb-2">Learn in sequence</h3>
+          <p class="text-sm text-text-muted mb-4">Understand the five layers and complete the lessons step-by-step.</p>
+          <span class="text-accent-primary font-medium text-sm">Start learning &rarr;</span>
+        </Card>
+        <Card href={import.meta.env.BASE_URL + "/examples"} class="text-center">
+          <h3 class="font-bold text-lg mb-2">Solve a task</h3>
+          <p class="text-sm text-text-muted mb-4">Search and filter by goal or artifact type to copy a reviewed pattern.</p>
+          <span class="text-accent-primary font-medium text-sm">Find an example &rarr;</span>
+        </Card>
+        <Card href={import.meta.env.BASE_URL + "/domains"} class="text-center">
+          <h3 class="font-bold text-lg mb-2">Explore expertise</h3>
+          <p class="text-sm text-text-muted mb-4">See how these techniques apply to specific fields like software and analytics.</p>
+          <span class="text-accent-primary font-medium text-sm">Browse domains &rarr;</span>
+        </Card>
+      </div>
+    </div>
+
+    <!-- Featured Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 py-12 mb-16">
+      <div>
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl font-bold text-text-heading">Featured Lessons</h2>
+          <a href={import.meta.env.BASE_URL + "/learn"} class="text-sm font-medium text-accent-primary hover:underline">View all</a>
+        </div>
+        <div class="space-y-4">
+          {displayLessons.map(lesson => (
+            <Card href={import.meta.env.BASE_URL + `/learn/${lesson.id}`} class="p-5">
+              <h3 class="font-bold text-text-heading mb-1">{lesson.data.title}</h3>
+              <p class="text-sm text-text-body line-clamp-2">{lesson.data.summary}</p>
+            </Card>
+          ))}
+        </div>
+      </div>
+      <div>
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl font-bold text-text-heading">Practical Examples</h2>
+          <a href={import.meta.env.BASE_URL + "/examples"} class="text-sm font-medium text-accent-primary hover:underline">View all</a>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {displayExamples.map(example => (
+            <Card href={import.meta.env.BASE_URL + `/examples/${example.id}`} class="p-5 flex flex-col">
+              <h3 class="font-bold text-text-heading mb-1 text-sm">{example.data.title}</h3>
+              <p class="text-xs text-text-muted mb-3 line-clamp-2 flex-grow">{example.data.summary}</p>
+              <div class="mt-auto">
+                <span class="text-[10px] font-bold uppercase tracking-wider bg-surface-muted text-text-muted px-2 py-1 rounded">
+                  {example.data.kind}
+                </span>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Credibility & Contribution -->
+    <div class="py-12 border-t border-border-subtle grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div>
+        <h2 class="text-xl font-bold text-text-heading mb-4">Evidence-based learning</h2>
+        <p class="text-text-body text-sm leading-relaxed mb-4">
+          These patterns are drawn from first-party projects, case studies, and extensive teaching experience. Rather than abstract concepts, we focus on workflows that have been tested in production, research, and technical education.
+        </p>
+        <a href="https://github.com/vuhung16au" target="_blank" class="text-sm font-medium text-accent-primary hover:underline flex items-center gap-1">
+          View teaching & evidence repositories
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+        </a>
+      </div>
+      <div class="bg-surface-muted rounded-2xl p-6 md:p-8 border border-border-subtle">
+        <h2 class="text-lg font-bold text-text-heading mb-2">Contribute to the Guide</h2>
+        <p class="text-text-body text-sm mb-6">
+          Help improve a lesson, submit an evaluated workflow, or fix an example. The entire site is open source and maintained on GitHub.
+        </p>
+        <Button href="https://github.com/vuhung16au/prompt-to-system/blob/main/CONTRIBUTING.md" variant="outline" class="w-full text-sm">
+          Read contribution guidelines
+        </Button>
+      </div>
+    </div>
+  </Container>
 </Layout>

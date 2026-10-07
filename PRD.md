@@ -365,11 +365,11 @@ The site must remain exportable as ordinary files under `dist/`. No runtime serv
 ### Front end
 
 - Semantic HTML.
-- Plain CSS or a small set of project-owned CSS files.
+- Tailwind CSS 4 with the Typography plugin and a small set of project-owned reusable Astro components.
 - Minimal client-side JavaScript.
 - System font stack by default.
-- Light and dark themes using CSS custom properties.
-- No large UI component framework for the initial release.
+- Light and dark themes using CSS custom properties or Tailwind semantic color tokens.
+- No large JS-based UI component framework for the initial release.
 
 ### Search
 

@@ -63,3 +63,8 @@ A structured debugging guide containing an explanation of the error, ranked hypo
 ## Failure Modes & Risks
 - **Guessing:** The model might confidently suggest a fix that is completely unrelated if the provided context is too sparse.
 - **Outdated Knowledge:** The model might suggest fixes that apply to older versions of a library/framework.
+
+## Provenance
+- **Author:** Vu Hung
+- **Date:** October 2026
+- **Source:** Original example created for the Applied LLM Patterns learning path.

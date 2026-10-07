@@ -1,19 +1,54 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import Container from '@/components/layout/Container.astro';
+import DomainCard from '@/components/domain/DomainCard.astro';
 
 const domains = await getCollection('domains');
+const sortedDomains = domains.sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
+
+const groups = {
+  'Core expertise': sortedDomains.filter(d => d.data.group === 'Core expertise'),
+  'Applied practice': sortedDomains.filter(d => d.data.group === 'Applied practice'),
+  'Growing collections': sortedDomains.filter(d => d.data.group === 'Growing collections')
+};
 ---
+
 <Layout title="Domains">
-  <h1>Domains</h1>
-  <p>Browse content by domain.</p>
-  
-  <ul>
-    {domains.map((domain) => (
-      <li>
-        <a href={import.meta.env.BASE_URL + `/domains/${domain.id}`}>{domain.data.title}</a>
-        <p>{domain.data.summary}</p>
-      </li>
-    ))}
-  </ul>
+  <Container variant="wide">
+    <div class="py-12 md:py-20">
+      <div class="max-w-3xl mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold text-text-heading mb-6 tracking-tight">Applied Domains</h1>
+        <p class="text-lg text-text-body leading-relaxed">
+          Explore how prompt engineering and AI workflows are applied across different disciplines. Discover specialized techniques, proven examples, and tools tailored for specific workflows.
+        </p>
+      </div>
+
+      <div class="space-y-20">
+        {Object.entries(groups).map(([groupName, groupDomains]) => {
+          if (groupDomains.length === 0) return null;
+          
+          return (
+            <div>
+              <div class="flex items-center gap-4 mb-8">
+                <h2 class="text-2xl font-bold text-text-heading">{groupName}</h2>
+                <div class="flex-grow h-px bg-border-subtle"></div>
+              </div>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {groupDomains.map(domain => (
+                  <DomainCard 
+                    title={domain.data.title}
+                    summary={domain.data.summary}
+                    href={import.meta.env.BASE_URL + `/domains/${domain.id}`}
+                    exampleCount={domain.data.featured_examples?.length || 0}
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </Container>
 </Layout>

@@ -20,3 +20,7 @@ Consult these guides before working on related tasks:
 - [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
 - [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
 - [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+
+## Policies
+
+- [Interaction Design Policy](docs/agents/Interaction-Design.md): MANDATORY reference for any task that changes layouts, navigation, components, styles, or learning content presentation.

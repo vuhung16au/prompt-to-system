@@ -1,4 +1,4 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, z, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 const artifactTypes = ['lesson', 'prompt', 'pattern', 'playbook', 'agent workflow', 'harness blueprint', 'loop blueprint', 'checklist', 'rubric', 'case study'] as const;
@@ -34,7 +34,19 @@ const lessonsCollection = defineCollection({
     summary: z.string(),
     level: z.enum(levels),
     last_verified: z.date(),
-    featured: z.boolean().default(false)
+    featured: z.boolean().default(false),
+    
+    // Phase 2 additions
+    order: z.number().optional(),
+    stage: z.number().optional(),
+    duration_minutes: z.number().optional(),
+    outcomes: z.array(z.string()).optional(),
+    prerequisites: z.array(reference('lessons')).optional(),
+    related_lessons: z.array(reference('lessons')).optional(),
+    related_examples: z.array(reference('examples')).optional(),
+    glossary_terms: z.array(reference('glossary')).optional(),
+    status: z.enum(statuses).default('reviewed'),
+    sources: z.array(z.string()).optional()
   })
 });
 
@@ -43,7 +55,18 @@ const domainsCollection = defineCollection({
   schema: z.object({
     id: z.string(),
     title: z.string(),
-    summary: z.string()
+    summary: z.string(),
+    
+    // Phase 3 additions
+    group: z.enum(['Core expertise', 'Applied practice', 'Growing collections']).default('Growing collections'),
+    order: z.number().optional(),
+    outcomes: z.array(z.string()).optional(),
+    featured_examples: z.array(reference('examples')).optional(),
+    featured_lessons: z.array(reference('lessons')).optional(),
+    technologies: z.array(z.string()).optional(),
+    evidence_projects: z.array(z.string()).optional(),
+    status: z.enum(statuses).default('reviewed'),
+    last_verified: z.date().optional()
   })
 });
 
@@ -52,7 +75,12 @@ const glossaryCollection = defineCollection({
   schema: z.object({
     id: z.string(),
     title: z.string(),
-    summary: z.string()
+    summary: z.string(),
+    
+    // Phase 4 additions
+    aliases: z.array(z.string()).optional(),
+    related_terms: z.array(reference('glossary')).optional(),
+    lessons: z.array(reference('lessons')).optional()
   })
 });
 

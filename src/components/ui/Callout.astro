@@ -1,0 +1,21 @@
+---
+export interface Props {
+  title?: string;
+  variant?: 'info' | 'warning' | 'success' | 'danger';
+  class?: string;
+}
+const { title, variant = 'info', class: className = '' } = Astro.props;
+
+const variants = {
+  info: "bg-surface-muted border-l-4 border-accent-primary text-text-body",
+  warning: "bg-status-warning/10 border-l-4 border-status-warning text-text-body",
+  success: "bg-status-success/10 border-l-4 border-status-success text-text-body",
+  danger: "bg-status-error/10 border-l-4 border-status-error text-text-body"
+};
+---
+<div class={`p-4 rounded-r-lg ${variants[variant]} ${className}`}>
+  {title && <h4 class="font-bold mb-2 text-text-heading">{title}</h4>}
+  <div class="prose prose-sm dark:prose-invert max-w-none text-inherit">
+    <slot />
+  </div>
+</div>

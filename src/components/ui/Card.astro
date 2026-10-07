@@ -1,0 +1,17 @@
+---
+export interface Props {
+  href?: string;
+  class?: string;
+}
+const { href, class: className = '' } = Astro.props;
+const baseStyles = "block bg-surface-card border border-border-subtle rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow";
+---
+{href ? (
+  <a href={href} class={`${baseStyles} hover:border-border-strong ${className}`}>
+    <slot />
+  </a>
+) : (
+  <div class={`${baseStyles} ${className}`}>
+    <slot />
+  </div>
+)}

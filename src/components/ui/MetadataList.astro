@@ -1,0 +1,22 @@
+---
+export interface MetadataItem {
+  label: string;
+  value: string | string[];
+}
+
+export interface Props {
+  items: MetadataItem[];
+  class?: string;
+}
+const { items, class: className = '' } = Astro.props;
+---
+<dl class={`grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-4 ${className}`}>
+  {items.map(item => (
+    <div class="sm:col-span-1">
+      <dt class="text-xs font-medium text-text-muted uppercase tracking-wider">{item.label}</dt>
+      <dd class="mt-1 text-sm text-text-heading font-medium">
+        {Array.isArray(item.value) ? item.value.join(', ') : item.value}
+      </dd>
+    </div>
+  ))}
+</dl>

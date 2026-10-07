@@ -1,0 +1,24 @@
+---
+export interface Props {
+  outcomes: string[];
+}
+const { outcomes } = Astro.props;
+---
+<div class="bg-surface-muted rounded-xl p-6 border border-border-subtle">
+  <h3 class="text-sm font-bold text-text-heading mb-4 uppercase tracking-wider flex items-center gap-2">
+    <svg class="w-5 h-5 text-status-success" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    What you will learn
+  </h3>
+  <ul class="space-y-3">
+    {outcomes.map(outcome => (
+      <li class="flex items-start gap-3">
+        <svg class="w-5 h-5 text-accent-primary flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <span class="text-sm text-text-body">{outcome}</span>
+      </li>
+    ))}
+  </ul>
+</div>

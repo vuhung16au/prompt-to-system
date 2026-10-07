@@ -1,0 +1,15 @@
+---
+export interface Props {
+  space?: 'xs' | 'sm' | 'md' | 'lg';
+  align?: 'start' | 'center' | 'end' | 'baseline';
+  justify?: 'start' | 'center' | 'end' | 'between';
+  class?: string;
+}
+const { space = 'sm', align = 'center', justify = 'start', class: className = '' } = Astro.props;
+const gaps = { xs: 'gap-1', sm: 'gap-2', md: 'gap-4', lg: 'gap-6' };
+const aligns = { start: 'items-start', center: 'items-center', end: 'items-end', baseline: 'items-baseline' };
+const justifies = { start: 'justify-start', center: 'justify-center', end: 'justify-end', between: 'justify-between' };
+---
+<div class={`flex flex-wrap ${gaps[space]} ${aligns[align]} ${justifies[justify]} ${className}`}>
+  <slot />
+</div>

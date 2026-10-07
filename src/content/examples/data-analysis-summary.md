@@ -61,3 +61,8 @@ A structured summary in Markdown format, tailored to the requested audience, con
 ## Failure Modes & Risks
 - **Hallucination:** The model might invent trends that are not statistically significant.
 - **Context Limit:** Providing too much data might cause the model to lose focus or truncate the analysis.
+
+## Provenance
+- **Author:** Vu Hung
+- **Date:** October 2026
+- **Source:** Original example created for the Applied LLM Patterns learning path.

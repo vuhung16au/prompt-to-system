@@ -2,13 +2,33 @@
 id: marketing
 title: Marketing
 summary: Copywriting, campaign planning, and audience analysis.
+group: 'Applied practice'
+order: 7
+outcomes:
+  - 'Accelerated workflow'
+  - 'Enhanced quality'
+featured_examples:
+  - 'example-1'
+featured_lessons:
+  - 'prompt-engineering'
+  - 'context-basics'
+technologies:
+  - 'LLM'
+  - 'AI Agents'
+evidence_projects:
+  - 'project-1'
+status: 'reviewed'
+last_verified: 2026-10-07
 ---
 
 ## Overview
-Copywriting, campaign planning, and audience analysis.
 
-LLMs provide significant leverage in this domain by automating repetitive tasks and augmenting human reasoning.
+Marketing strategies are increasingly powered by AI-driven insights and automated content generation. LLMs can analyze consumer trends, generate targeted ad copy, and personalize marketing campaigns at scale.
 
-## Suggested Learning Sequence
-1. [Prompt Engineering](/prompt-to-system/learn/prompt-engineering)
-2. [Workflow Engineering](/prompt-to-system/learn/workflow-engineering)
+Marketers leveraging AI can test multiple variations of campaigns quickly, optimizing engagement and conversion rates. This data-informed approach allows for more dynamic and responsive marketing efforts across multiple channels.
+
+## Best Practices
+
+- A/B test variations: Ask the LLM for multiple versions of ad copy or subject lines.
+- Align with brand voice: Provide examples of past successful marketing materials.
+- Focus on CTA: Ensure the model includes clear, compelling calls-to-action.

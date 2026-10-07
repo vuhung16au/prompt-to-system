@@ -4,65 +4,85 @@ title: Harness Engineering
 summary: Providing tools, constraints, and feedback around an agent.
 level: advanced
 last_verified: 2026-10-05
+order: 4
+stage: 4
+duration_minutes: 25
+outcomes:
+  - Build sandboxed environments for LLM code execution.
+  - Implement guardrails and retry mechanisms for tool calls.
+prerequisites:
+  - workflow-engineering
+related_lessons:
+  - loop-engineering
+related_examples:
+  - root-cause-debugging
+  - code-review-assistant
+glossary_terms:
+  - sandbox
+  - tool-permissions
+  - guardrails
+status: reviewed
+sources:
+  - "Agent Architecture Best Practices"
 ---
 
-## Key Takeaway
-Agents are only as safe and effective as the environment they operate in. Harness engineering provides the scaffolding—sandboxes, tool permissions, state management, and guardrails—required to run autonomous AI agents reliably and securely in production.
+## Key takeaway
+Agents are only as safe and effective as the environment they operate in. Harness engineering provides the scaffolding required to run autonomous AI agents reliably and securely.
 
-## Explanation
-Harness engineering focuses on the "outer loop" surrounding the LLM. While prompt engineering dictates how the model thinks, harness engineering dictates how the model interacts with the outside world. It answers the crucial questions: *What tools can this agent use? What happens if a tool fails? How do we prevent the agent from deleting production data or getting stuck in an infinite loop?*
-
-A robust harness typically includes:
-1. **Execution Environments:** Sandboxed areas (like Docker containers, restricted VMs, or serverless functions) where the agent can run code safely without compromising the host system.
-2. **State & Memory Management:** Systems to persist the agent's context, action history, and working memory across multiple turns or sessions.
-3. **Guardrails & Permissions:** Strict access controls, such as read-only API keys or human-in-the-loop (HITL) approval steps for high-stakes actions.
-4. **Resilience Mechanisms:** Built-in retries, timeout constraints, and error-parsing logic to help the agent recover gracefully when a tool fails or an API times out.
-
-## When to use it
-- **Autonomous Agents:** Any time an agent is given agency to execute code, query databases, or call external APIs.
-- **Multi-step Workflows:** When tasks require long-running, asynchronous operations that might fail and need retry logic.
-- **Production Systems:** Whenever security, reliability, and cost-control are strict requirements.
-
-## When NOT to use it
-- **Text-only Conversational Tasks:** Basic chatbots or summarization tools that only output text to the user don't require complex execution harnesses.
-- **Simple Zero-shot Classification:** When the LLM is just categorizing data and returning a static JSON response.
-
-## Small Example
-Imagine a data analysis agent that writes and executes Python code based on a user's request.
-
-Instead of running the generated code directly on your server, you use a harness:
-
-```python
-# Pseudo-code for an execution harness
-def run_agent_action(tool_call, agent_state):
-    if tool_call.name == "execute_python":
-        # 1. Enforce Guardrails: Check if the code contains forbidden imports (e.g., 'os', 'subprocess')
-        if not is_code_safe(tool_call.code):
-            return "Error: Unsafe code detected. Please rewrite without system calls."
-        
-        # 2. Execution Environment: Run inside a restricted, short-lived Docker container
-        try:
-            result = run_in_sandbox(tool_call.code, timeout_seconds=10)
-            return result
-        except TimeoutException:
-            # 3. Resilience: Provide feedback so the agent can fix the issue
-            return "Error: Code execution timed out. Please optimize the algorithm."
-        except Exception as e:
-            return f"Error executing code: {str(e)}. Please review and fix."
+## Mental model or small diagram
+```mermaid
+flowchart TD
+    A[LLM Output] --> B{Guardrails Check}
+    B -- Pass --> C[Sandbox Execution]
+    B -- Fail --> D[Feedback to LLM]
+    C -- Success --> E[Update State]
+    C -- Error/Timeout --> D
 ```
-The harness ensures that even if the LLM hallucinates malicious or inefficient code, the system remains secure and stable, while providing constructive feedback back to the agent.
 
-## Common Failure Modes
-- **Unrestricted Access:** Giving an agent root access or write permissions to a production database, leading to catastrophic data loss.
-- **Infinite Action Loops:** The agent encounters an error, tries the exact same broken tool call repeatedly, and racks up massive API costs without making progress.
-- **Brittle Output Parsing:** The harness expects a perfect JSON tool call, but the LLM includes conversational text or markdown formatting, causing the harness to crash instead of gracefully handling the error.
-- **Lack of Timeouts:** The agent initiates a long-running process that hangs indefinitely, consuming compute resources and blocking other tasks.
+## When to use and when not to use
+**When to use:**
+- Autonomous Agents that execute code, query databases, or call external APIs.
+- Multi-step Workflows where tasks might fail and need retry logic.
+- Production Systems with strict security and reliability requirements.
 
-## How to Evaluate
-- **Security Audits:** Actively try to prompt-inject the agent to see if it can break out of the sandbox or access unauthorized data (Red Teaming).
-- **Recovery Rate:** When a tool intentionally returns an error, measure how often the agent successfully understands the error and corrects its next action.
-- **Execution Overhead:** Measure the latency and cost added by the sandbox environment and guardrail checks compared to the raw LLM inference time.
+**When not to use:**
+- Text-only Conversational Tasks that only output text to the user.
+- Simple Zero-shot Classification.
 
-## Related Examples
-- [Root-cause Debugging Playbook](/prompt-to-system/examples/root-cause-debugging)
-- [Code Review Assistant](/prompt-to-system/examples/code-review-assistant)
+## Method or procedure
+1. **Execution Environments:** Set up sandboxed areas (Docker containers, serverless functions) to run agent code securely.
+2. **State & Memory Management:** Persist the agent's context and action history.
+3. **Guardrails & Permissions:** Enforce access controls and human-in-the-loop approvals for sensitive actions.
+4. **Resilience Mechanisms:** Implement built-in retries, timeouts, and error-parsing logic to recover from failures.
+
+## Worked example
+**Input:** Agent wants to execute `os.system("rm -rf /")`.
+**Process:**
+```python
+def run_agent_action(tool_call):
+    if not is_code_safe(tool_call.code):
+        return "Error: Unsafe code detected. Please rewrite without system calls."
+    try:
+        result = run_in_sandbox(tool_call.code, timeout_seconds=10)
+        return result
+    except TimeoutException:
+        return "Error: Code execution timed out."
+```
+**Output:** The harness blocks the destructive action and provides a safe error message back to the LLM to try a different approach.
+
+## Failure modes and mitigations
+- **Unrestricted Access:** Agent modifies production data. *Mitigation: Run strictly in read-only modes or isolated staging environments.*
+- **Brittle Output Parsing:** The harness crashes if the LLM output isn't perfect JSON. *Mitigation: Use robust parsers that extract JSON from markdown or use native tool-calling APIs.*
+- **Lack of Timeouts:** The agent initiates an infinite loop script. *Mitigation: Enforce hard execution time limits.*
+
+## Evaluation checklist or rubric
+- [ ] **Security Audits:** Can the agent bypass the sandbox?
+- [ ] **Recovery Rate:** When a tool fails, does the agent successfully understand the error and correct its next action?
+- [ ] **Execution Overhead:** Is the latency of the sandbox acceptable?
+
+## Safety, privacy, and cost notes
+- **Safety:** Treat all LLM-generated code as untrusted user input. Never run it on your host machine without a sandbox.
+- **Cost:** Provisioning sandboxes dynamically can be expensive. Re-use containers when safe to do so.
+
+## Practice task
+Write a simple Python wrapper function that takes an LLM-generated JSON string, attempts to parse it, and if it fails, returns a cleanly formatted error message intended for the LLM to read and correct itself.

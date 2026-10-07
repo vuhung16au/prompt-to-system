@@ -12,7 +12,8 @@
     "astro": "astro",
     "check:links": "node scripts/check-links.mjs",
     "check:content": "node scripts/validate-content.mjs",
-    "test": "npm run check:links && npm run check:content"
+    "lint:md": "npx markdownlint-cli 'src/content/**/*.md'",
+    "test": "npm run check:links && npm run check:content && npm run lint:md"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

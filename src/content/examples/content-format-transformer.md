@@ -106,3 +106,8 @@ Attendees: Alice, Bob, Charlie
 ## Failure Modes & Risks
 - **Conversational Filler:** The model might wrap the output in Markdown code blocks or say "Here is your JSON:" which breaks automated parsers.
 - **Hallucination:** The model might try to fill in missing fields with made-up data.
+
+## Provenance
+- **Author:** Vu Hung
+- **Date:** October 2026
+- **Source:** Original example created for the Applied LLM Patterns learning path.

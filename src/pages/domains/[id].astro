@@ -1,6 +1,12 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntries, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import Container from '@/components/layout/Container.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Card from '@/components/ui/Card.astro';
+import Tag from '@/components/ui/Tag.astro';
+import ExampleCard from '@/components/domain/ExampleCard.astro';
+import LessonCard from '@/components/domain/LessonCard.astro';
 
 export async function getStaticPaths() {
   const domains = await getCollection('domains');
@@ -12,13 +18,122 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+
+// Resolve referenced examples and lessons
+const featuredExamples = entry.data.featured_examples ? await getEntries(entry.data.featured_examples) : [];
+const featuredLessons = entry.data.featured_lessons ? await getEntries(entry.data.featured_lessons) : [];
 ---
 
-<Layout title={entry.data.title}>
-  <h1>{entry.data.title}</h1>
-  <p>{entry.data.summary}</p>
-  
-  <article>
-    <Content />
-  </article>
+<Layout title={`${entry.data.title} | Domains`}>
+  <Container variant="wide">
+    <div class="py-8 md:py-12">
+      <div class="mb-8">
+        <Breadcrumbs items={[
+          { label: 'Home', href: import.meta.env.BASE_URL + '/' },
+          { label: 'Domains', href: import.meta.env.BASE_URL + '/domains' },
+          { label: entry.data.title }
+        ]} />
+      </div>
+
+      <header class="mb-12 max-w-3xl">
+        <div class="flex items-center gap-3 mb-4">
+          <Tag variant="accent">{entry.data.group}</Tag>
+          {entry.data.status === 'reviewed' && <Tag variant="success">Reviewed</Tag>}
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-text-heading mb-6 tracking-tight">{entry.data.title}</h1>
+        <p class="text-xl text-text-muted leading-relaxed">{entry.data.summary}</p>
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+        <div class="lg:col-span-2 space-y-12">
+          
+          <div class="prose prose-lg dark:prose-invert max-w-none text-text-body">
+            <Content />
+          </div>
+
+          {entry.data.outcomes && entry.data.outcomes.length > 0 && (
+            <div class="bg-surface-muted p-6 rounded-2xl border border-border-subtle">
+              <h2 class="text-xl font-bold text-text-heading mb-4">Domain Outcomes</h2>
+              <ul class="space-y-3">
+                {entry.data.outcomes.map(outcome => (
+                  <li class="flex items-start gap-3">
+                    <svg class="w-5 h-5 text-accent-primary flex-shrink-0 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span>{outcome}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {featuredExamples.length > 0 && (
+            <div>
+              <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-text-heading">Featured Examples</h2>
+                <a href={import.meta.env.BASE_URL + `/examples?domain=${entry.id}`} class="text-accent-primary text-sm font-medium hover:underline">View all</a>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {featuredExamples.map(example => (
+                  <ExampleCard
+                    title={example.data.title}
+                    summary={example.data.summary}
+                    href={import.meta.env.BASE_URL + `/examples/${example.id}`}
+                    type={example.data.kind}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {featuredLessons.length > 0 && (
+            <div>
+              <h2 class="text-2xl font-bold text-text-heading mb-6">Recommended Lessons</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {featuredLessons.map(lesson => (
+                  <LessonCard
+                    title={lesson.data.title}
+                    summary={lesson.data.summary}
+                    href={import.meta.env.BASE_URL + `/learn/${lesson.id}`}
+                    level={lesson.data.level}
+                    timeEstimate={lesson.data.duration_minutes ? `${lesson.data.duration_minutes} min` : undefined}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+        </div>
+
+        <div>
+          <div class="sticky top-24 space-y-8">
+            {entry.data.technologies && entry.data.technologies.length > 0 && (
+              <div class="bg-surface p-6 rounded-2xl border border-border-subtle shadow-sm">
+                <h3 class="text-sm font-bold text-text-heading uppercase tracking-wider mb-4">Technologies</h3>
+                <div class="flex flex-wrap gap-2">
+                  {entry.data.technologies.map(tech => (
+                    <span class="px-3 py-1 bg-surface-muted text-text-body text-sm rounded-md border border-border-subtle">{tech}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {entry.data.evidence_projects && entry.data.evidence_projects.length > 0 && (
+              <div class="bg-surface p-6 rounded-2xl border border-border-subtle shadow-sm">
+                <h3 class="text-sm font-bold text-text-heading uppercase tracking-wider mb-4">Evidence Projects</h3>
+                <ul class="space-y-3">
+                  {entry.data.evidence_projects.map(project => (
+                    <li>
+                      <span class="text-sm text-text-body flex items-start gap-2">
+                        <svg class="w-4 h-4 text-border-strong mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        {project}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
 </Layout>

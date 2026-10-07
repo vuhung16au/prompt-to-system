@@ -15,6 +15,7 @@ const REQUIRED_EXAMPLE_SECTIONS = [
 
 function validateContent(dir) {
   let hasErrors = false;
+  const ids = new Set();
   
   function walk(currentDir) {
     const files = fs.readdirSync(currentDir);
@@ -25,6 +26,17 @@ function validateContent(dir) {
       } else if (fullPath.endsWith('.md')) {
         const content = fs.readFileSync(fullPath, 'utf8');
         
+        // Check for duplicate IDs in frontmatter
+        const idMatch = content.match(/^id:\s*(.+)$/m);
+        if (idMatch) {
+          const id = idMatch[1].trim();
+          if (ids.has(id)) {
+             console.error(`[ERROR] Duplicate ID found: ${id} in ${fullPath}`);
+             hasErrors = true;
+          }
+          ids.add(id);
+        }
+
         // Editorial checks for examples
         if (fullPath.includes('/examples/')) {
           for (const section of REQUIRED_EXAMPLE_SECTIONS) {

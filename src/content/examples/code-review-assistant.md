@@ -63,3 +63,8 @@ A detailed, categorized review of the provided code, including specific line ref
 ## Failure Modes & Risks
 - **Nitpicking:** Focusing too much on stylistic choices that should be handled by a formatter (e.g., Prettier).
 - **Misunderstanding Context:** Suggesting changes that break the intended functionality due to lack of broader system knowledge.
+
+## Provenance
+- **Author:** Vu Hung
+- **Date:** October 2026
+- **Source:** Original example created for the Applied LLM Patterns learning path.

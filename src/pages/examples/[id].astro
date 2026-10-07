@@ -1,6 +1,10 @@
 ---
 import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import Container from '@/components/layout/Container.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Tag from '@/components/ui/Tag.astro';
+import MetadataList from '@/components/ui/MetadataList.astro';
 
 export async function getStaticPaths() {
   const examples = await getCollection('examples');
@@ -12,19 +16,72 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+
+// Format date
+const lastVerified = entry.data.last_verified ? new Date(entry.data.last_verified).toLocaleDateString('en-US', {
+  year: 'numeric', month: 'short', day: 'numeric'
+}) : undefined;
 ---
 
-<Layout title={entry.data.title}>
-  <h1>{entry.data.title}</h1>
-  <p>{entry.data.summary}</p>
-  
-  <div>
-    <a href={`https://github.com/vuhung16au/prompt-to-system/blob/main/src/content/examples/${entry.id}.md`} target="_blank" rel="noopener noreferrer">
-      View source on GitHub
-    </a>
-  </div>
+<Layout title={`${entry.data.title} | Examples`}>
+  <Container variant="wide">
+    <div class="py-8 md:py-12">
+      <div class="mb-8">
+        <Breadcrumbs items={[
+          { label: 'Home', href: import.meta.env.BASE_URL + '/' },
+          { label: 'Examples', href: import.meta.env.BASE_URL + '/examples' },
+          { label: entry.data.title }
+        ]} />
+      </div>
 
-  <article>
-    <Content />
-  </article>
+      <header class="mb-12 max-w-3xl">
+        <div class="flex flex-wrap items-center gap-3 mb-4">
+          <Tag variant="accent">{entry.data.kind}</Tag>
+          <Tag variant="default">{entry.data.level}</Tag>
+          {entry.data.status === 'reviewed' && <Tag variant="success">Reviewed</Tag>}
+        </div>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-text-heading mb-6 tracking-tight">{entry.data.title}</h1>
+        <p class="text-xl text-text-muted leading-relaxed mb-6">{entry.data.summary}</p>
+        
+        <MetadataList items={[
+          ...(entry.data.language ? [{ label: 'Language', value: entry.data.language }] : []),
+          ...(entry.data.technologies && entry.data.technologies.length > 0 ? [{ label: 'Technologies', value: entry.data.technologies }] : []),
+          ...(entry.data.domains && entry.data.domains.length > 0 ? [{ label: 'Domains', value: entry.data.domains }] : []),
+          ...(lastVerified ? [{ label: 'Last updated', value: lastVerified }] : [])
+        ]} class="border-y border-border-subtle py-4" />
+      </header>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+        <div class="lg:col-span-2">
+          <div class="prose prose-lg dark:prose-invert max-w-none text-text-body">
+            <Content />
+          </div>
+        </div>
+
+        <div>
+          <div class="sticky top-24 space-y-8">
+            {entry.data.tags && entry.data.tags.length > 0 && (
+              <div class="bg-surface p-6 rounded-2xl border border-border-subtle shadow-sm">
+                <h3 class="text-sm font-bold text-text-heading uppercase tracking-wider mb-4">Tags</h3>
+                <div class="flex flex-wrap gap-2">
+                  {entry.data.tags.map(tag => (
+                    <span class="px-3 py-1 bg-surface-muted text-text-body text-sm rounded-md border border-border-subtle">#{tag}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {entry.data.provenance && (
+              <div class="bg-surface-muted p-6 rounded-2xl border border-border-subtle">
+                <h3 class="text-sm font-bold text-text-heading uppercase tracking-wider mb-2">Provenance</h3>
+                <p class="text-sm text-text-body">
+                  This example is drawn from <strong>{entry.data.provenance.type}</strong>.
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  </Container>
 </Layout>

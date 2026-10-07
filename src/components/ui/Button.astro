@@ -1,0 +1,28 @@
+---
+export interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  class?: string;
+  type?: 'button' | 'submit' | 'reset';
+}
+const { href, variant = 'primary', type = 'button', class: className = '' } = Astro.props;
+
+const baseStyles = "inline-flex items-center justify-center px-4 py-2 text-sm font-medium rounded-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none";
+const variants = {
+  primary: "bg-accent-primary text-white hover:bg-accent-hover shadow-sm",
+  secondary: "bg-surface-muted text-text-heading hover:bg-border-subtle",
+  outline: "border border-border-strong text-text-body hover:bg-surface-muted",
+  ghost: "text-text-body hover:bg-surface-muted hover:text-text-heading"
+};
+
+const mergedClass = `${baseStyles} ${variants[variant]} ${className}`;
+---
+{href ? (
+  <a href={href} class={mergedClass}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={mergedClass}>
+    <slot />
+  </button>
+)}

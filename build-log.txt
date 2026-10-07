@@ -1,0 +1,74 @@
+
+> astro-tmp@0.0.1 build
+> astro build
+
+23:03:41 [content] Syncing content
+23:03:41 [content] Synced content
+23:03:41 [types] Generated 289ms
+23:03:41 [build] output: "static"
+23:03:41 [build] mode: "static"
+23:03:41 [build] directory: /Users/vuhung/00.Work/00.Workspace/prompt-to-system/dist/
+23:03:41 [build] Collecting build info...
+23:03:41 [build] ✓ Completed in 302ms.
+23:03:41 [build] Building static entrypoints...
+23:03:41 [vite] ✓ built in 237ms
+23:03:41 [vite] ✓ built in 11ms
+23:03:41 [build] Rearranging server assets...
+
+ generating static routes 
+23:03:41   ├─ /404.html (+8ms) 
+23:03:41   ├─ /domains/ai-ml-llm/index.html (+2ms) 
+23:03:41   ├─ /domains/content-writing/index.html (+1ms) 
+23:03:41   ├─ /domains/marketing/index.html (+1ms) 
+23:03:41   ├─ /domains/maths/index.html (+1ms) 
+23:03:41   ├─ /domains/productivity/index.html (+1ms) 
+23:03:41   ├─ /domains/python/index.html (+1ms) 
+23:03:41   ├─ /domains/research/index.html (+1ms) 
+23:03:41   ├─ /domains/sales/index.html (+1ms) 
+23:03:41   ├─ /domains/software-engineering/index.html (+1ms) 
+23:03:41   ├─ /domains/typescript/index.html (+1ms) 
+23:03:41   ├─ /domains/writing/index.html (+1ms) 
+23:03:41   ├─ /domains/index.html (+1ms) 
+23:03:41   ├─ /examples/code-review-assistant/index.html (+1ms) 
+23:03:41   ├─ /examples/content-format-transformer/index.html (+0ms) 
+23:03:41   ├─ /examples/data-analysis-summary/index.html (+1ms) 
+23:03:41   ├─ /examples/example-1/index.html (+0ms) 
+23:03:41   ├─ /examples/example-10/index.html (+0ms) 
+23:03:41   ├─ /examples/example-11/index.html (+0ms) 
+23:03:41   ├─ /examples/example-12/index.html (+0ms) 
+23:03:41   ├─ /examples/example-13/index.html (+0ms) 
+23:03:41   ├─ /examples/example-14/index.html (+0ms) 
+23:03:41   ├─ /examples/example-15/index.html (+1ms) 
+23:03:41   ├─ /examples/example-16/index.html (+1ms) 
+23:03:41   ├─ /examples/example-17/index.html (+1ms) 
+23:03:41   ├─ /examples/example-18/index.html (+0ms) 
+23:03:41   ├─ /examples/example-19/index.html (+0ms) 
+23:03:41   ├─ /examples/example-2/index.html (+0ms) 
+23:03:41   ├─ /examples/example-20/index.html (+0ms) 
+23:03:41   ├─ /examples/example-3/index.html (+0ms) 
+23:03:41   ├─ /examples/example-4/index.html (+0ms) 
+23:03:41   ├─ /examples/example-5/index.html (+1ms) 
+23:03:41   ├─ /examples/example-6/index.html (+1ms) 
+23:03:41   ├─ /examples/example-7/index.html (+0ms) 
+23:03:41   ├─ /examples/example-8/index.html (+0ms) 
+23:03:41   ├─ /examples/example-9/index.html (+0ms) 
+23:03:41   ├─ /examples/root-cause-debugging/index.html (+1ms) 
+23:03:41   ├─ /examples/structured-seo-outliner/index.html (+1ms) 
+23:03:41   ├─ /examples/index.html (+1ms) 
+23:03:41   ├─ /glossary/index.html (+1ms) 
+23:03:41   ├─ /learn/context-basics/index.html (+1ms) 
+23:03:41   ├─ /learn/context-engineering/index.html (+0ms) 
+23:03:41   ├─ /learn/evaluation-reliability/index.html (+1ms) 
+23:03:41   ├─ /learn/harness-engineering/index.html (+1ms) 
+23:03:41   ├─ /learn/loop-engineering/index.html (+0ms) 
+23:03:41   ├─ /learn/prompt-engineering/index.html (+0ms) 
+23:03:41   ├─ /learn/workflow-engineering/index.html (+1ms) 
+23:03:41   ├─ /learn/index.html (+1ms) 
+23:03:41   ├─ /search-index.json (+1ms) 
+23:03:41   ├─ /index.html (+1ms) 
+23:03:41 ✓ Completed in 56ms.
+
+23:03:41 [build] ✓ Completed in 322ms.
+23:03:41 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+23:03:41 [build] 49 page(s) built in 639ms
+23:03:41 [build] Complete!

@@ -4,64 +4,83 @@ title: Evaluation and Reliability
 summary: Measuring success systematically across all layers.
 level: advanced
 last_verified: 2026-10-05
+order: 6
+stage: 6
+duration_minutes: 30
+outcomes:
+  - Build golden datasets for LLM evaluation.
+  - Implement LLM-as-a-judge pipelines.
+  - Integrate evaluations into CI/CD.
+prerequisites:
+  - workflow-engineering
+related_lessons: []
+related_examples:
+  - code-review-assistant
+glossary_terms:
+  - golden-dataset
+  - llm-as-a-judge
+  - hallucination-rate
+status: reviewed
+sources:
+  - "Evaluating LLMs in Production"
 ---
 
-## Key Takeaway
-You cannot improve what you cannot measure. In LLM systems, non-deterministic outputs mean that traditional unit tests are insufficient. Instead, you need a robust, multi-layered evaluation strategy using golden datasets, heuristic checks, and LLM-as-a-judge techniques.
+## Key takeaway
+You cannot improve what you cannot measure. Because LLM outputs are non-deterministic, traditional unit tests must be replaced or augmented with heuristic checks, golden datasets, and LLM-as-a-judge evaluations.
 
-## Explanation
-Evaluation and reliability represent the capstone of a mature AI system. It applies across all layers—from evaluating a single prompt to assessing the entire multi-agent workflow. It answers: *How well is the system performing, and how can we trust it to remain reliable over time?*
+## Mental model or small diagram
+```mermaid
+flowchart LR
+    A[Inputs] --> B[LLM System]
+    B --> C[Outputs]
+    C --> D{Evaluator LLM / Scripts}
+    D -->|Score| E[Metrics Dashboard]
+    F[Golden Dataset] --> D
+```
 
-Because LLMs are probabilistic, relying on manual "vibe checks" does not scale. Systematic evaluation involves:
+## When to use and when not to use
+**When to use:**
+- Always, for production systems.
+- When optimizing costs or latency (e.g., swapping to a smaller model).
+- During RAG development to isolate retrieval vs. generation failures.
 
-1. **Golden Datasets:** A curated set of inputs and expected outputs (or rubrics) that represent the edge cases and common scenarios of your application.
-2. **Automated Metrics:** Using heuristics (JSON schema compliance, exact string matching) alongside "LLM-as-a-judge" (using a highly capable model to score outputs based on a strict rubric).
-3. **Observability:** Logging interactions in production to trace errors, latency, and cost, allowing you to continually update your golden datasets.
-4. **Regression Testing:** Automatically running evaluations every time a prompt, system instruction, or model version changes to ensure performance doesn't degrade.
+**When not to use:**
+- Casual experimentation or personal prototypes.
+- Simple, deterministic tasks that can be perfectly validated with regex.
 
-## When to use it
-- **Always, for production systems:** Any system deployed to users requires automated evaluation to ensure safety and quality.
-- **When optimizing costs or latency:** Before switching to a cheaper or smaller model, you must evaluate if the quality remains acceptable.
-- **During RAG development:** To isolate whether failures are caused by bad retrieval or bad generation.
+## Method or procedure
+1. **Golden Datasets:** Curate a set of diverse, challenging inputs and expected outputs.
+2. **Automated Metrics:** Use heuristics (schema compliance, exact matches).
+3. **LLM-as-a-judge:** Use a highly capable model to score outputs based on a strict rubric.
+4. **Regression Testing:** Run your evaluation suite automatically whenever prompts or models change.
 
-## When NOT to use it
-- **Casual experimentation:** When you are just exploring what an LLM can do or building a quick prototype for personal use.
-- **Simple, deterministic tasks:** If you are using an LLM for something that can be evaluated with a simple regex, you don't need a complex LLM-as-a-judge pipeline.
-
-## Small Example
-Imagine a customer service bot. Instead of just deploying it, you build an evaluation pipeline.
-
+## Worked example
+**Process (LLM-as-a-judge):**
 ```python
-# Pseudo-code for an LLM-as-a-judge evaluation
 def evaluate_response(user_query, bot_response, golden_context):
     eval_prompt = f"""
-    You are an expert evaluator. Grade the bot's response on a scale of 1-5 based on:
-    1. Politeness
-    2. Accuracy (based strictly on the provided golden context)
-    
+    Grade the bot's response on a scale of 1-5 based on Accuracy.
     User Query: {user_query}
     Bot Response: {bot_response}
     Context: {golden_context}
-    
-    Return ONLY a JSON object with 'politeness_score', 'accuracy_score', and 'reasoning'.
+    Return JSON with 'accuracy_score' and 'reasoning'.
     """
-    
-    evaluation = call_evaluator_llm(eval_prompt)
-    return evaluation
+    return call_evaluator_llm(eval_prompt)
 ```
+**Output:** A structured, trackable score that can block a bad deployment if the average falls below a threshold.
 
-You run this function across 500 historical customer queries every time you change your bot's system prompt or underlying model to ensure no regressions occur.
+## Failure modes and mitigations
+- **Over-indexing on a single metric:** E.g., focusing only on helpfulness and ignoring tone. *Mitigation: Use multi-dimensional rubrics.*
+- **Static golden datasets:** User behavior drifts over time. *Mitigation: Continuously sample production logs to add new edge cases to your evaluation set.*
 
-## Common Failure Modes
-- **Over-indexing on a single metric:** For example, focusing entirely on "helpfulness" while ignoring "hallucinations" or tone.
-- **Flawed evaluation rubrics:** If your LLM judge isn't given clear, unambiguous criteria, its grading will be as noisy as the system it is evaluating.
-- **Static golden datasets:** User behavior drifts over time. If you don't continually add real production failures back into your evaluation set, your tests become obsolete.
-- **Evaluating end-to-end only:** If an answer is wrong in a RAG system, is it because the prompt failed, or because the search didn't find the right document? You must evaluate components in isolation.
+## Evaluation checklist or rubric
+- [ ] **Baseline:** Have you manually graded at least 50 inputs to set a baseline?
+- [ ] **Alignment:** Do the LLM judge's scores match human intuition?
+- [ ] **Isolation:** Are you evaluating retrieval separately from generation?
 
-## How to Evaluate
-- **Baseline construction:** Start with 50-100 diverse, challenging inputs. Manually grade the outputs to establish a baseline.
-- **LLM-as-a-judge alignment:** Compare your LLM evaluator's scores with your human grades. Do the automated metrics correlate with human judgment? If not, refine the evaluator's prompt rubric.
-- **Continuous Integration (CI):** Integrate your evaluation suite into your CI/CD pipeline. Block deployments if the evaluation score drops below your established threshold.
+## Safety, privacy, and cost notes
+- **Privacy:** Ensure golden datasets do not contain sensitive PII unless strictly necessary and secured.
+- **Cost:** Running an LLM judge on every production log is expensive. Sample logs (e.g., 5%) for evaluation, or use smaller models for the judge.
 
-## Related Examples
-- [Code Review Assistant](/prompt-to-system/examples/code-review-assistant)
+## Practice task
+Write an evaluation prompt for an LLM judge to determine if a summarization bot hallucinated any facts not present in the original source document.

@@ -1,0 +1,25 @@
+---
+import Card from '../ui/Card.astro';
+
+export interface Props {
+  title: string;
+  summary: string;
+  href: string;
+  exampleCount?: number;
+}
+const { title, summary, href, exampleCount } = Astro.props;
+---
+<Card href={href} class="flex flex-col h-full items-center text-center p-8">
+  <div class="w-12 h-12 bg-accent-muted text-accent-primary rounded-xl flex items-center justify-center mb-4">
+    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+    </svg>
+  </div>
+  <h3 class="text-lg font-bold text-text-heading mb-2">{title}</h3>
+  <p class="text-sm text-text-muted mb-4">{summary}</p>
+  {exampleCount !== undefined && (
+    <span class="text-xs font-bold text-accent-primary mt-auto">
+      {exampleCount} {exampleCount === 1 ? 'example' : 'examples'}
+    </span>
+  )}
+</Card>

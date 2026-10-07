@@ -1,57 +1,39 @@
 ---
 ---
-<div class="search-widget">
-  <input type="search" id="site-search" placeholder="Search examples and lessons..." />
-  <ul id="search-results" class="search-results" style="display: none;"></ul>
+<div class="search-widget relative w-full sm:w-64">
+  <div class="relative group">
+    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-text-muted group-focus-within:text-accent-primary transition-colors">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+    </div>
+    <input 
+      type="search" 
+      id="site-search" 
+      class="block w-full p-2 pl-9 text-sm text-text-body bg-transparent border-none focus:ring-0 outline-none placeholder-text-muted" 
+      placeholder="Search..." 
+      autocomplete="off"
+      aria-label="Search site content"
+    />
+    <div class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+      <kbd class="hidden sm:inline-block px-2 py-0.5 text-[10px] font-medium text-text-muted bg-surface border border-border-strong rounded-md">⌘K</kbd>
+    </div>
+  </div>
+  
+  <div id="search-backdrop" class="fixed inset-0 bg-surface-base/80 backdrop-blur-sm z-40 hidden" aria-hidden="true"></div>
+  
+  <div id="search-results-container" class="absolute top-full left-0 right-0 sm:right-auto sm:-left-4 sm:w-96 mt-2 bg-surface border border-border-strong rounded-xl shadow-xl z-50 hidden max-h-[70vh] overflow-hidden flex flex-col">
+    <div class="p-3 text-xs font-bold text-text-heading uppercase tracking-wider border-b border-border-subtle bg-surface-muted">
+      Results
+    </div>
+    <ul id="search-results" class="overflow-y-auto flex-grow p-2 m-0 list-none"></ul>
+  </div>
 </div>
-
-<style>
-  .search-widget {
-    position: relative;
-    display: inline-block;
-    margin-left: 1rem;
-  }
-  .search-results {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    min-width: 300px;
-    background: white;
-    border: 1px solid #ccc;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    max-height: 400px;
-    overflow-y: auto;
-    z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  }
-  .search-results li {
-    padding: 0.5rem;
-    border-bottom: 1px solid #eee;
-  }
-  .search-results li:last-child {
-    border-bottom: none;
-  }
-  .search-results li a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-  }
-  .search-results li a:hover {
-    background: #f9f9f9;
-  }
-  .search-results li .type {
-    font-size: 0.8em;
-    color: #666;
-    text-transform: uppercase;
-  }
-</style>
 
 <script>
   let searchIndex: any[] | null = null;
   const searchInput = document.getElementById('site-search') as HTMLInputElement;
-  const resultsContainer = document.getElementById('search-results');
+  const resultsContainer = document.getElementById('search-results-container');
+  const resultsList = document.getElementById('search-results');
+  const backdrop = document.getElementById('search-backdrop');
 
   async function fetchIndex() {
     if (searchIndex) return;
@@ -63,12 +45,25 @@
     }
   }
 
-  searchInput?.addEventListener('focus', fetchIndex);
+  function openSearch() {
+    if (resultsContainer) resultsContainer.classList.remove('hidden');
+    if (backdrop) backdrop.classList.remove('hidden');
+  }
+
+  function closeSearch() {
+    if (resultsContainer) resultsContainer.classList.add('hidden');
+    if (backdrop) backdrop.classList.add('hidden');
+  }
+
+  searchInput?.addEventListener('focus', () => {
+    fetchIndex();
+    if (searchInput.value.trim().length > 0) openSearch();
+  });
   
   searchInput?.addEventListener('input', (e) => {
     const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
-    if (!query || !resultsContainer) {
-      if (resultsContainer) resultsContainer.style.display = 'none';
+    if (!query || !resultsList) {
+      closeSearch();
       return;
     }
     
@@ -77,29 +72,49 @@
     const results = searchIndex.filter(item => 
       item.title.toLowerCase().includes(query) || 
       item.summary.toLowerCase().includes(query)
-    ).slice(0, 10);
+    ).slice(0, 8);
 
     if (results.length > 0) {
-      resultsContainer.innerHTML = results.map(item => `
+      resultsList.innerHTML = results.map(item => `
         <li>
-          <a href="${item.url}">
-            <div><strong>${item.title}</strong></div>
-            <div class="type">${item.type}</div>
+          <a href="${item.url}" class="block p-3 rounded-lg hover:bg-surface-muted transition-colors border border-transparent hover:border-border-subtle group">
+            <div class="flex items-center justify-between mb-1">
+              <strong class="text-sm text-text-heading group-hover:text-accent-primary transition-colors">${item.title}</strong>
+              <span class="text-[10px] uppercase tracking-wider font-bold bg-surface-muted border border-border-subtle text-text-muted px-1.5 py-0.5 rounded">${item.type}</span>
+            </div>
+            <div class="text-xs text-text-muted line-clamp-1">${item.summary}</div>
           </a>
         </li>
       `).join('');
-      resultsContainer.style.display = 'block';
+      openSearch();
     } else {
-      resultsContainer.innerHTML = '<li>No results found</li>';
-      resultsContainer.style.display = 'block';
+      resultsList.innerHTML = `
+        <li class="p-8 text-center text-text-muted">
+          <svg class="w-8 h-8 mx-auto mb-2 text-border-strong" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span class="text-sm">No results found for "${query}"</span>
+        </li>`;
+      openSearch();
     }
   });
 
+  // Close on outside click
   document.addEventListener('click', (e) => {
     if (searchInput && resultsContainer) {
       if (!searchInput.contains(e.target as Node) && !resultsContainer.contains(e.target as Node)) {
-        resultsContainer.style.display = 'none';
+        closeSearch();
       }
+    }
+  });
+
+  // Keyboard shortcut cmd+k
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      searchInput?.focus();
+    }
+    if (e.key === 'Escape') {
+      closeSearch();
+      searchInput?.blur();
     }
   });
 </script>

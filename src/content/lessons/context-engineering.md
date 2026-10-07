@@ -1,83 +1,86 @@
 ---
 id: context-engineering
-title: Context Engineering
-summary: Mastering the art of providing the right information at the right time to maximize LLM performance.
+title: Applied Context Engineering
+summary: Selection, retrieval, compression, ordering, and managing the context lifecycle.
 level: intermediate
 last_verified: 2026-10-05
+order: 2
+stage: 2
+duration_minutes: 20
+outcomes:
+  - Implement techniques for dynamic context injection.
+  - Compress and filter context to avoid token bloat.
+  - Manage the lifecycle of context in multi-step systems.
+prerequisites:
+  - context-basics
+related_lessons:
+  - workflow-engineering
+related_examples:
+  - data-analysis-summary
+glossary_terms:
+  - rag
+  - semantic-search
+  - context-lifecycle
+status: reviewed
+sources:
+  - "Advanced RAG Techniques"
 ---
 
-## Key Takeaway
+## Key takeaway
 An AI model is only as smart as the context you provide. Structuring, filtering, and injecting the right information at the right time is often more impactful than tweaking the prompt instructions themselves.
 
-## The Core Concept
-Context engineering is the systematic practice of assembling the optimal set of background information, constraints, and data for an LLM to process a request successfully. It answers the critical question: **What exactly does the model need to know and see right now?**
-
-While Prompt Engineering focuses on *how* to ask (the instructions), Context Engineering focuses on *what* to provide (the data). 
-
-## Core Techniques
-
-### 1. Retrieval-Augmented Generation (RAG)
-The most common form of context engineering. Instead of relying on the model's internal memory, you search an external database for relevant documents and inject them into the prompt.
-- **Example:** Searching a vector database for internal HR policies before asking the model to answer an employee's question about vacation days.
-
-### 2. Context Window Management
-Assembling context isn't just about adding data; it's about managing limits.
-- **Truncation:** Cutting off old chat history to fit new information.
-- **Summarization:** Condensing previous interactions or large documents before feeding them into the current prompt.
-- **Prioritization:** Placing the most critical instructions at the very beginning or very end of the prompt (leveraging the "Lost in the Middle" phenomenon).
-
-### 3. Dynamic Context Injection
-Automatically injecting relevant system state or user variables into the prompt at runtime.
-- **Example:** Injecting the current date and time, the user's OS, or active workspace paths into the system prompt.
-
-### 4. Few-Shot Examples (In-Context Learning)
-Providing examples of inputs and desired outputs within the prompt to set a pattern for the model to follow.
-- **Example:** Providing 3 examples of extracting JSON from raw text before asking the model to process the 4th text.
-
-## When to use it
-- **Enterprise Applications:** When the model needs to answer questions based on proprietary, private, or real-time data.
-- **Complex Workflows:** Providing few-shot examples to enforce strict output formats (e.g., JSON schemas or specific code syntax).
-- **Agentic Systems:** Injecting the current environment state, available tools, and previous tool outputs so the agent knows what to do next.
-
-## When NOT to use it
-- **General Knowledge Tasks:** When standard, generalized knowledge is sufficient. Over-stuffing context here wastes tokens and increases latency.
-- **Creative Writing:** When you want the model to generate novel ideas, overly constrained context might limit its creativity.
-
-## Practical Examples
-
-### Basic RAG Injection
-```text
-You are an expert financial analyst. Answer the user's question using ONLY the provided Q3 Earnings Report. If the answer is not in the report, say "I don't know."
-
-<q3_earnings_report>
-Revenue: $2.4B (up 12% YoY)
-Operating Margin: 18%
-Headcount: 4,500
-</q3_earnings_report>
-
-Question: What was the revenue growth year-over-year?
+## Mental model or small diagram
+```mermaid
+flowchart LR
+    A[Raw Data] --> B[Filter/Compress]
+    B --> C[Order & Assemble]
+    C --> D[Context Injection]
+    D --> E[LLM Generation]
 ```
 
-### Dynamic State Injection (Agentic Context)
-```text
+## When to use and when not to use
+**When to use:**
+- **Enterprise Applications:** When the model needs to answer questions based on proprietary, private, or real-time data.
+- **Agentic Systems:** Injecting the current environment state, available tools, and previous tool outputs.
+
+**When not to use:**
+- **General Knowledge Tasks:** When standard, generalized knowledge is sufficient. Over-stuffing context here wastes tokens.
+
+## Method or procedure
+1. **Selection & Retrieval (RAG):** Search an external database for relevant documents based on the user's query.
+2. **Compression & Filtering:** Summarize previous interactions or large documents. Condense the retrieved data so only the most relevant snippets remain.
+3. **Ordering:** Place the most critical retrieved documents near the end, right before the task instruction.
+4. **Context Lifecycle Management:** In multi-turn systems, actively truncate or summarize old context to make room for new data without exceeding limits.
+
+## Worked example
+**Input:** A user asks "Create a new React button component here."
+**Process (Dynamic Context Injection):**
+Instead of just sending the user prompt, assemble the environment state:
+```xml
 <system_state>
 Current User: vuhung
 Current Directory: /src/components/
 Local Time: 2026-10-05T14:30:00Z
+Existing Files: Button.css, index.js
 </system_state>
-
+<task>
 User Request: "Create a new React button component here."
+</task>
 ```
+**Output:** The LLM generates the component knowing exactly where it goes and what CSS might already exist.
 
-## Common Failure Modes
-- **Context Bloat / Overflow:** Stuffing too much information into the prompt, leading to increased costs, slower response times, and token limit errors.
-- **Lost in the Middle:** Models tend to remember information at the beginning and end of a long context window, but forget or ignore information in the middle.
-- **Distraction / Dilution:** Including irrelevant documents that confuse the model or cause it to hallucinate connections that don't exist.
+## Failure modes and mitigations
+- **Context Bloat / Overflow:** Stuffing too much information into the prompt. *Mitigation: Aggressively filter retrieved documents and implement summarization.*
+- **Distraction / Dilution:** Including irrelevant documents that confuse the model. *Mitigation: Improve your retrieval precision (e.g., better vector search algorithms).*
 
-## How to Evaluate
-- **Groundedness:** Does the model stick strictly to the provided facts without hallucinating external information?
-- **Retrieval Metrics:** (For RAG) Are you fetching the *correct* context to begin with? Measure Recall and Precision of your retrieval step.
-- **Instruction Adherence:** Can the model still follow its core instructions despite a massive payload of context?
+## Evaluation checklist or rubric
+- [ ] **Groundedness:** Does the model stick strictly to the provided facts without hallucinating external information?
+- [ ] **Retrieval Metrics:** Are you fetching the correct context? Measure Recall and Precision.
+- [ ] **Instruction Adherence:** Can the model still follow core instructions despite a massive payload of context?
 
-## Related Examples
-- [Data Analysis Summary Pattern](/prompt-to-system/examples/data-analysis-summary)
+## Safety, privacy, and cost notes
+- **Data Leakage:** Never retrieve and inject sensitive PII into the context window unless the user explicitly has permission to see it.
+- **Cost Management:** Dynamic context can quickly balloon token usage. Set strict caps on the number of retrieved documents.
+
+## Practice task
+Write a script that takes a long chat history, summarizes the first 10 messages into a single paragraph, and appends the 3 most recent messages verbatim to create a compressed context payload for the next LLM call.

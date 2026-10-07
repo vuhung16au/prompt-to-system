@@ -1,24 +1,121 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { getCollection, getEntries, render } from 'astro:content';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Container from '@/components/layout/Container.astro';
+import Prose from '@/components/layout/Prose.astro';
 import Layout from '../../layouts/Layout.astro';
+import OutcomeList from '@/components/domain/OutcomeList.astro';
+import NextPrevious from '@/components/domain/NextPrevious.astro';
+import MetadataList from '@/components/ui/MetadataList.astro';
 
 export async function getStaticPaths() {
   const lessons = await getCollection('lessons');
-  return lessons.map(entry => ({
-    params: { id: entry.id },
-    props: { entry },
-  }));
+  const sortedLessons = [...lessons].sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+  
+  return sortedLessons.map((entry, index) => {
+    const previous = index > 0 ? sortedLessons[index - 1] : undefined;
+    const next = index < sortedLessons.length - 1 ? sortedLessons[index + 1] : undefined;
+    return {
+      params: { id: entry.id },
+      props: { entry, previous, next },
+    };
+  });
 }
 
-const { entry } = Astro.props;
+const { entry, previous, next } = Astro.props;
 const { Content } = await render(entry);
+
+const lastVerified = entry.data.last_verified ? new Date(entry.data.last_verified).toLocaleDateString('en-US', {
+  year: 'numeric', month: 'short', day: 'numeric'
+}) : undefined;
+
+const glossaryTerms = entry.data.glossary_terms ? await getEntries(entry.data.glossary_terms) : [];
+const relatedExamples = entry.data.related_examples ? await getEntries(entry.data.related_examples) : [];
 ---
 
-<Layout title={entry.data.title}>
-  <h1>{entry.data.title}</h1>
-  <p>{entry.data.summary}</p>
+<Layout title={`${entry.data.title} | Learn`}>
+  <Container variant="wide">
+    
+    <div class="mb-8 mt-4">
+      <Breadcrumbs items={[
+        { label: 'Home', href: import.meta.env.BASE_URL + '/' },
+        { label: 'Learn', href: import.meta.env.BASE_URL + '/learn' },
+        { label: entry.data.title }
+      ]} />
+    </div>
+    
+    <header class="mb-10 max-w-3xl">
+      <h1 class="text-3xl md:text-5xl font-extrabold text-text-heading mb-4 tracking-tight leading-tight">{entry.data.title}</h1>
+      <p class="text-xl text-text-muted leading-relaxed mb-6">{entry.data.summary}</p>
+      
+      <MetadataList items={[
+        { label: 'Level', value: entry.data.level },
+        ...(entry.data.duration_minutes ? [{ label: 'Duration', value: `${entry.data.duration_minutes} min` }] : []),
+        ...(lastVerified ? [{ label: 'Last updated', value: lastVerified }] : [])
+      ]} class="border-y border-border-subtle py-4 mt-6" />
+    </header>
 
-  <article>
-    <Content />
-  </article>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+      <div class="lg:col-span-2">
+        {entry.data.outcomes && entry.data.outcomes.length > 0 && (
+          <div class="mb-10">
+            <OutcomeList outcomes={entry.data.outcomes} />
+          </div>
+        )}
+
+        <Prose class="mb-12">
+          <article>
+            <Content />
+          </article>
+        </Prose>
+        
+        <NextPrevious 
+          previous={previous ? { title: previous.data.title, href: import.meta.env.BASE_URL + `/learn/${previous.id}` } : undefined}
+          next={next ? { title: next.data.title, href: import.meta.env.BASE_URL + `/learn/${next.id}` } : undefined}
+        />
+      </div>
+
+      <div>
+        <div class="sticky top-24 space-y-8">
+          {glossaryTerms.length > 0 && (
+            <div class="bg-surface-muted p-6 rounded-2xl border border-border-subtle">
+              <h3 class="text-sm font-bold text-text-heading uppercase tracking-wider mb-4 flex items-center gap-2">
+                <svg class="w-4 h-4 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                Key Terms
+              </h3>
+              <ul class="space-y-4">
+                {glossaryTerms.map(term => (
+                  <li class="group">
+                    <a href={import.meta.env.BASE_URL + `/glossary#${term.id}`} class="block">
+                      <h4 class="font-bold text-sm text-text-heading group-hover:text-accent-primary transition-colors">{term.data.title}</h4>
+                      <p class="text-xs text-text-muted mt-1">{term.data.summary}</p>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {relatedExamples.length > 0 && (
+            <div class="bg-surface p-6 rounded-2xl border border-border-subtle shadow-sm">
+              <h3 class="text-sm font-bold text-text-heading uppercase tracking-wider mb-4 flex items-center gap-2">
+                <svg class="w-4 h-4 text-accent-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                Related Examples
+              </h3>
+              <ul class="space-y-3">
+                {relatedExamples.map(example => (
+                  <li>
+                    <a href={import.meta.env.BASE_URL + `/examples/${example.id}`} class="text-sm font-medium text-text-body hover:text-accent-primary hover:underline block line-clamp-2">
+                      {example.data.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+      
+  </Container>
 </Layout>
