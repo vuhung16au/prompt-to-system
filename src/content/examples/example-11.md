@@ -1,56 +1,74 @@
 ---
 id: example-11
-title: Marketing Example 3
-summary: A practical example for marketing.
-kind: prompt
-level: intermediate
+title: Threat Model and Permission Policy for a Tool-Using Agent
+summary: A comprehensive security threat model and capability policy for an agent that modifies code repositories.
+kind: threat model
+level: advanced
 domains:
-  - marketing
+  - software-engineering
 tags:
-  - demo
-  - marketing
-status: draft
+  - security
+  - threat-modeling
+  - permissions
+status: reviewed
 language: en
-last_verified: 2026-10-05
+last_verified: 2026-10-08
+evidence_produced: Data-flow diagram, trust boundaries, abuse cases, capability policy, approval matrix, and negative tests.
+estimated_time_minutes: 180
 ---
 
 ## Purpose
 
-Demonstrate a reliable LLM pattern in Marketing.
+To systematically identify, mitigate, and test security risks associated with deploying an autonomous agent that has write access to production systems or code repositories.
 
-## When to Use
+## Prerequisites
 
-When automating or accelerating Marketing tasks.
+- Understanding of STRIDE threat modeling.
+- Familiarity with least privilege and capability-based security.
+- Experience with prompt injection and jailbreak mitigation.
 
-## When NOT to Use
+## Scenario
 
-For highly deterministic or sensitive operations without human oversight.
+A developer productivity agent is tasked with reading GitHub issues, cloning a repository, making code changes, and proposing a pull request. We need to ensure the agent cannot be manipulated via malicious issue descriptions (prompt injection) to exfiltrate secrets or introduce backdoors.
 
-## Inputs
+## Input
 
-- `input_data`: The source information.
+System architecture, API specifications, and agent system prompts.
 
-## Prompt / Procedure
+## Artifact: Threat Model and Capability Policy
 
-```text
-Analyze the following input_data according to Marketing best practices and provide a structured output.
-```
+1. **Data-Flow Diagram**: Visualizes the flow of data from untrusted sources (GitHub issues) to the LLM and out to the repository.
+2. **Trust Boundaries**: Explicitly separates the LLM execution environment from the repository secrets.
+3. **Capability Policy**: The agent is granted a narrow scoped token that can *only* create branches and open PRs, but *cannot* push to `main` or read CI secrets.
+4. **Approval Matrix**: Defines which actions require human-in-the-loop (HITL) approval (e.g., merging a PR).
 
-## Expected Output
+## Output
 
-A well-formatted response addressing the core task.
+A documented threat model, a hardened permission configuration, and a suite of negative tests.
 
 ## Evaluation Rubric
 
-- Accuracy
-- Formatting
-- Tone
+- **Blocked Privilege Escalation**: Negative tests must prove the agent cannot elevate its permissions.
+- **Prompt-Injection Containment**: If the agent is injected, the blast radius must be contained by the capability policy.
+- **Audit Completeness**: Every tool call and state change must be immutably logged.
+- **Safe Failure**: If a security check fails, the agent must halt and alert, rather than continuing execution.
 
-## Failure Modes & Risks
+## Failure Cases and Recovery
 
-- Hallucination
-- Missing edge cases
+- **Token Exfiltration**: If a token is somehow leaked, its blast radius is limited by scope, and it is automatically rotated on a short TTL.
+
+## Security and Privacy
+
+- The agent operates in an isolated sandbox with no network access outside of explicitly allowlisted endpoints.
+
+## Latency and Cost
+
+- Sandboxing and capability checks add minor execution latency but are non-negotiable for system integrity.
 
 ## Provenance
 
-Original example created for the Applied LLM Patterns library.
+Author: Vu Hung. Adapted from secure deployment architectures for coding agents.
+
+## Next Lesson
+
+- Capability Security and Sandboxing.

@@ -39,3 +39,12 @@ Please see our [QUICKSTART.md](./QUICKSTART.md) guide for instructions on how to
 ---
 
 **License:** Please refer to the LICENSE file for usage rights. Content adapted from external sources is documented in `sources/attribution.md`.
+
+## Licensing
+
+| Component | License |
+|---|---|
+| **Educational text & diagrams** | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) |
+| **Source code & software examples** | [MIT License](LICENSE) |
+
+Third-party quotations, trademarks, code, datasets, and linked resources remain subject to their own licenses and terms. AI assistance was used for drafting and implementation, under Vu Hung's editorial direction.

@@ -7,22 +7,22 @@ last_verified: 2026-10-05
 order: 2
 stage: 2
 duration_minutes: 20
-outcomes:
+outcomes: 
   - Implement techniques for dynamic context injection.
   - Compress and filter context to avoid token bloat.
   - Manage the lifecycle of context in multi-step systems.
-prerequisites:
+prerequisites: 
   - context-basics
-related_lessons:
+related_lessons: 
   - workflow-engineering
-related_examples:
+related_examples: 
   - data-analysis-summary
-glossary_terms:
+glossary_terms: 
   - rag
   - semantic-search
   - context-lifecycle
 status: reviewed
-sources:
+sources: 
   - "Advanced RAG Techniques"
 ---
 

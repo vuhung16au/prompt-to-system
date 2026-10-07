@@ -1,7 +1,7 @@
 import { defineCollection, z, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 
-const artifactTypes = ['lesson', 'prompt', 'pattern', 'playbook', 'agent workflow', 'harness blueprint', 'loop blueprint', 'checklist', 'rubric', 'case study', 'architecture decision record', 'implementation lab', 'benchmark report', 'evaluation dataset specification', 'threat model', 'incident postmortem', 'operational runbook', 'protocol blueprint'] as const;
+const artifactTypes = ['lesson', 'prompt', 'pattern', 'playbook', 'agent workflow', 'harness blueprint', 'loop blueprint', 'checklist', 'rubric', 'case study', 'architecture decision record', 'implementation lab', 'benchmark report', 'evaluation dataset specification', 'threat model', 'incident postmortem', 'operational runbook', 'protocol blueprint', 'template', 'benchmark'] as const;
 const levels = ['beginner', 'intermediate', 'advanced'] as const;
 const statuses = ['reviewed', 'draft'] as const;
 
@@ -20,6 +20,9 @@ const examplesCollection = defineCollection({
     language: z.string().default('en'),
     last_verified: z.date(),
     featured: z.boolean().default(false),
+    evidence_produced: z.string().optional(),
+    estimated_time_minutes: z.number().optional(),
+    related_lessons: z.array(reference('lessons')).optional(),
     provenance: z.object({
       type: z.string()
     }).optional()
@@ -41,7 +44,7 @@ const lessonsCollection = defineCollection({
     stage: z.number().optional(),
     duration_minutes: z.number().optional(),
     outcomes: z.array(z.string()).optional(),
-    prerequisites: z.array(reference('lessons')).optional(),
+    prerequisites: z.array(z.string()).optional(),
     related_lessons: z.array(reference('lessons')).optional(),
     related_examples: z.array(reference('examples')).optional(),
     glossary_terms: z.array(reference('glossary')).optional(),

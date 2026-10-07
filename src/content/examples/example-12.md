@@ -1,56 +1,75 @@
 ---
 id: example-12
-title: Marketing Example 4
-summary: A practical example for marketing.
-kind: prompt
-level: intermediate
+title: Model Router with a Cost–Quality Budget
+summary: A routing policy and evaluation matrix to dynamically route tasks across model tiers based on risk, complexity, and budget.
+kind: pattern
+level: advanced
 domains:
-  - marketing
+  - software-engineering
 tags:
-  - demo
-  - marketing
-status: draft
+  - optimization
+  - routing
+  - cost-engineering
+status: reviewed
 language: en
-last_verified: 2026-10-05
+last_verified: 2026-10-08
+evidence_produced: Routing policy, evaluation set, fallback matrix, quality-cost frontier, and degradation alert.
+estimated_time_minutes: 120
 ---
 
 ## Purpose
 
-Demonstrate a reliable LLM pattern in Marketing.
+To optimize LLM usage by dynamically routing requests to the most appropriate model tier (e.g., fast/cheap vs. slow/expensive) based on the task's complexity, risk profile, and required quality, ensuring operational costs remain within budget without sacrificing critical performance.
 
-## When to Use
+## Prerequisites
 
-When automating or accelerating Marketing tasks.
+- Experience with multiple LLM providers or tiers.
+- Understanding of classification and heuristic-based routing.
+- Familiarity with latency and cost profiling.
 
-## When NOT to Use
+## Scenario
 
-For highly deterministic or sensitive operations without human oversight.
+An application handles a mix of tasks: low-risk summarization, structured data extraction, and high-risk complex analysis. Sending everything to the most capable model is too expensive; sending everything to a smaller model results in unacceptable errors for complex tasks. We need a model router.
 
-## Inputs
+## Input
 
-- `input_data`: The source information.
+Incoming user requests categorized by task type and a configured cost-quality budget.
 
-## Prompt / Procedure
+## Artifact: Routing Policy and Fallback Matrix
 
-```text
-Analyze the following input_data according to Marketing best practices and provide a structured output.
-```
+1. **Routing Policy**: Heuristics (e.g., input length, task category) or a small classifier that assigns a request to a model tier.
+2. **Fallback Matrix**: If the primary model fails or times out, defines the next best model to attempt.
+3. **Quality-Cost Frontier**: A chart plotting the expected quality vs. cost for different routing strategies.
 
-## Expected Output
+## Output
 
-A well-formatted response addressing the core task.
+A deployed router configuration and an alerting system for quality degradation.
 
 ## Evaluation Rubric
 
-- Accuracy
-- Formatting
-- Tone
+- **Quality Threshold**: The routed system must maintain an overall quality score within 5% of a pure top-tier baseline.
+- **p95 Latency**: Must meet application SLA for fast tasks (e.g., < 500ms for summarization).
+- **Spend per Successful Task**: Must be reduced by at least 40% compared to the top-tier baseline.
+- **Fallback Correctness**: Fallbacks must successfully resolve transient errors.
+- **No Silent Quality Regression**: The system must alert if the cheaper model's failure rate spikes.
 
-## Failure Modes & Risks
+## Failure Cases and Recovery
 
-- Hallucination
-- Missing edge cases
+- **Router Misclassification**: Complex tasks sent to a weak model. Mitigated by continuous evaluation and tuning the routing heuristic.
+- **Tier Outage**: The router automatically falls back to an available tier based on the fallback matrix.
+
+## Security and Privacy
+
+- Ensure that all routed models comply with data residency and privacy requirements (e.g., not routing sensitive data to a non-compliant provider).
+
+## Latency and Cost
+
+- The router itself must be extremely fast (< 10ms) to avoid negating the latency benefits of using a smaller model.
 
 ## Provenance
 
-Original example created for the Applied LLM Patterns library.
+Author: Vu Hung. Based on optimization strategies for high-volume LLM APIs.
+
+## Next Lesson
+
+- Cost Engineering and SLOs.

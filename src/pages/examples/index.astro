@@ -5,13 +5,15 @@ import Layout from '../../layouts/Layout.astro';
 import ExampleCard from '@/components/domain/ExampleCard.astro';
 
 const examples = await getCollection('examples', ({ data }) => {
-  return import.meta.env.PROD ? data.status !== 'draft' : true;
+  return data.status === 'reviewed';
 });
 
 const allKinds = [...new Set(examples.map(ex => ex.data.kind))].sort();
 const allLevels = [...new Set(examples.map(ex => ex.data.level))].sort();
 const allDomains = [...new Set(examples.flatMap(ex => ex.data.domains || []))].sort();
 const allTags = [...new Set(examples.flatMap(ex => ex.data.tags || []))].sort();
+const allLessons = [...new Set(examples.flatMap(ex => ex.data.related_lessons?.map(l => l.id) || []))].sort();
+const allTimes = [...new Set(examples.map(ex => ex.data.estimated_time_minutes).filter(Boolean))].sort((a, b) => a! - b!);
 ---
 <Layout title="Examples | Applied LLM Patterns">
   <Container variant="wide">
@@ -57,10 +59,31 @@ const allTags = [...new Set(examples.flatMap(ex => ex.data.tags || []))].sort();
               {allTags.map(tag => <option value={tag}>{tag}</option>)}
             </select>
           </div>
+
+          <div class="flex flex-col">
+            <label class="text-xs font-bold text-text-heading uppercase tracking-wider mb-2">Lesson</label>
+            <select name="lesson" class="bg-surface border border-border-strong rounded-md px-3 py-2 text-sm text-text-body focus:ring-2 focus:ring-accent-primary focus:border-accent-primary outline-none">
+              <option value="">All Lessons</option>
+              {allLessons.map(lesson => <option value={lesson}>{lesson}</option>)}
+            </select>
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-xs font-bold text-text-heading uppercase tracking-wider mb-2">Time</label>
+            <select name="time" class="bg-surface border border-border-strong rounded-md px-3 py-2 text-sm text-text-body focus:ring-2 focus:ring-accent-primary focus:border-accent-primary outline-none">
+              <option value="">All Times</option>
+              {allTimes.map(time => <option value={time}>{time} mins</option>)}
+            </select>
+          </div>
           
           <!-- Hidden submit for enter-key accessibility -->
           <button type="submit" class="hidden">Filter</button>
         </form>
+      </div>
+
+      <!-- Recommended Sequence -->
+      <div class="mb-8 p-4 bg-accent-muted border border-accent-subtle rounded-lg text-sm text-text-body">
+        <span class="font-bold">Recommended Sequence:</span> Build &rarr; Evaluate &rarr; Secure &rarr; Operate
       </div>
 
       <!-- Results Grid -->
@@ -74,13 +97,16 @@ const allTags = [...new Set(examples.flatMap(ex => ex.data.tags || []))].sort();
                data-kind={example.data.kind} 
                data-level={example.data.level} 
                data-domains={JSON.stringify(example.data.domains || [])}
-               data-tags={JSON.stringify(example.data.tags || [])}>
+               data-tags={JSON.stringify(example.data.tags || [])}
+               data-lessons={JSON.stringify(example.data.related_lessons?.map(l => l.id) || [])}
+               data-time={example.data.estimated_time_minutes || ''}>
             <ExampleCard 
               title={example.data.title}
               summary={example.data.summary}
               href={import.meta.env.BASE_URL + `/examples/${example.id}`}
               type={example.data.kind}
               domains={example.data.domains}
+              evidenceProduced={example.data.evidence_produced}
             />
           </div>
         ))}
@@ -109,11 +135,15 @@ const allTags = [...new Set(examples.flatMap(ex => ex.data.tags || []))].sort();
             const level = formData.get('level') as string;
             const domain = formData.get('domain') as string;
             const tag = formData.get('tag') as string;
+            const lesson = formData.get('lesson') as string;
+            const time = formData.get('time') as string;
       
             if (kind) params.set('kind', kind);
             if (level) params.set('level', level);
             if (domain) params.set('domain', domain);
             if (tag) params.set('tag', tag);
+            if (lesson) params.set('lesson', lesson);
+            if (time) params.set('time', time);
       
             const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
             window.history.replaceState({}, '', newUrl);
@@ -125,13 +155,17 @@ const allTags = [...new Set(examples.flatMap(ex => ex.data.tags || []))].sort();
               const itemLevel = el.getAttribute('data-level');
               const itemDomains = JSON.parse(el.getAttribute('data-domains') || '[]');
               const itemTags = JSON.parse(el.getAttribute('data-tags') || '[]');
+              const itemLessons = JSON.parse(el.getAttribute('data-lessons') || '[]');
+              const itemTime = el.getAttribute('data-time');
       
               const matchKind = !kind || itemKind === kind;
               const matchLevel = !level || itemLevel === level;
               const matchDomain = !domain || itemDomains.includes(domain);
               const matchTag = !tag || itemTags.includes(tag);
+              const matchLesson = !lesson || itemLessons.includes(lesson);
+              const matchTime = !time || itemTime === time;
       
-              if (matchKind && matchLevel && matchDomain && matchTag) {
+              if (matchKind && matchLevel && matchDomain && matchTag && matchLesson && matchTime) {
                 el.style.display = '';
                 visibleCount++;
               } else {

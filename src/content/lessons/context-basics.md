@@ -7,21 +7,21 @@ last_verified: 2026-10-05
 order: 2
 stage: 2
 duration_minutes: 10
-outcomes:
+outcomes: 
   - Understand the concept and limitations of the LLM context window.
   - Structure context effectively using delimiters.
-prerequisites:
+prerequisites: 
   - prompt-engineering
-related_lessons:
+related_lessons: 
   - context-engineering
-related_examples:
+related_examples: 
   - content-format-transformer
-glossary_terms:
+glossary_terms: 
   - context-window
   - token-limit
   - lost-in-the-middle
 status: reviewed
-sources:
+sources: 
   - "Anthropic Context Window Guide"
 ---
 

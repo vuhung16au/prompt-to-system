@@ -53,7 +53,7 @@ const letters = Object.keys(grouped).sort();
                 {grouped[letter].map((entry) => (
                   <div class="bg-surface p-6 rounded-2xl border border-border-subtle shadow-sm flex flex-col" id={entry.id}>
                     <dt class="text-lg font-bold text-text-heading mb-2">
-                      <a href={`/glossary/${entry.id}`} class="hover:text-accent-primary transition-colors">{entry.data.title}</a>
+                      <a href={import.meta.env.BASE_URL + `/glossary/${entry.id}`} class="hover:text-accent-primary transition-colors">{entry.data.title}</a>
                     </dt>
                     <dd class="text-sm text-text-body flex-grow">
                       {entry.data.summary}

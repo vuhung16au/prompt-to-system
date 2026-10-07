@@ -1,0 +1,42 @@
+---
+---
+<script>
+  import mermaid from 'mermaid';
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'
+    });
+    
+    const elements = document.querySelectorAll('pre.mermaid, pre[data-language="mermaid"]');
+    elements.forEach(async (el, index) => {
+      const code = el.textContent;
+      if (!code) return;
+      
+      const id = `mermaid-${index}`;
+      
+      // Fallback description
+      const details = document.createElement('details');
+      details.className = 'mermaid-fallback sr-only';
+      const summary = document.createElement('summary');
+      summary.textContent = 'Diagram text description (no JS)';
+      details.appendChild(summary);
+      const codeBlock = document.createElement('pre');
+      codeBlock.textContent = code;
+      details.appendChild(codeBlock);
+      
+      try {
+        const { svg } = await mermaid.render(id, code);
+        const container = document.createElement('figure');
+        container.className = 'mermaid-figure overflow-x-auto my-6';
+        container.innerHTML = svg;
+        container.appendChild(details);
+        el.parentNode.replaceChild(container, el);
+      } catch (err) {
+        console.error('Mermaid rendering failed', err);
+        el.style.display = 'block';
+      }
+    });
+  });
+</script>

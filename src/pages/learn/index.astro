@@ -1,4 +1,31 @@
 ---
+const tracks = [
+  { id: 'Track 1', title: 'Architecture & Orchestration', desc: 'System design and multi-agent patterns' },
+  { id: 'Track 2', title: 'Retrieval & Context', desc: 'RAG and context engineering' },
+  { id: 'Track 3', title: 'Tools & Interoperability', desc: 'MCP and sandboxed execution' },
+  { id: 'Track 4', title: 'Evaluation & Measurement', desc: 'Continuous testing and judges' },
+  { id: 'Track 5', title: 'Reliability & Resilience', desc: 'Failure handling and state' },
+  { id: 'Track 6', title: 'Security & Privacy', desc: 'Threat models and trust boundaries' },
+  { id: 'Track 7', title: 'Observability & Economics', desc: 'Traces, SLIs, and cost' },
+  { id: 'Track 8', title: 'Technical Leadership', desc: 'Governance and interventions' }
+];
+
+function getTrackLessons(trackId: string) {
+  return sortedLessons.filter(l => l.data.track === trackId || l.data.track?.startsWith(trackId));
+}
+
+function getTrackEffort(trackLessons: any[]) {
+  return trackLessons.reduce((acc, l) => acc + (l.data.estimated_lab_minutes || 0), 0);
+}
+
+function getTrackArtifacts(trackLessons: any[]) {
+  const artifacts = new Set<string>();
+  trackLessons.forEach(l => {
+    (l.data.required_artifacts || []).forEach(a => artifacts.add(a));
+  });
+  return Array.from(artifacts);
+}
+
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Container from '@/components/layout/Container.astro';

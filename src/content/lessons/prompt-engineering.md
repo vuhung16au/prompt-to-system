@@ -7,20 +7,20 @@ last_verified: 2026-10-05
 order: 1
 stage: 1
 duration_minutes: 15
-outcomes:
+outcomes: 
   - Understand the anatomy of a good prompt.
   - Apply zero-shot, few-shot, and chain-of-thought techniques.
 prerequisites: []
-related_lessons:
+related_lessons: 
   - context-basics
-related_examples:
+related_examples: 
   - structured-seo-outliner
-glossary_terms:
+glossary_terms: 
   - zero-shot-prompting
   - few-shot-prompting
   - chain-of-thought
 status: reviewed
-sources:
+sources: 
   - "OpenAI Prompt Engineering Guide"
 ---
 

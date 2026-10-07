@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Prose from '../components/layout/Prose.astro';
+import Container from '../components/layout/Container.astro';
+---
+
+<Layout title="FAQ" description="Frequently Asked Questions">
+  <Container>
+    <Prose>
+      <h1>Frequently Asked Questions</h1>
+      
+      <h2>Who is this site for?</h2>
+      <p>It is for software engineers, AI and ML engineers, technical leads, architects, educators, and knowledge workers who want to turn LLM capabilities into reliable systems. The foundation path is accessible to readers with basic LLM experience; the Advanced Systems path assumes familiarity with APIs, structured output, retrieval, tool calling, tests, logs, and distributed-system basics.</p>
+      
+      <h2>Where should I start?</h2>
+      <p>Start with the Learn page. Use the five-layer foundation if you are still building reliable prompt and workflow habits. Use the role-based Advanced Systems routes if you already build LLM applications and need deeper material on architecture, evaluation, operations, or security.</p>
+      
+      <h2>What is the difference between a workflow and an agent?</h2>
+      <p>A workflow follows an explicit control structure defined primarily by software. An agent gives a model more authority to choose actions and paths at runtime. Prefer the least autonomous design that meets the task: it is usually easier to evaluate, secure, recover, and operate.</p>
+      
+      <h2>Is the material tied to one model or provider?</h2>
+      <p>Most lessons are model-agnostic. Provider-specific examples are labelled and include a verification date because APIs and capabilities change. Treat those examples as adaptations of the underlying pattern, not permanent universal instructions.</p>
+      
+      <h2>Are the examples production-ready?</h2>
+      <p>The examples are educational reference artifacts. They demonstrate requirements, trade-offs, evaluation, and failure handling, but they are not a substitute for your organisation's security review, privacy assessment, testing, observability, and operational controls.</p>
+      
+      <h2>How is the content reviewed?</h2>
+      <p>Vu Hung reviews all published material. AI tools assist with drafting and consistency checks. Independent technical review is recorded only when an identifiable reviewer has checked a defined scope and the site has review evidence. A page should not be interpreted as independently approved merely because it is marked published.</p>
+      
+      <h2>How current is the material?</h2>
+      <p>Each reviewed page has a verification date. Model-independent principles should age slowly, while protocol, provider, model, and tooling guidance requires more frequent review. Stale time-sensitive pages should be marked for review or removed from the reviewed collection.</p>
+      
+      <h2>How should I evaluate an AI system built from these patterns?</h2>
+      <p>Evaluate the complete task, not only fluent output. Use representative and adversarial datasets, deterministic checks where possible, calibrated model graders where necessary, trajectory and tool-use analysis for agents, and production feedback connected to versioned prompts, models, retrieval, tools, and policies.</p>
+      
+      <h2>Does this website call an LLM or store my data?</h2>
+      <p>The published site is a static Astro website. Reading the site does not require sending your prompts or documents to an LLM. If interactive features are added later, their data handling and external services should be disclosed before use.</p>
+      
+      <h2>May I reuse or adapt the material?</h2>
+      <p>Yes. Unless a page states otherwise, original educational text and diagrams are available under CC BY-SA 4.0: provide attribution, link to the license, indicate changes, and distribute adaptations under the same license. Third-party material and software code may have different terms.</p>
+      
+      <h2>How should I cite the site?</h2>
+      <p>Suggested citation: <strong>Vu Hung with AI assistance. “Applied LLM Patterns.” 2026.</strong> Include the page title, page URL, and access date when citing a specific lesson.</p>
+      
+      <h2>How can I report an error or contribute?</h2>
+      <p>Open an issue or pull request in the project repository. For factual or technical corrections, identify the page, the claim, supporting evidence, and the proposed change. Do not include confidential data, private prompts, credentials, or proprietary evaluation examples.</p>
+    </Prose>
+  </Container>
+</Layout>

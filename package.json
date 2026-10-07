@@ -7,14 +7,14 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/post-build-crawler.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "check:links": "node scripts/check-links.mjs",
     "check:content": "node scripts/validate-content.mjs",
     "lint:md": "markdownlint 'src/content/**/*.md'",
-    "test:a11y": "echo 'Automated a11y checks passed.'",
-    "test:lighthouse": "echo 'Automated Lighthouse checks passed.'",
+    "test:a11y": "node scripts/test-quality.mjs",
+    "test:lighthouse": "echo 'Lighthouse is run in test:a11y script'",
     "test": "npm run check:links && npm run check:content && npm run lint:md && npm run test:a11y && npm run test:lighthouse"
   },
   "dependencies": {
@@ -22,12 +22,18 @@
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",
     "astro": "^7.3.5",
+    "mermaid": "^12.1.0",
     "tailwindcss": "^4.3.3"
   },
   "allowScripts": {
     "esbuild": true
   },
   "devDependencies": {
-    "markdownlint-cli": "^0.41.0"
+    "glob": "^13.0.6",
+    "lighthouse": "^13.5.0",
+    "markdownlint-cli": "^0.41.0",
+    "node-html-parser": "^9.0.4",
+    "pa11y": "^10.0.0",
+    "serve": "^14.2.6"
   }
 }
