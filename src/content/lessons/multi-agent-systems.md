@@ -159,7 +159,7 @@ class MultiAgentSystem:
 
 ## 6. Worked Example with Realistic Inputs and Outputs
 
-**Scenario:** We need to analyze a 50-page legal contract to identify indemnification risks, jurisdiction clauses, and termination penalties.
+**Scenario:** We need to analyse a 50-page legal contract to identify indemnification risks, jurisdiction clauses, and termination penalties.
 
 **Input:** A raw text dump of the contract (approx 30,000 tokens).
 
@@ -246,5 +246,5 @@ Success is measured by precision, recall, and the false positive rate of the age
 ## Further reading
 
 - [Anthropic Engineering Blog](https://www.anthropic.com/engineering)
-- [Google Cloud Architecture Center](https://cloud.google.com/architecture)
+- [Google Cloud Architecture Centre](https://cloud.google.com/architecture)
 

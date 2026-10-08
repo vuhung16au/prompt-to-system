@@ -59,7 +59,7 @@ Applied AI and Agents focus on creating autonomous systems that can perceive the
 
 - Infinite loops or excessive API cost due to unbounded agent reasoning.
 - Security vulnerabilities from granting agents unconstrained tool access.
-- Unpredictable emergent behavior in multi-agent environments.
+- Unpredictable emergent behaviour in multi-agent environments.
 
 ## Practice Task
 

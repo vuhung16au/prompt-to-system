@@ -72,7 +72,7 @@ You can use an LLM-as-a-judge to evaluate the trajectory. Feed the trace to the 
 // Pseudo-code for a Trajectory Evaluator
 async function evaluateTrajectory(trace) {
   const prompt = `
-    Analyze the following agent trace.
+    Analyse the following agent trace.
     Check for:
     1. Tool Hallucinations
     2. Ignored Tool Results
@@ -152,7 +152,7 @@ The system requires trace-first observability. Every interaction must be logged 
 
 ## Latency
 
-Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimizations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
+Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimisations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
 
 ## What would change this decision?
 

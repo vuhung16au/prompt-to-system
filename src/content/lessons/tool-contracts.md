@@ -23,7 +23,7 @@ review_status: "author-reviewed"
 ## 1. Concrete Production Problem and Explicit Non-Goals
 
 ### The Problem
-When Large Language Models (LLMs) act as agents, they interact with external systems by calling "tools" (functions, APIs). The problem is that model-tool interaction is fundamentally brittle. A model caller might hallucinate parameters, pass arguments of the wrong type, omit required context, or fail to gracefully handle an API error (like rate limiting). If the tool interface lacks a rigorous "contract" (schema, preconditions, explicit error semantics, idempotency guarantees), the agent's behavior becomes unpredictable, leading to infinite retry loops, malformed data mutations, or stalled execution. We need a robust tool contract design that accommodates the probabilistic nature of LLM outputs while enforcing deterministic backend constraints.
+When Large Language Models (LLMs) act as agents, they interact with external systems by calling "tools" (functions, APIs). The problem is that model-tool interaction is fundamentally brittle. A model caller might hallucinate parameters, pass arguments of the wrong type, omit required context, or fail to gracefully handle an API error (like rate limiting). If the tool interface lacks a rigorous "contract" (schema, preconditions, explicit error semantics, idempotency guarantees), the agent's behaviour becomes unpredictable, leading to infinite retry loops, malformed data mutations, or stalled execution. We need a robust tool contract design that accommodates the probabilistic nature of LLM outputs while enforcing deterministic backend constraints.
 
 ### Explicit Non-Goals
 * General fine-tuning or prompting strategies for tool use (we focus on the tool contract/interface itself).
@@ -92,7 +92,7 @@ The tool enforces a rigid JSON schema. Any deviation (missing fields, wrong type
 ### Design B: Lenient Contracts with Semantic Repair (Coercion)
 The tool accepts loosely structured input and attempts to coerce it into the valid state (e.g., converting string `"123"` to integer `123`, providing default values for missing fields based on conversation history).
 * **Pros:** Reduces round-trips and latency; smoother agent experience; more resilient to minor model hallucinations.
-* **Cons:** "Magic" behavior can lead to unintended consequences (e.g., assuming a default parameter that changes a destructive operation); harder to debug; blurs the trust boundary.
+* **Cons:** "Magic" behaviour can lead to unintended consequences (e.g., assuming a default parameter that changes a destructive operation); harder to debug; blurs the trust boundary.
 
 **Recommendation:** A hybrid approach. Use Strict Typological Contracts (Design A) for any state-mutating (write) operations, and Lenient Contracts (Design B) with bounded coercion for read-only operations.
 
@@ -246,5 +246,5 @@ When evaluating alternatives, one might consider synchronous vs asynchronous exe
 ## Further reading
 
 * [Anthropic Engineering Blog](https://www.anthropic.com/engineering)
-* [Google Cloud Architecture Center](https://cloud.google.com/architecture)
+* [Google Cloud Architecture Centre](https://cloud.google.com/architecture)
 

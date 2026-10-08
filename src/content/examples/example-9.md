@@ -136,7 +136,7 @@ For the 4% of queries failing in Config E:
 
 ## Provenance
 
-Author: Vu Hung. Based on optimization iterations for technical documentation RAG systems. Verified conceptually.
+Author: Vu Hung. Based on optimisation iterations for technical documentation RAG systems. Verified conceptually.
 
 ## Artifacts Download
 

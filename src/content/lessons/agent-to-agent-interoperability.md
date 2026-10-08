@@ -23,7 +23,7 @@ review_status: "author-reviewed"
 ## 1. Concrete Production Problem and Non-Goals
 
 **The Problem:**
-In a multi-agent system spanning organizational boundaries, a user-facing Orchestrator Agent needs to delegate a complex task (e.g., "Analyze this codebase and provision corresponding infrastructure") to specialized Sub-Agents (e.g., CodeAnalyzer and InfraProvisioner) developed by different teams or vendors. These agents use different underlying LLMs, state management, and internal representations. They need a standardized protocol to discover capabilities, negotiate task scopes, exchange state (messages/artifacts), and signal lifecycle events (running, blocked, errored, done) without exposing their internal prompt architecture or opaque cognitive processes.
+In a multi-agent system spanning organizational boundaries, a user-facing Orchestrator Agent needs to delegate a complex task (e.g., "Analyse this codebase and provision corresponding infrastructure") to specialized Sub-Agents (e.g., CodeAnalyser and InfraProvisioner) developed by different teams or vendors. These agents use different underlying LLMs, state management, and internal representations. They need a standardized protocol to discover capabilities, negotiate task scopes, exchange state (messages/artifacts), and signal lifecycle events (running, blocked, errored, done) without exposing their internal prompt architecture or opaque cognitive processes.
 
 **Non-Goals:**
 - Defining a universal ontology for all domain-specific data (we focus on the transport and lifecycle protocol, not the semantic data model).
@@ -59,7 +59,7 @@ flowchart TD
     end
 
     subgraph Trust Boundary B: Vendor X
-        AgentX[CodeAnalyzer Agent]
+        AgentX[CodeAnalyser Agent]
     end
 
     subgraph Trust Boundary C: Vendor Y
@@ -145,7 +145,7 @@ async function delegateTask(broker: MessageBroker, task: TaskRequest) {
 
 ## 6. Worked Example using Realistic Data
 
-**Scenario:** Orchestrator asks CodeAnalyzer to review a repository.
+**Scenario:** Orchestrator asks CodeAnalyser to review a repository.
 
 1. **Task Request (Orchestrator -> Broker):**
 ```json
@@ -160,22 +160,22 @@ async function delegateTask(broker: MessageBroker, task: TaskRequest) {
 }
 ```
 
-1. **Task Accepted (CodeAnalyzer -> Broker -> Orchestrator):**
+1. **Task Accepted (CodeAnalyser -> Broker -> Orchestrator):**
 ```json
 {
   "taskId": "task-789",
   "type": "TASK_ACCEPTED",
-  "agentId": "vendorX-analyzer-42",
+  "agentId": "vendorX-analyser-42",
   "timestamp": "2026-10-07T12:00:05Z"
 }
 ```
 
-1. **Task Completed (CodeAnalyzer -> Broker -> Orchestrator):**
+1. **Task Completed (CodeAnalyser -> Broker -> Orchestrator):**
 ```json
 {
   "taskId": "task-789",
   "type": "TASK_COMPLETED",
-  "agentId": "vendorX-analyzer-42",
+  "agentId": "vendorX-analyser-42",
   "resultUri": "s3://artifacts/report-task-789.json",
   "billingMetrics": { "tokensUsed": 45000, "costUsd": 0.45 }
 }
@@ -190,7 +190,7 @@ async function delegateTask(broker: MessageBroker, task: TaskRequest) {
 1. **Artifact Poisoning:** A malicious agent modifies an artifact meant for another agent to execute arbitrary code.
    - *Mitigation:* Artifacts must be immutable (write-once). Agents verify artifact integrity using SHA-256 hashes passed in the message payload.
 1. **Prompt Injection via Task Input:** A user provides a prompt designed to make the Sub-Agent leak its system instructions.
-   - *Mitigation:* The opaque-agent boundary ensures the Orchestrator doesn't leak its own instructions, but the Sub-Agent must still implement robust prompt defense.
+   - *Mitigation:* The opaque-agent boundary ensures the Orchestrator doesn't leak its own instructions, but the Sub-Agent must still implement robust prompt defence.
 
 ## 8. Evaluation Criteria and Release Thresholds
 
@@ -245,14 +245,14 @@ If an industry consortium (e.g., W3C or IETF) releases a widely adopted, standar
 ## 15. Hands-on Exercise
 
 **Exercise:**
-Implement a mock `CodeAnalyzer` agent in Node.js or Python that connects to an AMQP broker (like RabbitMQ) or a Redis Pub/Sub channel.
+Implement a mock `CodeAnalyser` agent in Node.js or Python that connects to an AMQP broker (like RabbitMQ) or a Redis Pub/Sub channel.
 1. It should listen for tasks with the capability `ast-analysis`.
 1. Upon receiving a task, it must immediately reply with a `TASK_ACCEPTED` message.
 1. It should simulate work by waiting 3 seconds.
 1. It should reply with a `TASK_COMPLETED` message, including a mock `resultUri` and `billingMetrics`.
 
 **Expected Evidence of Completion:**
-Submit the terminal output logs showing the Orchestrator issuing the task, the CodeAnalyzer receiving it, the state transitions, and the final completion payload. Provide the repository link containing the agent code.
+Submit the terminal output logs showing the Orchestrator issuing the task, the CodeAnalyser receiving it, the state transitions, and the final completion payload. Provide the repository link containing the agent code.
 
 ## Competing designs and trade-offs
 
@@ -261,5 +261,5 @@ When evaluating alternatives, one might consider synchronous vs asynchronous exe
 ## Further reading
 
 - [Anthropic Engineering Blog](https://www.anthropic.com/engineering)
-- [Google Cloud Architecture Center](https://cloud.google.com/architecture)
+- [Google Cloud Architecture Centre](https://cloud.google.com/architecture)
 

@@ -50,7 +50,7 @@ Relevant Code:
 System Context:
 {{system_context}}
 
-Please analyze the provided information and do the following:
+Please analyse the provided information and do the following:
 1. Explain the Error: Briefly explain what the error message means in plain English.
 2. Formulate Hypotheses: Propose 2-3 potential root causes for this error based on the code and context. Rank them from most likely to least likely.
 3. Troubleshooting Steps: For each hypothesis, provide concrete steps I can take to verify if it is the actual root cause (e.g., adding specific logging, checking a database configuration).

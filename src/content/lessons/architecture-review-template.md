@@ -144,5 +144,5 @@ When evaluating alternatives, one might consider synchronous vs asynchronous exe
 ## Further reading
 
 - [Anthropic Engineering Blog](https://www.anthropic.com/engineering)
-- [Google Cloud Architecture Center](https://cloud.google.com/architecture)
+- [Google Cloud Architecture Centre](https://cloud.google.com/architecture)
 

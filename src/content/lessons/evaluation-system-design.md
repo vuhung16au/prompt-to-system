@@ -31,7 +31,7 @@ verified_with: "not independently reproduced"
 
 ## 1. Concrete production problem and non-goals
 
-**Problem:** Engineers often optimize prompts and switch models based on "vibe checks" or ad-hoc testing with a few inputs. This leads to regressions where fixing one edge case breaks three common cases. Optimization cannot happen without a systematic evaluation harness.
+**Problem:** Engineers often optimize prompts and switch models based on "vibe checks" or ad-hoc testing with a few inputs. This leads to regressions where fixing one edge case breaks three common cases. Optimisation cannot happen without a systematic evaluation harness.
 
 **Non-goals:** This lesson does not cover the specific metrics for evaluating RAG (e.g., faithfulness, answer relevance). It focuses on the systemic engineering of the evaluation pipeline itself.
 

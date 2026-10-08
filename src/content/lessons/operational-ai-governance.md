@@ -53,12 +53,12 @@ flowchart TD
     end
 
     subgraph ResponseZone [Incident Response]
-        SOC[Security Operations Center]
+        SOC[Security Operations Centre]
         KB[Kill Switch]
     end
 
     A -->|1. Log Context & Action| AL
-    AL -->|2. Analyze| AD
+    AL -->|2. Analyse| AD
     AD -->|3. Alert| SIEM
     SIEM -->|4. Triage| SOC
     SOC -->|5. Revoke Access| KB

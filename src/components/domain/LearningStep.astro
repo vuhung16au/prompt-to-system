@@ -21,6 +21,6 @@ const { stepNumber, title, description, timeEstimate, href, isActive = false } =
       {href ? <a href={href} class="hover:text-accent-primary before:absolute before:inset-0">{title}</a> : title}
     </h3>
     <p class="text-sm text-text-muted mb-3">{description}</p>
-    {timeEstimate && <span class="text-xs font-medium bg-surface-muted text-text-muted px-2.5 py-1 rounded-md">{timeEstimate}</span>}
+    {timeEstimate && <span class="text-xs font-medium bg-surface-muted text-text-muted px-2.5 py-1 rounded-md flex items-center gap-1">⏱ {timeEstimate}</span>}
   </div>
 </div>

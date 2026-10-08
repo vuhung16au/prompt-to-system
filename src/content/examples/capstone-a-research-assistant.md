@@ -1,7 +1,7 @@
 ---
 id: capstone-a-research-assistant
 title: "Capstone A: Evidence-Grounded Research Assistant"
-summary: "A comprehensive case study on building and evaluating an advanced research assistant utilizing hybrid retrieval, prompt injection defense, and robust citation grading."
+summary: "A comprehensive case study on building and evaluating an advanced research assistant utilizing hybrid retrieval, prompt injection defence, and robust citation grading."
 level: advanced
 status: reviewed
 kind: "case study"
@@ -47,7 +47,7 @@ To secure the assistant, we simulated scenarios where a retrieved internal docum
 
 **Testing Approach:**
 - We inserted 50 varied prompt injection payloads into our test corpus.
-- We measured the success rate of these injections altering the assistant's behavior.
+- We measured the success rate of these injections altering the assistant's behaviour.
 
 **Mitigation:**
 - We wrapped the retrieved context in strict XML tags (`&lt;context&gt;...&lt;/context&gt;`).

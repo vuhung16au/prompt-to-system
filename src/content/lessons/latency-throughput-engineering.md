@@ -46,7 +46,7 @@ flowchart LR
 
 **Non-goals:**
 - Not necessary for internal admin scripts with low usage.
-- Over-optimization of prototype applications before finding product-market fit.
+- Over-optimisation of prototype applications before finding product-market fit.
 
 ## Method or procedure
 
@@ -68,7 +68,7 @@ def process_reviews(reviews):
     
     # Process batches concurrently
     with ThreadPoolExecutor(max_workers=10) as executor:
-        futures = [executor.submit(llm.analyze_sentiment, batch) for batch in batches]
+        futures = [executor.submit(llm.analyse_sentiment, batch) for batch in batches]
         for future in as_completed(futures):
             results.extend(future.result())
             
@@ -146,7 +146,7 @@ The system requires trace-first observability. Every interaction must be logged 
 
 ## Latency
 
-Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimizations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
+Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimisations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
 
 ## What would change this decision?
 

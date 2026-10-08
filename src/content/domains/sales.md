@@ -1,7 +1,7 @@
 ---
 id: sales
 title: Sales
-summary: Outreach, lead generation, and pitch optimization.
+summary: Outreach, lead generation, and pitch optimisation.
 group: 'Growing collections'
 order: 8
 outcomes:
@@ -23,7 +23,7 @@ last_verified: 2026-10-07
 
 ## Overview
 
-In sales, LLMs provide significant leverage by automating personalized outreach and drafting compelling proposals. AI tools can analyze prospect data to craft highly relevant messages that resonate with potential clients.
+In sales, LLMs provide significant leverage by automating personalized outreach and drafting compelling proposals. AI tools can analyse prospect data to craft highly relevant messages that resonate with potential clients.
 
 This level of automation frees up sales professionals to focus on building relationships and closing deals rather than spending hours on manual drafting. Incorporating AI into the sales funnel improves both efficiency and response rates.
 

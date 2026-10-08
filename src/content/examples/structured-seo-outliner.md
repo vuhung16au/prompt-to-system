@@ -50,7 +50,7 @@ Here is the context:
 Your outline must include:
 1. A catchy, click-worthy H1 title.
 2. A brief summary of the search intent behind the primary keyword.
-3. H2 and H3 subheadings organized logically.
+3. H2 and H3 subheadings organised logically.
 4. For each section, provide a 1-2 sentence description of what should be covered.
 5. Identify which secondary keywords should be naturally integrated into each section.
 6. Suggest internal and external linking opportunities where appropriate.
@@ -71,7 +71,7 @@ A hierarchical outline (Markdown format) with clear headings, section descriptio
 
 ## Failure Modes & Risks
 
-- **Over-optimization (Keyword Stuffing):** The model might suggest forcing too many keywords into a single section.
+- **Over-optimisation (Keyword Stuffing):** The model might suggest forcing too many keywords into a single section.
 - **Generic Headings:** Producing overly generic H2s (e.g., "Introduction", "Conclusion") instead of descriptive, keyword-rich headings.
 
 ## Provenance

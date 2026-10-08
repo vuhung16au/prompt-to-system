@@ -18,6 +18,12 @@ import Container from '../components/layout/Container.astro';
       <h2>What is the difference between a workflow and an agent?</h2>
       <p>A workflow follows an explicit control structure defined primarily by software. An agent gives a model more authority to choose actions and paths at runtime. Prefer the least autonomous design that meets the task: it is usually easier to evaluate, secure, recover, and operate.</p>
       
+      <h2>Can I use these patterns with Australian Government data?</h2>
+      <p>Yes. Many examples in this guide are designed to be used with open data from <a href="https://data.gov.au">data.gov.au</a>, the ABS, or BOM APIs. When dealing with sensitive, classified, or PII data, ensure you are using an LLM deployment that complies with the Australian Privacy Principles (APPs) and your department's specific data sovereignty guidelines.</p>
+
+      <h2>What date/currency format should I specify in prompts?</h2>
+      <p>For Australian audiences, always explicitly instruct the model to use <strong>DD/MM/YYYY</strong> for dates and <strong>AUD</strong> (or the $ symbol formatted according to Australian conventions) for currency. Without explicit instructions, most foundation models default to US date formats (MM/DD/YYYY) and USD.</p>
+
       <h2>Is the material tied to one model or provider?</h2>
       <p>Most lessons are model-agnostic. Provider-specific examples are labelled and include a verification date because APIs and capabilities change. Treat those examples as adaptations of the underlying pattern, not permanent universal instructions.</p>
       

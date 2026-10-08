@@ -7,7 +7,7 @@ level: advanced
 domains:
   - software-engineering
 tags:
-  - optimization
+  - optimisation
   - routing
   - cost-engineering
 status: draft
@@ -33,7 +33,7 @@ An application handles a mix of tasks: low-risk summarization, structured data e
 
 ## Input
 
-Incoming user requests categorized by task type and a configured cost-quality budget.
+Incoming user requests categorised by task type and a configured cost-quality budget.
 
 ## Artifact: Routing Policy and Fallback Matrix
 
@@ -68,7 +68,7 @@ A deployed router configuration and an alerting system for quality degradation.
 
 ## Provenance
 
-Author: Vu Hung. Based on optimization strategies for high-volume LLM APIs.
+Author: Vu Hung. Based on optimisation strategies for high-volume LLM APIs.
 
 ## Next Lesson
 

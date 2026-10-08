@@ -45,7 +45,7 @@ flowchart TD
 
 **Non-goals:**
 - Sacrificing critical application quality just to save fractions of a cent.
-- Premature optimization during early exploratory phases.
+- Premature optimisation during early exploratory phases.
 
 ## Method or procedure
 
@@ -142,7 +142,7 @@ The system requires trace-first observability. Every interaction must be logged 
 
 ## Latency
 
-Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimizations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
+Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimisations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
 
 ## What would change this decision?
 

@@ -92,7 +92,7 @@ def evaluate_response(user_query, bot_response, golden_context):
 ## Failure modes and mitigations
 
 - **Over-indexing on a single metric:** E.g., focusing only on helpfulness and ignoring tone. *Mitigation: Use multi-dimensional rubrics.*
-- **Static golden datasets:** User behavior drifts over time. *Mitigation: Continuously sample production logs to add new edge cases to your evaluation set.*
+- **Static golden datasets:** User behaviour drifts over time. *Mitigation: Continuously sample production logs to add new edge cases to your evaluation set.*
 
 ## Evaluation checklist or rubric
 
@@ -161,7 +161,7 @@ The system requires trace-first observability. Every interaction must be logged 
 
 ## Latency
 
-Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimizations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
+Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimisations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
 
 ## What would change this decision?
 

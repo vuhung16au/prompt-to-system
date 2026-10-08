@@ -1,7 +1,7 @@
 ---
 id: data-analysis-summary
 title: Data Analysis Summary
-summary: A prompt that guides the model to analyze raw data (CSV, JSON, or text) and provide a concise, actionable summary with key insights and trends.
+summary: A prompt that guides the model to analyse raw data (CSV, JSON, or text) and provide a concise, actionable summary with key insights and trends.
 kind: prompt
 level: intermediate
 domains:
@@ -29,18 +29,18 @@ To convert raw or unstructured data into a structured summary that highlights ke
 ## When NOT to Use
 
 - The dataset is extremely large (exceeds the context window of the LLM).
-- You require precise, complex statistical modeling (use dedicated tools like Python/R instead).
+- You require precise, complex statistical modelling (use dedicated tools like Python/R instead).
 
 ## Inputs
 
-- `raw_data`: The data to be analyzed (pasted text, CSV, or JSON).
+- `raw_data`: The data to be analysed (pasted text, CSV, or JSON).
 - `focus_areas` (optional): Specific metrics or trends to look out for.
-- `audience`: Who will be reading the summary (e.g., Executive, Marketing Team).
+- `audience`: Who will be reading the summary (e.g., State Government Minister, Department Secretary).
 
 ## Prompt / Procedure
 
 ```text
-You are an expert Data Analyst. I will provide you with a dataset, and your task is to analyze it and produce a clear, actionable summary.
+You are an expert Data Analyst. I will provide you with a dataset, and your task is to analyse it and produce a clear, actionable summary.
 
 Here is the data:
 {{raw_data}}

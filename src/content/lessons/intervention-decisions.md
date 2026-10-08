@@ -1,7 +1,7 @@
 ---
 id: intervention-decisions
 title: "Prompt, Retrieval, Tools, Fine-Tuning, or a Better Model?"
-summary: "Diagnose whether the bottleneck is knowledge, behavior, reasoning, latency, format reliability, or domain language, and choose the right intervention."
+summary: "Diagnose whether the bottleneck is knowledge, behaviour, reasoning, latency, format reliability, or domain language, and choose the right intervention."
 timeToRead: 25
 level: "advanced"
 status: "reviewed"
@@ -56,7 +56,7 @@ flowchart TD
 
 ## 5. Implementation Blueprint
 
-1. **Diagnose**: Run evaluation suite to categorize errors (e.g., format error, factual error, reasoning error).
+1. **Diagnose**: Run evaluation suite to categorise errors (e.g., format error, factual error, reasoning error).
 2. **Evaluate Prompts First**: Can a few-shot prompt fix it? If yes, and context window permits, stop.
 3. **Evaluate Knowledge Base**: If factual errors persist, implement RAG or Tool Calling.
 4. **Evaluate Fine-Tuning**: If the model struggles with a strict JSON schema or brand voice, fine-tune a smaller, cheaper model.
@@ -120,5 +120,5 @@ When evaluating alternatives, one might consider synchronous vs asynchronous exe
 ## Further reading
 
 * [Anthropic Engineering Blog](https://www.anthropic.com/engineering)
-* [Google Cloud Architecture Center](https://cloud.google.com/architecture)
+* [Google Cloud Architecture Centre](https://cloud.google.com/architecture)
 

@@ -114,7 +114,7 @@ When logging semantic failures, ensure that PII (Personally Identifiable Informa
 
 ## Testing Strategy
 
-Employ **Failure Injection**. Write integration tests that deliberately mock the LLM provider to return 429 status codes, malformed JSON strings, and hallucinated tool names, asserting that the framework successfully categorizes and recovers from each.
+Employ **Failure Injection**. Write integration tests that deliberately mock the LLM provider to return 429 status codes, malformed JSON strings, and hallucinated tool names, asserting that the framework successfully categorises and recovers from each.
 
 ## Deployment Strategy
 
@@ -164,7 +164,7 @@ Success is measured by precision, recall, and the false positive rate of the age
 
 ## Latency
 
-Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimizations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
+Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimisations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
 
 ## Cost
 
@@ -181,7 +181,7 @@ Implement the blueprint described above using a mock LLM client. Verify that the
 ## Further reading
 
 * [Anthropic Engineering Blog](https://www.anthropic.com/engineering)
-* [Google Cloud Architecture Center](https://cloud.google.com/architecture)
+* [Google Cloud Architecture Centre](https://cloud.google.com/architecture)
 
 ## Sources
 

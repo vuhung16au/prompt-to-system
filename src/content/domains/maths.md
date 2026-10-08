@@ -1,7 +1,7 @@
 ---
 id: maths
 title: Mathematics and Mathematical AI
-summary: Problem-solving, formal verification, mathematical modeling, and automated reasoning.
+summary: Problem-solving, formal verification, mathematical modelling, and automated reasoning.
 group: 'Core expertise'
 order: 6
 outcomes:

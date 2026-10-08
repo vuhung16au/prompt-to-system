@@ -69,7 +69,7 @@ A well-constructed prompt usually contains several of the following elements:
 > "Write a summary about climate change."
 
 **After (Better Prompt - Specific, constrained, formatted):**
-> "You are an expert environmental scientist. Summarize the main impacts of climate change on coastal cities.
+> "You are an expert environmental scientist. Summarize the main impacts of climate change on Australian coastal communities — from the Gold Coast to the Kimberley.
 >
 > Guidelines:
 >

@@ -8,7 +8,7 @@ domains:
   - software-engineering
 tags:
   - security
-  - threat-modeling
+  - threat-modelling
   - permissions
 status: draft
 language: en
@@ -23,7 +23,7 @@ To systematically identify, mitigate, and test security risks associated with de
 
 ## Prerequisites
 
-- Understanding of STRIDE threat modeling.
+- Understanding of STRIDE threat modelling.
 - Familiarity with least privilege and capability-based security.
 - Experience with prompt injection and jailbreak mitigation.
 

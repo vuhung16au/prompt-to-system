@@ -136,7 +136,7 @@ Ensure the observability stack captures detailed telemetry:
 
 ## Runbook & Incident Response
 
-If the coding agent begins exhibiting destructive behavior (e.g., recursively deleting files despite instructions):
+If the coding agent begins exhibiting destructive behaviour (e.g., recursively deleting files despite instructions):
 [0-9]. Immediately trigger the Kill Switch API to terminate the sandbox and halt the orchestrator loop.
 [0-9]. Review the prompt and context history. Look for adversarial prompt injections in the user's input.
 [0-9]. Deploy a patch to the semantic evaluator to block similar action sequences in the future.
@@ -174,7 +174,7 @@ Success is measured by precision, recall, and the false positive rate of the age
 
 ## Latency
 
-Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimizations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
+Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimisations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
 
 ## Cost
 
@@ -191,7 +191,7 @@ Implement the blueprint described above using a mock LLM client. Verify that the
 ## Further reading
 
 * [Anthropic Engineering Blog](https://www.anthropic.com/engineering)
-* [Google Cloud Architecture Center](https://cloud.google.com/architecture)
+* [Google Cloud Architecture Centre](https://cloud.google.com/architecture)
 
 ## Sources
 

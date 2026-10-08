@@ -63,7 +63,7 @@ flowchart LR
 2. **Human Annotation**: Experts grade them (e.g., Pass/Fail or 1-5 scale).
 3. **Judge Scoring**: Run the LLM judge on the same data.
 4. **Compare**: Calculate agreement.
-5. **Refine**: Analyze disagreements, update the judge's prompt with few-shot examples of the edge cases.
+5. **Refine**: Analyse disagreements, update the judge's prompt with few-shot examples of the edge cases.
 
 ### Refined Judge Prompt Example
 
@@ -113,7 +113,7 @@ Run your calibration suite (the 100 human-annotated examples) every time you cha
 ## 13. Glossary
 
 - **Cohen's Kappa**: A statistical measure of inter-rater agreement.
-- **Few-Shot Prompting**: Providing examples within the prompt to guide the model's behavior.
+- **Few-Shot Prompting**: Providing examples within the prompt to guide the model's behaviour.
 
 ## Competing designs and trade-offs
 
@@ -148,7 +148,7 @@ The system requires trace-first observability. Every interaction must be logged 
 
 ## Latency
 
-Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimizations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
+Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimisations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
 
 ## What would change this decision?
 

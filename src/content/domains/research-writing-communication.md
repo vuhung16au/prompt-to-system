@@ -30,7 +30,7 @@ Research, writing, and communication workflows benefit immensely from LLMs capab
 
 ## Outcomes
 
-- **Synthesized insights from large datasets**: Quickly analyze papers and extract key findings.
+- **Synthesized insights from large datasets**: Quickly analyse papers and extract key findings.
 - **Clear, concise, and targeted documentation**: Draft compelling narratives and technical documents.
 - **Enhanced engagement and tone consistency**: Ensure messaging aligns with brand and audience expectations.
 

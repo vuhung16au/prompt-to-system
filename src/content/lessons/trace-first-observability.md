@@ -23,7 +23,7 @@ review_status: "author-reviewed"
 
 ## Key takeaway
 
-Trace-first observability is the practice of instrumenting agent workflows at the span level to capture granular execution paths, inputs, and outputs, enabling systematic debugging and performance optimization in complex LLM systems.
+Trace-first observability is the practice of instrumenting agent workflows at the span level to capture granular execution paths, inputs, and outputs, enabling systematic debugging and performance optimisation in complex LLM systems.
 
 ## Mental model or small diagram
 
@@ -146,7 +146,7 @@ The system requires trace-first observability. Every interaction must be logged 
 
 ## Latency
 
-Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimizations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
+Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimisations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
 
 ## What would change this decision?
 

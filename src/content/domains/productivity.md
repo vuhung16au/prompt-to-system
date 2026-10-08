@@ -31,7 +31,7 @@ Apply reliable AI-system patterns to recurring individual and team knowledge-wor
 
 ## Overview
 
-Productivity is at the heart of AI adoption, where LLMs streamline daily tasks, manage schedules, and organize information effectively. These tools act as personal assistants, summarizing long threads and drafting quick responses. By automating routine administrative tasks, professionals can reclaim their time and focus on high-impact work.
+Productivity is at the heart of AI adoption, where LLMs streamline daily tasks, manage schedules, and organise information effectively. These tools act as personal assistants, summarizing long threads and drafting quick responses. By automating routine administrative tasks, professionals can reclaim their time and focus on high-impact work.
 
 ## Mini-Curriculum
 

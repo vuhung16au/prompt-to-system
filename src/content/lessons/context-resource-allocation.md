@@ -114,7 +114,7 @@ class ContextBudget:
 ## 7. Failure injection or adversarial cases
 
 - **Test Case:** Inject 100k tokens of irrelevant conversational history.
-- *Expected Behavior:* The eviction engine must aggressively summarize or drop the history, preserving the hard-coded 10% allocation for system instructions so safety guardrails are not evicted.
+- *Expected Behaviour:* The eviction engine must aggressively summarize or drop the history, preserving the hard-coded 10% allocation for system instructions so safety guardrails are not evicted.
 
 ## 8. Evaluation criteria and measurable release thresholds
 

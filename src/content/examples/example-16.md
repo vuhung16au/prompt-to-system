@@ -33,7 +33,7 @@ For highly deterministic or sensitive operations without human oversight.
 ## Prompt / Procedure
 
 ```text
-Analyze the following input_data according to Productivity best practices and provide a structured output.
+Analyse the following input_data according to Productivity best practices and provide a structured output.
 ```
 
 ## Expected Output

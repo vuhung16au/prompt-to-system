@@ -184,7 +184,7 @@ stateDiagram-v2
 ```
 
 ### Artifact 2: Recovery Matrix
-This matrix defines system behavior under specific failure modes.
+This matrix defines system behaviour under specific failure modes.
 
 | Failure Mode | Detection | Action Taken | Target RTO |
 | :--- | :--- | :--- | :--- |

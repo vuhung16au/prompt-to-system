@@ -84,7 +84,7 @@ const crossCutting = sortedLessons.filter(l => l.data.stage === 6 || l.id.includ
                           <p class="text-sm text-text-body mb-3 line-clamp-2 flex-grow">{lesson.data.summary}</p>
                           <div class="flex justify-between items-center mt-auto text-xs font-medium text-text-muted">
                             <span class="uppercase tracking-wider">{lesson.data.level}</span>
-                            <span>{lesson.data.duration_minutes ? `${lesson.data.duration_minutes} min` : ''}</span>
+                            <span>{lesson.data.duration_minutes ? `⏱ ${lesson.data.duration_minutes} min` : ''}</span>
                           </div>
                         </Card>
                       ))}

@@ -23,7 +23,7 @@ review_status: "author-reviewed"
 
 ## 1. Introduction
 
-Static evaluation is necessary but not sufficient. Production environments change: APIs drift, user behavior evolves, and data shifts. Continuous Evaluation (CE) runs evaluations on a sample of live production traffic to detect degradation over time.
+Static evaluation is necessary but not sufficient. Production environments change: APIs drift, user behaviour evolves, and data shifts. Continuous Evaluation (CE) runs evaluations on a sample of live production traffic to detect degradation over time.
 
 ## 2. Measurable Release Thresholds
 
@@ -145,7 +145,7 @@ The system requires trace-first observability. Every interaction must be logged 
 
 ## Latency
 
-Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimizations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
+Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimisations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
 
 ## What would change this decision?
 

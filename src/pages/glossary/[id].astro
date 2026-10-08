@@ -2,6 +2,7 @@
 import { getCollection, getEntry, render } from 'astro:content';
 import Container from '@/components/layout/Container.astro';
 import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
 
 export async function getStaticPaths() {
   const glossaryEntries = await getCollection('glossary');
@@ -37,7 +38,13 @@ const aliases = entry.data.aliases || [];
   <Container variant="reading">
     <div class="py-12 md:py-20">
       <header class="mb-12">
-        <a href={import.meta.env.BASE_URL + "/glossary"} class="text-accent-primary hover:underline mb-4 inline-block">&larr; Back to Glossary</a>
+        <div class="mb-4">
+          <Breadcrumbs items={[
+            { label: 'Home', href: import.meta.env.BASE_URL + '/' },
+            { label: 'Glossary', href: import.meta.env.BASE_URL + '/glossary' },
+            { label: entry.data.title }
+          ]} />
+        </div>
         <h1 class="text-4xl md:text-5xl font-extrabold text-text-heading mb-6 tracking-tight">{entry.data.title}</h1>
         {aliases.length > 0 && (
           <p class="text-sm text-text-muted mb-6">

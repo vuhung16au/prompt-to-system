@@ -19,7 +19,7 @@ estimated_time_minutes: 150
 
 ## Purpose
 
-To prevent regressions in agent behavior by evaluating not just the final output, but the entire trajectory (sequence of tool calls and reasoning steps) before a new agent version is deployed.
+To prevent regressions in agent behaviour by evaluating not just the final output, but the entire trajectory (sequence of tool calls and reasoning steps) before a new agent version is deployed.
 
 ## Prerequisites
 
@@ -50,7 +50,7 @@ A CI release decision (Pass/Fail) based on the combined score of the invariant c
 - **Trajectory Quality**: Efficiency of the path taken (minimal unnecessary tool calls).
 - **Unsafe-Action Detection**: Immediate failure if a forbidden tool or parameter is used.
 - **Agreement with Human Labels**: The model grader's scores must align >90% with a golden set of human-graded traces.
-- **False-Positive Rate**: The CI gate must not block valid, safe, and efficient agent behaviors.
+- **False-Positive Rate**: The CI gate must not block valid, safe, and efficient agent behaviours.
 
 ## Failure Cases and Recovery
 

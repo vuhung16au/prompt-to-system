@@ -162,7 +162,7 @@ Success is measured by precision, recall, and the false positive rate of the age
 
 ## Latency
 
-Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimizations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
+Latency is bounded by the model's time-to-first-token and the number of sequential tool calls. Optimisations like streaming, caching, and concurrent execution are necessary to maintain a responsive user experience.
 
 ## What would change this decision?
 
@@ -175,7 +175,7 @@ Implement the blueprint described above using a mock LLM client. Verify that the
 ## Further reading
 
 * [Anthropic Engineering Blog](https://www.anthropic.com/engineering)
-* [Google Cloud Architecture Center](https://cloud.google.com/architecture)
+* [Google Cloud Architecture Centre](https://cloud.google.com/architecture)
 
 ## Sources
 

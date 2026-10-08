@@ -97,7 +97,7 @@ The staged approach breaks the process into specialized patterns:
 
 ## 5. Implementation Blueprint: Orchestration Patterns
 
-We can categorize multi-LLM workflows into several core orchestration patterns, each with distinct failure boundaries.
+We can categorise multi-LLM workflows into several core orchestration patterns, each with distinct failure boundaries.
 
 ### 5.1 Chaining
 Chaining connects steps sequentially, where the output of Step A becomes the input of Step B. 
@@ -177,8 +177,8 @@ Tracing is critical for multi-step workflows. A simple log line is insufficient.
 ## 11. Quantifying Latency and Cost
 
 By staging workflows, you can optimize cost and latency. 
-- **Latency Optimization:** Fan-out reduces wall-clock time significantly compared to sequential chaining. If three independent facts must be verified, do them in parallel.
-- **Cost Optimization:** Route simple tasks (like sentiment analysis) to fast, inexpensive models (e.g., Claude 3.5 Haiku or GPT-4o-mini), reserving heavy reasoning models for the Evaluator or Planner nodes.
+- **Latency Optimisation:** Fan-out reduces wall-clock time significantly compared to sequential chaining. If three independent facts must be verified, do them in parallel.
+- **Cost Optimisation:** Route simple tasks (like sentiment analysis) to fast, inexpensive models (e.g., Claude 3.5 Haiku or GPT-4o-mini), reserving heavy reasoning models for the Evaluator or Planner nodes.
 
 ## 12. Reviewable Artifacts
 
@@ -226,4 +226,4 @@ If model capabilities improve significantly, such that smaller, faster models ca
 ## Further reading
 
 - [Anthropic Engineering Blog](https://www.anthropic.com/engineering)
-- [Google Cloud Architecture Center](https://cloud.google.com/architecture)
+- [Google Cloud Architecture Centre](https://cloud.google.com/architecture)

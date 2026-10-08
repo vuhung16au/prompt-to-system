@@ -50,7 +50,7 @@ Code to review:
 Your review should cover the following aspects:
 1. Bugs & Logic Errors: Identify any obvious mistakes or edge cases that are not handled.
 2. Security Vulnerabilities: Highlight any potential security risks (e.g., injection, XSS).
-3. Performance: Suggest optimizations if applicable.
+3. Performance: Suggest optimisations if applicable.
 4. Readability & Maintainability: Comment on variable naming, code structure, and adherence to standard best practices.
 5. Positive Feedback: Point out at least one thing the author did well.
 
@@ -59,7 +59,7 @@ Provide your feedback in a constructive and encouraging tone. Use code blocks fo
 
 ## Expected Output
 
-A detailed, categorized review of the provided code, including specific line references and suggested improvements.
+A detailed, categorised review of the provided code, including specific line references and suggested improvements.
 
 ## Evaluation Rubric
 

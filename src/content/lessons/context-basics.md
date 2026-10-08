@@ -61,7 +61,7 @@ flowchart TD
 **Input / Before:**
 
 ```text
-Here are some notes: The project is called Apollo. It started in 2023. The deadline is Q4 2024. The budget is $5M. 
+Here are some notes: The project is called Waratah. It started in 2023. The deadline is Q4 2024. The budget is $3.2M. 
 Also, John is the PM. 
 Based on the notes, write a project summary.
 ```
@@ -74,10 +74,10 @@ You are an expert project manager. Your task is to write a concise project summa
 </system_instructions>
 
 <context>
-Project Name: Apollo
+Project Name: Waratah
 Start Date: 2023
 Target Deadline: Q4 2024
-Budget: $5M
+Budget: $3.2M
 Project Manager: John Doe
 </context>
 

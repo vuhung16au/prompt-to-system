@@ -29,9 +29,9 @@
 
 @layer base {
   :root {
-    /* Light Theme (Base) */
-    --surface: #FFFFFF;
-    --surface-muted: #F2EFEB; /* softivory */
+    /* Light Theme (Eucalyptus) */
+    --surface: #FAFAF8; /* warm white */
+    --surface-muted: #F0EDE8; /* parchment */
     --surface-card: #FFFFFF;
     
     --text-body: #302C2A; /* deepcharcoal */
@@ -40,25 +40,27 @@
     
     --border-subtle: #e5e7eb;
     --border-strong: #918B83; /* warmstone */
-    --border-focus: #F2120C; /* bookred */
+    --border-focus: #0B6E4F; /* eucalyptus */
     
-    --accent-primary: #F2120C; /* bookred */
-    --accent-hover: #B51825; /* lawpurple */
-    --accent-muted: rgba(242, 18, 12, 0.1);
+    --accent-primary: #0B6E4F; /* eucalyptus */
+    --accent-hover: #084C37; /* dark eucalyptus */
+    --accent-muted: rgba(11, 110, 79, 0.08);
     
     --status-success: #059669;
-    --status-warning: #d97706;
-    --status-error: #dc2626;
+    --status-warning: #B8860B; /* ochre */
+    --status-error: #C62828;
     
     --code-bg: #1f2937;
     --code-text: #e5e7eb;
   }
 
+  
   @media (prefers-color-scheme: dark) {
-    :root {
+    :root:not(.light) {
+
       /* Dark Theme */
-      --surface: #111827;
-      --surface-muted: #1f2937;
+      --surface: #0F1419;
+      --surface-muted: #1A2332;
       --surface-card: #1f2937;
       
       --text-body: #f3f4f6;
@@ -67,11 +69,11 @@
       
       --border-subtle: #374151;
       --border-strong: #4b5563;
-      --border-focus: #F2120C;
+      --border-focus: #4ADE80;
       
-      --accent-primary: #f87171;
-      --accent-hover: #fca5a5;
-      --accent-muted: rgba(248, 113, 113, 0.2);
+      --accent-primary: #4ADE80;
+      --accent-hover: #86EFAC;
+      --accent-muted: rgba(74, 222, 128, 0.15);
       
       --status-success: #34d399;
       --status-warning: #fbbf24;
@@ -79,8 +81,38 @@
       
       --code-bg: #111827;
       --code-text: #e5e7eb;
+    
     }
   }
+  
+  :root.dark {
+
+      /* Dark Theme */
+      --surface: #0F1419;
+      --surface-muted: #1A2332;
+      --surface-card: #1f2937;
+      
+      --text-body: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-heading: #f9fafb;
+      
+      --border-subtle: #374151;
+      --border-strong: #4b5563;
+      --border-focus: #4ADE80;
+      
+      --accent-primary: #4ADE80;
+      --accent-hover: #86EFAC;
+      --accent-muted: rgba(74, 222, 128, 0.15);
+      
+      --status-success: #34d399;
+      --status-warning: #fbbf24;
+      --status-error: #f87171;
+      
+      --code-bg: #111827;
+      --code-text: #e5e7eb;
+    
+  }
+
 
   html {
     @apply scroll-smooth;
