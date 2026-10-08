@@ -9,7 +9,7 @@ domains:
 tags:
   - data-extraction
   - automation
-status: draft
+status: reviewed
 language: en-AU
 last_verified: 2026-10-08
 estimated_time_minutes: 20

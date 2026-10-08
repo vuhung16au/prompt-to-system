@@ -5,8 +5,8 @@ import Container from '@/components/layout/Container.astro';
 import Button from '@/components/ui/Button.astro';
 import Card from '@/components/ui/Card.astro';
 
-const lessons = await getCollection('lessons');
-const examples = await getCollection('examples');
+const lessons = await getCollection('lessons', ({ data }) => import.meta.env.PROD ? data.status !== 'draft' : true);
+const examples = await getCollection('examples', ({ data }) => import.meta.env.PROD ? data.status !== 'draft' : true);
 
 const featuredLessons = lessons.filter(l => l.data.featured).slice(0, 3);
 // Provide a fallback if featured isn't set
