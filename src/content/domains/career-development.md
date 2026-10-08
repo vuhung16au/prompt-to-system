@@ -11,7 +11,7 @@ outcomes:
   - 'construct interview-preparation datasets and feedback rubrics'
   - 'operate an application workflow with privacy, provenance, review, and versioning'
   - 'evaluate relevance, truthfulness, coverage, tone, and human acceptance'
-featured_examples:
+featured_examples: []
 featured_lessons:
   - 'prompt-engineering'
 technologies:
