@@ -10,7 +10,7 @@ tags:
   - evaluation
   - ci-cd
   - tracing
-status: reviewed
+status: draft
 language: en
 last_verified: 2026-10-08
 evidence_produced: Representative traces, deterministic invariant checks, model-grader rubric, and CI release decision.

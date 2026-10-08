@@ -12,7 +12,6 @@ outcomes:
   - 'operate an application workflow with privacy, provenance, review, and versioning'
   - 'evaluate relevance, truthfulness, coverage, tone, and human acceptance'
 featured_examples:
-  - 'example-12'
 featured_lessons:
   - 'prompt-engineering'
 technologies:

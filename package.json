@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && node scripts/post-build-crawler.mjs",
+    "build": "astro build && node scripts/render-mermaid.mjs && node scripts/generate-release.mjs && node scripts/post-build-crawler.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "check:links": "node scripts/check-links.mjs",
@@ -34,6 +34,7 @@
     "markdownlint-cli": "^0.41.0",
     "node-html-parser": "^9.0.4",
     "pa11y": "^10.0.0",
-    "serve": "^14.2.6"
+    "serve": "^14.2.6",
+    "puppeteer": "^22.0.0"
   }
 }

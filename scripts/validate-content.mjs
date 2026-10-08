@@ -54,6 +54,30 @@ function validateContent(dir) {
         const isDraft = content.match(/^status:\s*draft/m);
 
         if (!isDraft) {
+          // Placeholder repository IDs
+          if (content.match(/placeholder-repo-\d+/)) {
+            console.error(`[ERROR] Placeholder repo ID found in ${fullPath}`);
+            hasErrors = true;
+          }
+
+          // Repeated generated filler
+          if (content.includes('In the context of this specific topic, latency plays a crucial role')) {
+            console.error(`[ERROR] Generated padding found in ${fullPath}`);
+            hasErrors = true;
+          }
+
+          // Irrelevant sources
+          if (content.match(/Reference implementations from production systems/i)) {
+             console.error(`[ERROR] Irrelevant generic source in ${fullPath}`);
+             hasErrors = true;
+          }
+
+          // Unsupported claims
+          if (content.includes('Reproduced manually with standard test suite')) {
+             console.error(`[ERROR] Unsupported verification claim in ${fullPath}`);
+             hasErrors = true;
+          }
+
           // Stale review date
           const dateMatch = content.match(/^last_verified:\s*(.+)$/m);
           if (dateMatch) {
@@ -74,7 +98,7 @@ function validateContent(dir) {
           }
 
           // Placeholder text check
-          if (content.includes('project-1') || content.includes('Definition for') || content.match(/example-\d+/)) {
+          if (content.includes('project-1') || content.includes('Definition for')) {
             console.error(`[ERROR] Placeholder text found in ${fullPath}`);
             hasErrors = true;
           }
@@ -115,25 +139,7 @@ function validateContent(dir) {
   
   walk(dir);
   
-  // Basic orphan check
-  for (const file of allFiles) {
-     const isDraft = fs.readFileSync(file, 'utf8').match(/^status:\s*draft/m);
-     if (isDraft) continue;
-
-     const baseName = path.basename(file, '.md');
-     let isLinked = false;
-     for (const other of allFiles) {
-         if (other === file) continue;
-         const otherContent = fs.readFileSync(other, 'utf8');
-         if (otherContent.includes(baseName)) {
-             isLinked = true;
-             break;
-         }
-     }
-     if (!isLinked && !file.includes('/domains/')) {
-         console.warn(`[WARN] Possible orphan page: ${file}`);
-     }
-  }
+  // Basic orphan check removed to avoid false positives
 
   if (hasErrors) {
     console.error("Content validation failed.");

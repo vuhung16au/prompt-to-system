@@ -31,7 +31,7 @@ risk_level: "High (Potential for data corruption and runaway costs)"
 vendor_scope: "Agnostic"
 ---
 
-# Durable, Long-Running Agent Execution
+## Durable, Long-Running Agent Execution
 
 Agents are inherently unreliable when constrained to ephemeral memory. When an agent is tasked with compiling a multi-hour evidence synthesis or iterating over hundreds of structured extraction tasks, a simple HTTP timeout, memory exhaustion, or network blip can destroy hours of work. To build reliable systems, we must transition from synchronous, stateless scripts to durable, long-running state machines.
 
@@ -222,10 +222,3 @@ This state-machine checkpoint pattern is recommended for standard agent workload
 4. Implement a step that updates the `context` with a new piece of data and explicitly checkpoints it back to the database.
 5. **Validation:** Run the worker. Send a `SIGKILL` mid-execution. Wait for the lease to expire. Start the worker again and prove it resumes from the checkpoint without repeating the first step.
 
-### Operational Summary
-
-To ensure sustained performance and avoid regressions in the production environment, teams should schedule regular audits of these configurations. It is crucial to review alerting thresholds and adapt them as traffic patterns evolve or new failure modes are discovered. The operational lifecycle of these AI systems demands continuous feedback loops between the evaluation metrics and the engineering teams responsible for infrastructure. Ultimately, these advanced controls are what separate a fragile prototype from a resilient, enterprise-grade AI architecture.
-
-### Operational Summary
-
-To ensure sustained performance and avoid regressions in the production environment, teams should schedule regular audits of these configurations. It is crucial to review alerting thresholds and adapt them as traffic patterns evolve or new failure modes are discovered. The operational lifecycle of these AI systems demands continuous feedback loops between the evaluation metrics and the engineering teams responsible for infrastructure. Ultimately, these advanced controls are what separate a fragile prototype from a resilient, enterprise-grade AI architecture.

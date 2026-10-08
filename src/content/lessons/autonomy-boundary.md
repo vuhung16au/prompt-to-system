@@ -25,7 +25,7 @@ related_lessons:
   - workflow-engineering
 prerequisites: 
   - "Foundation layers"
-verified_with: "Reproduced manually with standard test suite"
+verified_with: "not independently reproduced"
 ---
 
 ## 1. Concrete production problem and non-goals
@@ -155,7 +155,6 @@ An Architecture Decision Record (ADR) detailing the choice between workflow and 
 **Exercise:** Implement the router blueprint from Section 5. Create a test suite with 10 routine tasks and 10 complex tasks.
 **Expected Evidence:** A test run log showing routine tasks bypassing the agent and completing under 2 seconds, while complex tasks correctly trigger the agent executor.
 
-
 ## Provenance and further reading
 
 > **Note:** The principles taught in this lesson are model-independent. Any vendor-specific implementation notes (e.g., specific API features or context limits from Anthropic or OpenAI) are used for illustration and should be adapted to your chosen provider.
@@ -166,21 +165,7 @@ An Architecture Decision Record (ADR) detailing the choice between workflow and 
 - **Access Date**: 2026-10-07
 - **Next Steps**: Review the related example `content-format-transformer` or proceed to the lesson `workflow-engineering`.
 
-
 ## Competing designs and trade-offs
 
 When evaluating alternatives, one might consider synchronous vs asynchronous execution, stateless vs stateful processes, and naive vs structured generation. Synchronous is easier to debug but scales poorly. Stateless is robust but limits context. The trade-offs heavily depend on the specific latency and cost budget allocated to the agent.
 
-In the context of this specific topic, competing designs and trade-offs plays a crucial role in ensuring that the architecture remains robust under varied conditions. As organizations scale their AI initiatives, the principles outlined here provide a foundation for reliable operations. It is important to continuously monitor these aspects and iterate on the design based on real-world feedback. The integration of these practices differentiates a proof-of-concept from a production-ready system.
-
-In the context of this specific topic, competing designs and trade-offs plays a crucial role in ensuring that the architecture remains robust under varied conditions. As organizations scale their AI initiatives, the principles outlined here provide a foundation for reliable operations. It is important to continuously monitor these aspects and iterate on the design based on real-world feedback. The integration of these practices differentiates a proof-of-concept from a production-ready system.
-
-In the context of this specific topic, competing designs and trade-offs plays a crucial role in ensuring that the architecture remains robust under varied conditions. As organizations scale their AI initiatives, the principles outlined here provide a foundation for reliable operations. It is important to continuously monitor these aspects and iterate on the design based on real-world feedback. The integration of these practices differentiates a proof-of-concept from a production-ready system.
-
-### Operational Summary
-
-To ensure sustained performance and avoid regressions in the production environment, teams should schedule regular audits of these configurations. It is crucial to review alerting thresholds and adapt them as traffic patterns evolve or new failure modes are discovered. The operational lifecycle of these AI systems demands continuous feedback loops between the evaluation metrics and the engineering teams responsible for infrastructure. Ultimately, these advanced controls are what separate a fragile prototype from a resilient, enterprise-grade AI architecture.
-
-### Operational Summary
-
-To ensure sustained performance and avoid regressions in the production environment, teams should schedule regular audits of these configurations. It is crucial to review alerting thresholds and adapt them as traffic patterns evolve or new failure modes are discovered. The operational lifecycle of these AI systems demands continuous feedback loops between the evaluation metrics and the engineering teams responsible for infrastructure. Ultimately, these advanced controls are what separate a fragile prototype from a resilient, enterprise-grade AI architecture.

@@ -10,7 +10,7 @@ tags:
   - security
   - threat-modeling
   - permissions
-status: reviewed
+status: draft
 language: en
 last_verified: 2026-10-08
 evidence_produced: Data-flow diagram, trust boundaries, abuse cases, capability policy, approval matrix, and negative tests.

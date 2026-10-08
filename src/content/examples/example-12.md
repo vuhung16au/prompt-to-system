@@ -10,7 +10,7 @@ tags:
   - optimization
   - routing
   - cost-engineering
-status: reviewed
+status: draft
 language: en
 last_verified: 2026-10-08
 evidence_produced: Routing policy, evaluation set, fallback matrix, quality-cost frontier, and degradation alert.
