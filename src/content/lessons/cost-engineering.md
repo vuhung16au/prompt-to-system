@@ -30,8 +30,8 @@ Cost engineering ensures LLM applications remain economically viable at scale th
 ```mermaid
 flowchart TD
     A[User Request] --> B{Task Complexity?}
-    B -- Simple --> C[Flash/Lite Model (Low Cost)]
-    B -- Complex --> D[Pro Model (High Cost)]
+    B -- Simple --> C["Flash/Lite Model (Low Cost)"]
+    B -- Complex --> D["Pro Model (High Cost)"]
     C --> E[Response]
     D --> E
 ```
@@ -153,4 +153,3 @@ If model capabilities improve significantly, such that smaller, faster models ca
 Implement the blueprint described above using a mock LLM client. Verify that the validation step correctly rejects malformed inputs and that the success path logs the expected metrics.
 
 ## Sources
-
