@@ -54,3 +54,19 @@ Rules:
 - If a field is not explicitly stated or cannot be confidently inferred, use null.
 - Do NOT include any markdown formatting, explanations, or text outside the JSON array. Output ONLY valid JSON.
 ```
+
+## Expected Output
+A strict JSON array of objects detailing the suburb, state, technology type, premises ready, and estimated completion date, with no surrounding markdown text.
+
+## Evaluation Rubric
+- **Format:** Must be exactly a JSON array of objects.
+- **Schema:** All required keys must be present; values must match the prescribed types/enums.
+- **Accuracy:** Data must be correctly extracted from the unstructured input.
+
+## Failure Modes & Risks
+- **Format Violation:** The model might wrap the output in markdown code blocks or add conversational padding.
+- **Schema Violation:** The model might use an invalid technology type (e.g., inventing "Fibre to the Node" instead of the exact acronym "FTTN").
+- **Hallucination:** The model might invent completion dates that were not in the text.
+
+## Provenance
+Created for the Applied LLM Patterns guide to demonstrate extracting structured data from unstructured corporate or government reports.

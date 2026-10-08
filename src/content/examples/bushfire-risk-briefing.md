@@ -53,3 +53,19 @@ Guidelines:
 - Provide 3 clear, actionable steps residents must take right now based on the alert level.
 - Remind residents to monitor the 'Hazards Near Me' app and local ABC Radio.
 ```
+
+## Expected Output
+A clear, urgent, and calm community safety briefing that prominently displays the RFS alert status, explains the BOM forecast, and provides 3 actionable steps.
+
+## Evaluation Rubric
+- **Clarity & Urgency:** Must be easy to read and appropriately urgent without causing panic.
+- **Accuracy:** Weather data and RFS status must precisely match the inputs.
+- **Actionability:** The 3 steps must be practical and relevant to the alert level.
+
+## Failure Modes & Risks
+- **Inappropriate Tone:** The model might sound too casual or overly academic.
+- **Missing Context:** The model might omit crucial instructions like checking 'Hazards Near Me'.
+- **Dangerous Advice:** Hallucinating fire survival advice that contradicts official RFS guidelines.
+
+## Provenance
+Created for the Applied LLM Patterns guide to demonstrate synthesising multi-source emergency data for public communication.

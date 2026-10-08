@@ -54,3 +54,18 @@ Provide:
 
 Format as a formal departmental brief using Australian English.
 ```
+
+## Expected Output
+A formal, concise brief styled for an Australian Government department, featuring an executive summary, top 5 item numbers, cost implications, and 2 actionable policy recommendations.
+
+## Evaluation Rubric
+- **Tone & Style:** Must be formal, objective, and use Australian spelling.
+- **Accuracy:** The extracted top 5 items and cost implications must reflect the input CSV.
+- **Privacy:** Must not hallucinate or request patient-level details.
+
+## Failure Modes & Risks
+- **Hallucination:** The model might invent MBS item numbers or prices not present in the input.
+- **Tone Mismatch:** The model might adopt a marketing or overly conversational tone instead of a formal departmental brief.
+
+## Provenance
+Created for the Applied LLM Patterns guide to demonstrate secure, structured analysis of government data without PII.
