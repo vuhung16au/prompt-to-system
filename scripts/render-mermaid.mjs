@@ -57,7 +57,7 @@ async function run() {
           } catch (e) {
             return { svg: null, error: e.toString() };
           }
-        }, code, `mermaid-\${Math.random().toString(36).substr(2, 9)}`);
+        }, code, `mermaid-${Math.random().toString(36).substr(2, 9)}`);
         
         if (result.error) {
           console.error(`Error rendering mermaid in ${file}:`, result.error);
@@ -67,11 +67,11 @@ async function run() {
         if (result.svg) {
           const figure = parse(`
 <figure class="mermaid-figure overflow-x-auto my-6" aria-label="Diagram showing system flow">
-  \${result.svg}
+  ${result.svg}
   <figcaption class="text-sm text-center text-text-muted mt-2">Architecture Diagram</figcaption>
   <details class="mt-2 text-xs">
     <summary class="cursor-pointer text-text-muted hover:text-accent-primary">View diagram source</summary>
-    <pre class="bg-surface-muted p-2 rounded mt-2"><code>\${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
+    <pre class="bg-surface-muted p-2 rounded mt-2"><code>${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>
   </details>
 </figure>`);
           pre.replaceWith(figure);
