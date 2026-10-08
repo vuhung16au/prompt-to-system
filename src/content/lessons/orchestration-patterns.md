@@ -42,13 +42,11 @@ Without deliberate orchestration patterns, systems suffer from cascading failure
 To understand how errors propagate, we must map our failure and trust boundaries explicitly.
 
 ```mermaid
-figure
-  caption: Orchestration Patterns and Failure Boundaries
-  graph TD
-    subgraph Trust Boundary: Internal System
+flowchart TD
+    subgraph internal["Trust Boundary: Internal System"]
       A[Trigger/Input] --> B{Router}
       
-      subgraph Failure Boundary: Staged Processing
+      subgraph processing["Failure Boundary: Staged Processing"]
         B -- Route 1 --> C[Extractor]
         C -->|Typed Schema| D[Evaluator]
         D -->|Feedback| C
@@ -64,7 +62,7 @@ figure
       G --> H{Approval Gate}
     end
     
-    subgraph Trust Boundary: External Action
+    subgraph external["Trust Boundary: External Action"]
       H -- Approved --> I[External API/Action]
       H -- Denied --> J[Cancellation/Compensation]
     end
@@ -229,4 +227,3 @@ If model capabilities improve significantly, such that smaller, faster models ca
 
 - [Anthropic Engineering Blog](https://www.anthropic.com/engineering)
 - [Google Cloud Architecture Center](https://cloud.google.com/architecture)
-
