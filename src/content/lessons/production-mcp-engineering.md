@@ -77,8 +77,6 @@ flowchart TD
     Server1 -- "SQL Query" --> Backend1
     Server2 -- "API Call" --> Backend2
 
-    classDef boundary fill:none,stroke:#f66,stroke-width:2px,stroke-dasharray: 5 5;
-    class "Trust Boundary A (Client-side)","Trust Boundary B (Enterprise Edge)","Trust Boundary C (Internal Network)" boundary;
 ```
 
 **Trust and Failure Boundaries:**
@@ -267,4 +265,3 @@ When evaluating alternatives, one might consider synchronous vs asynchronous exe
 
 - [Anthropic Engineering Blog](https://www.anthropic.com/engineering)
 - [Google Cloud Architecture Center](https://cloud.google.com/architecture)
-
