@@ -20,6 +20,15 @@ async function run() {
   });
 
   const distDir = path.resolve('./dist');
+
+  // Astro/Shiki renders code fences inside <pre> as syntax-highlighted HTML.
+  // node-html-parser deliberately treats <pre> contents as raw text, so reading
+  // `pre.textContent` returns the nested <span> markup rather than Mermaid
+  // source. Reparse the inner HTML in a normal element to recover decoded text.
+  function getMermaidSource(pre) {
+    const decoded = parse(`<div>${pre.innerHTML}</div>`).querySelector('div');
+    return decoded?.textContent.trim() ?? '';
+  }
   
   function getHtmlFiles(dir, fileList = []) {
     const files = fs.readdirSync(dir);
@@ -48,7 +57,11 @@ async function run() {
     for (let i = 0; i < pres.length; i++) {
       const pre = pres[i];
       if (pre.getAttribute('data-language') === 'mermaid' || pre.classList.contains('mermaid')) {
-        const code = pre.textContent;
+        const code = getMermaidSource(pre);
+        if (!code) {
+          console.error(`Empty Mermaid diagram in ${file}`);
+          process.exit(1);
+        }
         // render using puppeteer
         const result = await page.evaluate(async (code, id) => {
           try {
