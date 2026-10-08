@@ -45,11 +45,11 @@ flowchart TD
     DocStore[("Document Store")]
     LLM["LLM Service (Failure Boundary)"]
     
-    User --&gt; API
-    API --&gt; Orchestrator
-    Orchestrator --&gt; VectorDB
-    Orchestrator --&gt; DocStore
-    Orchestrator --&gt; LLM
+    User --> API
+    API --> Orchestrator
+    Orchestrator --> VectorDB
+    Orchestrator --> DocStore
+    Orchestrator --> LLM
 ```
 
 ## 4. Viable Designs and Trade-offs
@@ -144,4 +144,3 @@ When evaluating alternatives, one might consider synchronous vs asynchronous exe
 
 - [Anthropic Engineering Blog](https://www.anthropic.com/engineering)
 - [Google Cloud Architecture Center](https://cloud.google.com/architecture)
-
