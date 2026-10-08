@@ -21,15 +21,14 @@ for (const path of urls) {
   const res = spawnSync('curl', ['-s', '-o', '/dev/null', '-w', '%{http_code}', BASE_URL + path]);
   const code = res.stdout.toString().trim();
   if (code !== '200' && code !== '301' && code !== '302') {
-     console.error(\`[ERROR] URL \${BASE_URL + path} returned \${code}\`);
+     console.error(`[ERROR] URL ${BASE_URL + path} returned ${code}`);
      hasErrors = true;
   } else {
-     console.log(\`[OK] \${BASE_URL + path}\`);
+     console.log(`[OK] ${BASE_URL + path}`);
   }
 }
 
 const releaseRes = spawnSync('curl', ['-s', BASE_URL + 'release.json']);
-import { execSync } from 'child_process';
 const releaseData = releaseRes.stdout.toString().trim();
 try {
   const json = JSON.parse(releaseData);
